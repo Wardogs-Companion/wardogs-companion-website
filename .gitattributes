@@ -1,0 +1,7 @@
+# LF partout, comme les dépôts de l'appli et du bot ; images laissées telles quelles.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.webp binary
+*.ico binary
+*.woff2 binary

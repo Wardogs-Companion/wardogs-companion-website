@@ -1,0 +1,70 @@
+/* Base styles shared by every page. */
+
+:root {
+  color-scheme: dark;
+
+  --color-bg: #0d1011;
+  --color-panel: #161a19;
+  --color-grid: rgb(255 255 255 / 0.045);
+  --color-border: rgb(255 255 255 / 0.12);
+  --color-text: #e8edef;
+  --color-muted: #9aa5a8;
+
+  /* Team colours, taken from the app (src/profile/model.ts). */
+  --team-lonestar: #69b8ff;
+  --team-valkyra: #ff6966;
+  --team-manticore: #69d58c;
+
+  /* Default accent, as in the app's editor when no team is chosen. */
+  --color-accent: #ff535b;
+
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--color-bg);
+  background-image:
+    linear-gradient(var(--color-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,45 @@
+---
+// Single bilingual page: Vercel only serves /404.html.
+import SiteFooter from '../components/SiteFooter.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout lang="en" title="Page not found · WARDOGS Companion" description="This page does not exist.">
+  <main class="not-found">
+    <p class="code">404</p>
+    <h1>Page not found</h1>
+    <p lang="fr">Page introuvable</p>
+    <p>
+      <a href="/">Back to the home page</a> ·{' '}
+      <a href="/fr/" lang="fr">
+        Retour à l’accueil
+      </a>
+    </p>
+  </main>
+
+  <SiteFooter langs={['en', 'fr']} />
+</BaseLayout>
+
+<style>
+  .not-found {
+    max-width: 36rem;
+    margin: 0 auto;
+    padding: clamp(3rem, 15vh, 8rem) 1rem 2rem;
+    text-align: center;
+  }
+
+  .code {
+    margin: 0;
+    color: var(--color-accent);
+    font-size: 3rem;
+    font-weight: 700;
+  }
+
+  h1 {
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  p {
+    color: var(--color-muted);
+  }
+</style>

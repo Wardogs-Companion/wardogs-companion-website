@@ -1,0 +1,20 @@
+# Dépendances et builds
+node_modules/
+dist/
+.astro/
+.vercel/
+
+# Secrets : ce dépôt est public, rien de secret ne doit y entrer.
+.env
+.env.*
+!.env.example
+
+# Réglages propres à la machine (chemins locaux)
+CLAUDE.local.md
+.claude/
+
+# Divers
+*.log
+*.tsbuildinfo
+.DS_Store
+Thumbs.db

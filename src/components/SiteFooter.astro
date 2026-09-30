@@ -1,0 +1,40 @@
+---
+// Footer shared by every page: the unofficial-project notice and the copyright.
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  // One language for a normal page, several for a bilingual page such as the 404.
+  langs: Lang[];
+}
+
+const { langs } = Astro.props;
+---
+
+<footer class="site-footer">
+  {langs.map((lang) => {
+    const t = useTranslations(lang);
+    return (
+      <div lang={langs.length > 1 ? lang : undefined}>
+        <p>{t('footer.disclaimer')}</p>
+        <p>{t('footer.copyright')}</p>
+      </div>
+    );
+  })}
+</footer>
+
+<style>
+  .site-footer {
+    display: grid;
+    gap: 1rem;
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 2rem 1rem 2.5rem;
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    text-align: center;
+  }
+
+  p {
+    margin: 0.4rem 0;
+  }
+</style>
