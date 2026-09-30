@@ -2,3 +2,5 @@ dist/
 .astro/
 .vercel/
 package-lock.json
+# Textes juridiques affichés tels quels : on remplace le fichier, on ne le reformate pas.
+src/content/legal/

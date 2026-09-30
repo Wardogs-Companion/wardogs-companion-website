@@ -28,6 +28,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 | Quoi                                     | Fichier                        |
 | ---------------------------------------- | ------------------------------ |
 | Textes anglais et français               | `src/i18n/ui.ts`               |
+| Textes juridiques, affichés tels quels   | `src/content/legal/`           |
 | Squelette HTML commun (`<head>`, icônes) | `src/layouts/BaseLayout.astro` |
 | Contenu des pages, pied de page commun   | `src/components/`              |
 | Routes (le français sous `fr/`)          | `src/pages/`                   |

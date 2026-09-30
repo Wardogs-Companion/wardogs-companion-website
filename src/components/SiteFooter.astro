@@ -1,5 +1,6 @@
 ---
-// Footer shared by every page: the unofficial-project notice and the copyright.
+// Footer shared by every page: the unofficial-project notice, the copyright and the legal pages.
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import { useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -17,6 +18,10 @@ const { langs } = Astro.props;
       <div lang={langs.length > 1 ? lang : undefined}>
         <p>{t('footer.disclaimer')}</p>
         <p>{t('footer.copyright')}</p>
+        <nav class="legal-links" aria-label={t('footer.legalLabel')}>
+          <a href={getRelativeLocaleUrl(lang, 'privacy')}>{t('footer.privacy')}</a>
+          <a href={getRelativeLocaleUrl(lang, 'terms')}>{t('footer.terms')}</a>
+        </nav>
       </div>
     );
   })}
@@ -36,5 +41,21 @@ const { langs } = Astro.props;
 
   p {
     margin: 0.4rem 0;
+  }
+
+  .legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem 1.25rem;
+    margin: 0.4rem 0;
+  }
+
+  .legal-links a {
+    text-underline-offset: 0.15em;
+  }
+
+  .legal-links a:hover {
+    color: var(--color-text);
   }
 </style>

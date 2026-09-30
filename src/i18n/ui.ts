@@ -22,6 +22,11 @@ const en = {
   'footer.disclaimer':
     'WARDOGS Companion is an independent, unofficial community project. It is not affiliated with BULKHEAD, Team17 or Twitch. WARDOGS and its names, logos and visuals belong to their respective rights holders.',
   'footer.copyright': '© 2026 BiggyQLF. All rights reserved.',
+  'footer.legalLabel': 'Legal',
+  'footer.privacy': 'Privacy',
+  'footer.terms': 'Terms',
+  'privacy.description': 'Privacy policy of WARDOGS Companion, the unofficial community Twitch extension.',
+  'terms.description': 'Terms of use of WARDOGS Companion, the unofficial community Twitch extension.',
 };
 
 const fr: Record<keyof typeof en, string> = {
@@ -36,6 +41,13 @@ const fr: Record<keyof typeof en, string> = {
   'footer.disclaimer':
     'WARDOGS Companion est un projet communautaire indépendant et non officiel. Il n’est affilié ni à BULKHEAD, ni à Team17, ni à Twitch. WARDOGS, ses noms, logos et visuels appartiennent à leurs ayants droit.',
   'footer.copyright': '© 2026 BiggyQLF. Tous droits réservés.',
+  'footer.legalLabel': 'Informations légales',
+  'footer.privacy': 'Confidentialité',
+  'footer.terms': 'Conditions',
+  'privacy.description':
+    'Politique de confidentialité de WARDOGS Companion, l’extension Twitch communautaire et non officielle.',
+  'terms.description':
+    'Conditions d’utilisation de WARDOGS Companion, l’extension Twitch communautaire et non officielle.',
 };
 
 export const ui: Record<Lang, typeof en> = { en, fr };

@@ -4,6 +4,7 @@
 
 - Base propre : Astro, anglais et français, CSP et en-têtes de sécurité, CI, dépôt public protégé.
 - Une page d'accueil simple, « en construction », sur fond quadrillé, en ligne sur https://wardogs-companion.vercel.app.
+- Pages juridiques de l'extension, dont Twitch demande les adresses : `/privacy`, `/terms`, `/fr/privacy` et `/fr/terms`. Ces adresses ne changent plus. Les textes sont les fichiers Markdown de `src/content/legal/`, affichés tels quels.
 
 ## Ensuite
 
@@ -11,7 +12,6 @@
   - Barlow Semi Condensed et Barlow, comme l'appli, hébergées sur le site (aucune police chargée depuis ailleurs).
   - Couleur d'équipe choisie par le visiteur : bleu Lonestar, rouge Valkyra ou vert Manticore, gardée dans son navigateur.
 - **Accueil complet** : ce que l'extension apporte aux viewers et au streamer, et le catalogue, avec les chiffres de l'appli sur master.
-- **Pages juridiques de l'extension** : politique de confidentialité et conditions d'utilisation. Twitch en demande les adresses lors de la soumission.
 - **Liens vers l'extension Twitch et le serveur Discord**, dès qu'ils seront publics.
 - **Référencement.** L'adresse est `https://wardogs-companion.vercel.app` (`site` dans `astro.config.mjs`). Reste à ajouter les balises `hreflang`, l'image de partage (Open Graph) et le plan du site.
 
