@@ -13,7 +13,7 @@
 
 ## Status
 
-The website is under construction: for now it shows a single home page, in English and in French.
+The website is under construction: for now it shows a single home page, in English and in French, at **https://wardogs-companion.vercel.app**.
 
 ## Stack
 

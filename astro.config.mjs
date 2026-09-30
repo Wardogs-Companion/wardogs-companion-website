@@ -2,7 +2,8 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  // `site` sera renseigné quand l'adresse définitive (Vercel ou domaine) sera connue.
+  // Adresse de production. À changer si un nom de domaine est ajouté.
+  site: 'https://wardogs-companion.vercel.app',
   i18n: {
     locales: ['en', 'fr'],
     defaultLocale: 'en',

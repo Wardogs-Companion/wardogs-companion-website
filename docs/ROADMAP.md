@@ -3,7 +3,7 @@
 ## Maintenant
 
 - Base propre : Astro, anglais et français, CSP et en-têtes de sécurité, CI, dépôt public protégé.
-- Une page d'accueil simple, « en construction », sur fond quadrillé, mise en ligne sur Vercel.
+- Une page d'accueil simple, « en construction », sur fond quadrillé, en ligne sur https://wardogs-companion.vercel.app.
 
 ## Ensuite
 
@@ -13,7 +13,7 @@
 - **Accueil complet** : ce que l'extension apporte aux viewers et au streamer, et le catalogue, avec les chiffres de l'appli sur master.
 - **Pages juridiques de l'extension** : politique de confidentialité et conditions d'utilisation. Twitch en demande les adresses lors de la soumission.
 - **Liens vers l'extension Twitch et le serveur Discord**, dès qu'ils seront publics.
-- **Adresse définitive.** Renseigner `site` dans `astro.config.mjs`, puis ajouter les balises `hreflang`, l'image de partage (Open Graph) et le plan du site.
+- **Référencement.** L'adresse est `https://wardogs-companion.vercel.app` (`site` dans `astro.config.mjs`). Reste à ajouter les balises `hreflang`, l'image de partage (Open Graph) et le plan du site.
 
 ## À décider
 
