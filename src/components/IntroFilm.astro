@@ -1,0 +1,1056 @@
+---
+// The intro film, the home page's opening (src/scripts/intro/film.js): its stage, over the presentation. Rendered only
+// when the build has the game media (src/integrations/intro-media.ts). The legal lines and the skip control are in the
+// markup, shown by the style sheet from the first paint; the script plays the film and hands over to the presentation.
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { languages, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  // The media's site paths.
+  media: { clip: string; op: string; lb: string; l2: string };
+}
+
+const { lang, media } = Astro.props;
+const t = useTranslations(lang);
+// The texts the script writes itself (the status, the cards' roles, the live region's announcements).
+const texts = {
+  searching: t('intro.searching'),
+  identified: t('intro.identified'),
+  allies: t('intro.allies'),
+  locked: t('intro.locked'),
+  creator: t('intro.creator'),
+  developer: t('intro.developer'),
+  publisher: t('intro.publisher'),
+  alliesTag: t('intro.alliesTag'),
+  ariaC: t('intro.ariaC'),
+  ariaD: t('intro.ariaD'),
+};
+const codes = Object.keys(languages) as Lang[];
+---
+
+<div id="intro" data-texts={JSON.stringify(texts)} data-media={JSON.stringify(media)}>
+  <video
+    class="pic"
+    id="pClip"
+    muted
+    playsinline
+    preload="auto"
+    disablepictureinpicture
+    aria-hidden="true"
+  ></video>
+  <canvas class="pic" id="pOp" aria-hidden="true"></canvas>
+  <canvas class="pic" id="pOpB" aria-hidden="true"></canvas>
+  <div class="layer dim" id="opDimEye"></div>
+  <div class="layer dim" id="opDim"></div>
+  <canvas id="tex" aria-hidden="true"></canvas>
+  <div class="layer" id="shade" aria-hidden="true"></div>
+
+  <div id="lensWrap" aria-hidden="true">
+    <div id="lensClip">
+      <div id="lensInner">
+        <canvas class="pic" id="kLb"></canvas>
+        <canvas class="pic" id="kL2a"></canvas>
+        <canvas class="pic" id="kL2"></canvas>
+      </div>
+      <canvas id="kMot"></canvas>
+      <div class="lfx" id="lensTint"></div>
+      <div class="lfx" id="lensEdge"></div>
+      <div class="lfx" id="lensFlash"></div>
+    </div>
+    <div id="lensTube"></div>
+  </div>
+
+  <div class="scope" id="scope" aria-hidden="true">
+    <svg viewBox="0 0 400 400">
+      <defs>
+        <radialGradient id="glass" cx="50%" cy="50%" r="50%">
+          <stop offset="0" stop-color="rgb(104,116,70)" stop-opacity="0.1"></stop>
+          <stop offset="1" stop-color="rgb(104,116,70)" stop-opacity="0.02"></stop>
+        </radialGradient>
+        <clipPath id="glassclip">
+          <circle cx="200" cy="200" r="191"></circle>
+        </clipPath>
+        {/* A faint dark edge under the marks, so they read on bright sky and busy streets alike. */}
+        <filter id="lift" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+          <feDropShadow
+            dx="0"
+            dy="0"
+            stdDeviation="0.9"
+            flood-color="#000"
+            flood-opacity="0.55"
+          ></feDropShadow>
+        </filter>
+      </defs>
+      <circle id="glassc" cx="200" cy="200" r="192" fill="url(#glass)"></circle>
+      <circle class="ring" id="ring" cx="200" cy="200" r="192" vector-effect="non-scaling-stroke"></circle>
+      <g filter="url(#lift)">
+        <g id="halo"></g>
+        <g id="hairs">
+          <line class="hair" x1="200" y1="8" x2="200" y2="104" vector-effect="non-scaling-stroke"></line>
+          <line class="hair" x1="392" y1="200" x2="296" y2="200" vector-effect="non-scaling-stroke"></line>
+          <line class="hair" x1="200" y1="392" x2="200" y2="296" vector-effect="non-scaling-stroke"></line>
+          <line class="hair" x1="8" y1="200" x2="104" y2="200" vector-effect="non-scaling-stroke"></line>
+        </g>
+        <g id="hashes"></g>
+        <g clip-path="url(#glassclip)">
+          <g class="tgt" id="tgC">
+            <path class="tb" id="tgC-b" d="" vector-effect="non-scaling-stroke"></path>
+            <path class="tk" id="tgC-k" d="" vector-effect="non-scaling-stroke"></path>
+            <path class="td" id="tgC-d" d="" vector-effect="non-scaling-stroke"></path>
+          </g>
+          <g class="tgt" id="tgD">
+            <path class="tb" id="tgD-b" d="" vector-effect="non-scaling-stroke"></path>
+            <path class="tk" id="tgD-k" d="" vector-effect="non-scaling-stroke"></path>
+            <path class="td" id="tgD-d" d="" vector-effect="non-scaling-stroke"></path>
+          </g>
+          <g class="tgt" id="tgL">
+            <path class="tb" id="tgL-b" d="" vector-effect="non-scaling-stroke"></path>
+            <path class="td" id="tgL-d" d="" vector-effect="non-scaling-stroke"></path>
+            <path class="tx" id="tgL-x" d="" vector-effect="non-scaling-stroke"></path>
+          </g>
+          <path class="lock" id="lockL" d="" vector-effect="non-scaling-stroke"></path>
+        </g>
+      </g>
+    </svg>
+    <div class="rl" id="rlDist"></div>
+    <div class="rl" id="rlMag"></div>
+  </div>
+
+  <svg id="leader" aria-hidden="true">
+    <path class="case" id="leadCc" d=""></path>
+    <path class="case" id="leadDc" d=""></path>
+    <path id="leadC" d=""></path>
+    <rect id="leadC-end" width="3" height="3" opacity="0"></rect>
+    <path id="leadD" d=""></path>
+    <rect id="leadD-end" width="3" height="3" opacity="0"></rect>
+  </svg>
+  <div class="tag" id="tagC" aria-hidden="true">
+    <span class="bg">
+      <span class="scan"></span>
+    </span>
+    <span class="c tl"></span>
+    <span class="c tr"></span>
+    <span class="c bl"></span>
+    <span class="c br"></span>
+    <div class="role"></div>
+    <div class="name"></div>
+    <div class="meta"></div>
+  </div>
+  <div class="tag" id="tagD" aria-hidden="true">
+    <span class="bg">
+      <span class="scan"></span>
+    </span>
+    <span class="c tl"></span>
+    <span class="c tr"></span>
+    <span class="c bl"></span>
+    <span class="c br"></span>
+    <div class="role"></div>
+    <div class="name"></div>
+    <div class="role r2"></div>
+    <div class="name n2"></div>
+    <div class="meta"></div>
+  </div>
+
+  <div id="edge" aria-hidden="true"></div>
+  <div class="feed" id="feed" aria-hidden="true">
+    <span class="rec" id="feedRec"></span>
+    <span>REC</span>
+    <span class="sep">·</span>
+    <span class="bars">
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+    </span>
+  </div>
+  <div class="hud" id="hud" aria-hidden="true">
+    MAG <span id="mag">1.0</span>×<span class="sep">·</span>MIL
+  </div>
+  <div id="hdg" aria-hidden="true">
+    <div id="hdgWin">
+      <canvas id="hdgStrip"></canvas>
+    </div>
+    <div id="hdgBox">
+      <span id="hdgVal">000 N</span>
+    </div>
+  </div>
+  <div class="status" id="statusBox">
+    <span class="sbg" id="sbg"></span>
+    <span class="scan" id="sscan"></span>
+    <span class="sq" id="sq"></span>
+    <span id="status" aria-hidden="true"></span>
+    <span class="vh" id="statusA" role="status"></span>
+  </div>
+
+  <div class="layer" id="cover"></div>
+  <div class="layer" id="veil"></div>
+
+  <div class="legal" id="legal">
+    <p>{t('intro.legal1')}</p>
+    <p>{t('intro.legal2')}</p>
+  </div>
+  {/* The controls, in reach from the start (out of reach once the film ends). Each language link is named by the code it
+       shows (said as seen, by voice control too), its full name, in itself, as its tooltip; the brackets of the skip
+       control are decoration, not read. */}
+  <div class="ctrl" id="ctrl">
+    <nav class="lang" aria-label={t('nav.switchLabel')}>
+      {codes.map((code, i) => (
+        <>
+          {i > 0 && (
+            <span class="sl" aria-hidden="true">
+              /
+            </span>
+          )}
+          {code === lang ? (
+            <span class="cur" lang={code} aria-current="page">
+              {code.toUpperCase()}
+            </span>
+          ) : (
+            <a href={getRelativeLocaleUrl(code)} hreflang={code} lang={code} title={languages[code]}>
+              {code.toUpperCase()}
+            </a>
+          )}
+        </>
+      ))}
+    </nav>
+    <button type="button" id="skip" aria-label={t('intro.skipName')}>
+      {t('intro.skip')}
+    </button>
+  </div>
+</div>
+
+<script>
+  import { mountIntro } from '../scripts/intro/film.js';
+
+  const stage = document.getElementById('intro');
+  const home = document.getElementById('home');
+  if (stage && home)
+    mountIntro(stage, home, document.getElementById('intro-replay') as HTMLButtonElement | null);
+</script>
+
+<style is:global>
+  /* The intro's styles, every rule inside the stage (#intro). */
+
+  /* The app's typefaces, served by the site (public/fonts, SIL Open Font License 1.1, its text next to them): Barlow
+     Semi Condensed, close to the game's own interface, for every label, figure and name; Barlow for running text.
+     (block: the legal lines and the controls, on screen from the first paint, stay invisible the moment their face
+     takes to come, rather than show in a fallback face and shift when it comes; the film itself waits for all three) */
+  @font-face {
+    font-family: 'Barlow Semi Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-display: block;
+    src: url('/fonts/barlow-semi-condensed-latin-500-normal.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Barlow Semi Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-display: block;
+    src: url('/fonts/barlow-semi-condensed-latin-600-normal.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url('/fonts/barlow-latin-400-normal.woff2') format('woff2');
+  }
+
+  /* The stage: over the whole window, above the presentation, from the first paint. */
+  #intro {
+    --ground: #0a0c08;
+    --line: rgba(200, 206, 170, 0.17);
+    --line-strong: rgba(200, 206, 170, 0.38);
+    --title: #e4e6da;
+    --text: #cfd2c3;
+    --muted: #9ca188;
+    --accent: #c3c98f;
+    --zero: #5b5f4c;
+    --legal: #8f947d;
+    /* Recon colours: neutral while searching, then the creator (mustard), the allies (green), the target (red). */
+    --iff-search: #d2d4c4;
+    --iff-creator: #d6ab3c;
+    --iff-allies: #5fd38a;
+    --iff-locked: #ff5a55;
+    /* As in the app: the interface, and running text. */
+    --font-ui: 'Barlow Semi Condensed', Bahnschrift, 'Arial Narrow', sans-serif;
+    --font-text: Barlow, 'Segoe UI', Arial, sans-serif;
+
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    overflow: hidden;
+    background: var(--ground);
+    isolation: isolate;
+    color: var(--text);
+    font: 400 15px/1.5 var(--font-ui);
+    /* (if no script has taken the stage over after a few seconds, it gives way to the presentation by itself; the
+       script then leaves it hidden, see film.js) */
+    animation: intro-unclaimed 0s linear 8s forwards;
+  }
+  #intro.live {
+    animation: none;
+  }
+  @keyframes intro-unclaimed {
+    to {
+      visibility: hidden;
+    }
+  }
+  /* No script, or reduced motion: no film, the presentation at once. */
+  @media (scripting: none), (prefers-reduced-motion: reduce) {
+    #intro {
+      display: none;
+    }
+  }
+  /* The page under the stage does not scroll while the film is on (lock: set by the script, lifted as the stage fades
+     out); before the script runs, it shows no scrollbar beside the stage. */
+  @media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    :root:has(#intro.lock) {
+      overflow: hidden;
+    }
+    :root:has(#intro:not(.live):not([hidden])) {
+      scrollbar-width: none;
+    }
+  }
+
+  #intro .layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  /* Pictures: canvases painted once, moved and faded by the compositor only (1 CSS px per backing px, then
+     translate + scale). */
+  #intro .pic {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    transform-origin: 0 0;
+    will-change: transform, opacity;
+    opacity: 0;
+    pointer-events: none;
+  }
+  /* Screen texture over the scenery (grain, scanlines, shading): drawn once per layout, faded only. */
+  #intro #tex {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    opacity: 0;
+    will-change: opacity;
+    pointer-events: none;
+  }
+  /* The legal lines' and the controls' own shading (see shadeTexts), only as tall as its gradient. */
+  #intro #shade {
+    top: auto;
+  }
+  /* The opening clip (2560 x 1440), placed and scaled like the pictures. */
+  #intro #pClip {
+    width: 2560px;
+    height: 1440px;
+    object-fit: fill;
+    background: var(--ground);
+  }
+  /* The opening shot dimmed around the lens: plain, and with the eyepiece left clear (a hole exactly at the lens's rim)
+     until the lens covers it. */
+  #intro .dim {
+    opacity: 0;
+    will-change: opacity;
+  }
+  /* The lens: a round window centred on the lens, the magnified picture inside it (a touch smaller as the film ends). */
+  #intro #lensWrap {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    will-change: transform, opacity;
+    pointer-events: none;
+  }
+  #intro #lensClip {
+    position: absolute;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--ground);
+  }
+  /* (the still pictures' origin, at the lens's centre; a compositor layer of its own, as in the validated film) */
+  #intro #lensInner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    will-change: transform;
+  }
+  #intro .lfx {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    will-change: opacity;
+  }
+  /* The scope's tube around the glass: no hard edge, dark against the glass and fading out into the scenery (one radial
+     gradient, set with the lens's size); it moves with the lens. */
+  #intro #lensTube {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  #intro #lensEdge {
+    background: radial-gradient(
+      closest-side,
+      rgba(10, 12, 8, 0) 40%,
+      rgba(10, 12, 8, 0.78) 84%,
+      rgb(10, 12, 8) 100%
+    );
+  }
+  #intro #lensFlash {
+    background: rgb(236, 238, 226);
+  }
+  /* The trailer's haze tint carried across the change of shot, fading out (multiply). */
+  #intro #lensTint {
+    background: rgb(255, 249, 229);
+    mix-blend-mode: multiply;
+  }
+  /* The lens during fast moves: drawn every frame with motion and focus blur (only then), over the still layers. */
+  #intro #kMot {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Reticle: a ring, four hair lines with MIL marks, each line over a dark twin; moved with the lens. */
+  #intro .scope {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    transform-origin: 50% 50%;
+    will-change: transform, opacity;
+    opacity: 0;
+  }
+  #intro .scope svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  #intro .scope .ring {
+    fill: none;
+    stroke: rgba(200, 206, 170, 0.32);
+  }
+  #intro .scope .hair {
+    stroke: rgba(214, 219, 172, 0.9);
+    fill: none;
+  }
+  #intro .scope .hash {
+    stroke: rgba(214, 219, 172, 0.9);
+  }
+  /* (each line's twin, under it: a slightly wider stroke in the contrasting tone) */
+  #intro .scope .halo {
+    stroke: rgba(6, 7, 4, 0.5);
+    fill: none;
+  }
+  #intro .scope .lock {
+    fill: none;
+    stroke: var(--iff-locked);
+    stroke-linecap: square;
+  }
+  /* Target marker (the game's recon box): a box with a light fill of the state's colour, small corner ticks just
+     outside it, a diamond above the target; on the wall, a small crosshair at the aim point. */
+  #intro #tgC {
+    --c: var(--iff-creator);
+  }
+  #intro #tgD {
+    --c: var(--iff-allies);
+  }
+  #intro #tgL {
+    --c: var(--iff-locked);
+  }
+  #intro .tgt path {
+    stroke-linejoin: miter;
+    fill-opacity: 0;
+    stroke-opacity: 0;
+  }
+  #intro .tgt .tb {
+    fill: var(--c);
+    stroke: var(--c);
+  }
+  #intro .tgt .tk,
+  #intro .tgt .tx {
+    fill: none;
+    stroke: var(--c);
+    stroke-linecap: square;
+  }
+  #intro .tgt .td {
+    fill: var(--c);
+    stroke: var(--c);
+  }
+  /* Range (left) and magnification (right) on the reticle's horizontal line, like the recon scope's "551.1 M" and
+     "X 6". */
+  #intro .rl {
+    position: absolute;
+    top: 50%;
+    margin-top: -0.55em;
+    font: 600 17px/1.1 var(--font-ui);
+    letter-spacing: 0.02em;
+    color: #eef0e6;
+    white-space: nowrap;
+    opacity: 0;
+    will-change: opacity;
+    font-variant-numeric: tabular-nums;
+    text-shadow:
+      0 0 3px rgba(0, 0, 0, 0.85),
+      0 1px 2px rgba(0, 0, 0, 0.6);
+  }
+  #intro #rlDist {
+    text-align: right;
+    color: var(--iff-search);
+  }
+  #intro #rlMag {
+    text-align: left;
+  }
+  /* (the wall's range, in the target's red: a denser dark halo, so it reads on the salmon concrete) */
+  #intro #rlDist.lk {
+    text-shadow:
+      0 0 1px #000,
+      0 0 1px #000,
+      0 0 2px #000,
+      0 0 3px #000,
+      0 0 5px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Tags: leader line from the box's corner, across the ring, to a label outside the lens; accent of their state. */
+  #intro #leader {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  #intro #leader path {
+    fill: none;
+    stroke-width: 1;
+  }
+  #intro #leader #leadC {
+    stroke: var(--iff-creator);
+  }
+  #intro #leader #leadD {
+    stroke: var(--iff-allies);
+  }
+  /* (a dark casing under the leader instead of a filter: a filtered full-screen layer is slow to repaint) */
+  #intro #leader path.case {
+    stroke: rgba(6, 8, 4, 0.5);
+    stroke-width: 3;
+  }
+  #intro #leader #leadC-end {
+    fill: var(--iff-creator);
+  }
+  #intro #leader #leadD-end {
+    fill: var(--iff-allies);
+  }
+  #intro .tag {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 9px 16px 10px 14px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    opacity: 0;
+    contain: layout style;
+    will-change: transform, opacity;
+  }
+  /* (the panel itself, its background and border: a layer under the corners and the text, unfolded by a clip) */
+  #intro .tag .bg {
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: rgba(18, 21, 15, 0.85);
+    border: 1px solid var(--line-strong);
+  }
+  /* (one scan pass once the card is written, as the status label's: a band in the card's colour, a thin light edge) */
+  #intro .tag .scan {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 44px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0), var(--acc));
+    border-right: 1px solid #f1f3e8;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  #intro #tagC {
+    --acc: var(--iff-creator);
+  }
+  #intro #tagD {
+    --acc: var(--iff-allies);
+  }
+  #intro .tag .c {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border: 0 solid var(--acc);
+    will-change: transform;
+  }
+  #intro .tag .c.tl {
+    top: -1px;
+    left: -1px;
+    border-top-width: 2px;
+    border-left-width: 2px;
+  }
+  #intro .tag .c.tr {
+    top: -1px;
+    right: -1px;
+    border-top-width: 2px;
+    border-right-width: 2px;
+  }
+  #intro .tag .c.bl {
+    bottom: -1px;
+    left: -1px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+  }
+  #intro .tag .c.br {
+    bottom: -1px;
+    right: -1px;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+  }
+  #intro .tag .role {
+    min-height: 1.4em;
+    font: 600 12.5px/1.4 var(--font-ui);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--acc);
+  }
+  #intro .tag .name {
+    min-height: 1.15em;
+    margin-top: 1px;
+    font: 600 25px/1.15 var(--font-ui);
+    letter-spacing: 0.01em;
+    color: var(--title);
+  }
+  #intro .tag .role.r2 {
+    margin-top: 9px;
+  }
+  /* (the developers' card, compact, on portrait screens too short for it: the two names side by side, without the meta
+     line, the status under the lens saying "allies identified" already) */
+  #intro .tag.compact {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 18px;
+  }
+  #intro .tag.compact .role {
+    grid-area: 1 / 1;
+  }
+  #intro .tag.compact .name {
+    grid-area: 2 / 1;
+  }
+  #intro .tag.compact .r2 {
+    grid-area: 1 / 2;
+    margin-top: 0;
+  }
+  #intro .tag.compact .n2 {
+    grid-area: 2 / 2;
+  }
+  #intro .tag.compact .meta {
+    display: none;
+  }
+  #intro .tag .meta {
+    min-height: 1.4em;
+    margin-top: 7px;
+    padding-top: 6px;
+    border-top: 1px solid var(--line);
+    font: 500 12.5px/1.4 var(--font-ui);
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+  }
+  #intro .z {
+    color: var(--zero);
+  }
+
+  /* HUD: MAG readout top left, the camera feed top right, the heading strip top centre; the status just under the lens
+     (it moves with it). */
+  #intro .hud {
+    position: absolute;
+    top: 18px;
+    left: 24px;
+    font: 500 13px/16px var(--font-ui);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    opacity: 0;
+    contain: layout style;
+    will-change: opacity;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+  }
+  #intro .hud .sep {
+    color: var(--zero);
+    padding: 0 0.5em;
+  }
+  /* The camera feed's details, facing the MAG line: a REC light and four signal bars. */
+  #intro .feed {
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    font: 500 13px/16px var(--font-ui);
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    white-space: nowrap;
+    opacity: 0;
+    contain: layout style;
+    will-change: opacity;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+  }
+  #intro .feed .sep {
+    color: var(--zero);
+    padding: 0 0.5em;
+  }
+  #intro .feed .rec {
+    width: 7px;
+    height: 7px;
+    margin-right: 9px;
+    border-radius: 50%;
+    background: var(--iff-locked);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+    will-change: opacity;
+  }
+  #intro .feed .bars {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 11px;
+  }
+  #intro .feed .bars i {
+    display: block;
+    width: 3px;
+    background: currentColor;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    will-change: opacity;
+  }
+  #intro .feed .bars i:nth-child(1) {
+    height: 4px;
+  }
+  #intro .feed .bars i:nth-child(2) {
+    height: 6px;
+  }
+  #intro .feed .bars i:nth-child(3) {
+    height: 8px;
+  }
+  #intro .feed .bars i:nth-child(4) {
+    height: 11px;
+  }
+  /* Heading strip (the game's compass tape): 3-digit bearings every 15 degrees, a tick every 5, the current heading
+     boxed in the centre with its cardinal letters, on a subtle dark band. The tape is painted once and only slides
+     (whole device pixels, so its figures stay crisp). */
+  #intro #hdg {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    height: 40px;
+    width: 560px;
+    margin-left: -280px;
+    opacity: 0;
+    pointer-events: none;
+    will-change: opacity;
+    contain: layout style;
+    background: linear-gradient(
+      90deg,
+      rgba(8, 10, 6, 0) 0%,
+      rgba(8, 10, 6, 0.46) 18%,
+      rgba(8, 10, 6, 0.46) 82%,
+      rgba(8, 10, 6, 0) 100%
+    );
+  }
+  /* (the band's content is centred on its middle line, 20 px down: the window, 26 px, from 7 px; the frame, 24 px,
+     from 8 px) */
+  #intro #hdgWin {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 7px;
+    height: 26px;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      #000 17%,
+      #000 calc(50% - 58px),
+      transparent calc(50% - 41px),
+      transparent calc(50% + 41px),
+      #000 calc(50% + 58px),
+      #000 83%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent 0%,
+      #000 17%,
+      #000 calc(50% - 58px),
+      transparent calc(50% - 41px),
+      transparent calc(50% + 41px),
+      #000 calc(50% + 58px),
+      #000 83%,
+      transparent 100%
+    );
+  }
+  #intro #hdgStrip {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    will-change: transform;
+  }
+  #intro #hdgBox {
+    position: absolute;
+    left: 50%;
+    top: 8px;
+    width: 78px;
+    margin-left: -39px;
+    height: 24px;
+    border: 1.5px solid rgba(240, 242, 232, 0.92);
+    background: rgba(8, 10, 6, 0.9);
+    font: 600 15px/21px var(--font-ui);
+    letter-spacing: 0.06em;
+    color: #f2f4ea;
+    text-align: center;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  #intro .status {
+    position: absolute;
+    left: 0;
+    top: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 4px 12px 4px 11px;
+    font: 600 13px/16px var(--font-ui);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--iff-search);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform, opacity;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
+  }
+  #intro .status .sq {
+    position: relative;
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 10px;
+    vertical-align: 1px;
+    background: currentColor;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.7);
+    will-change: opacity;
+  }
+  /* The label's frame (its dark plate and its two edges in the state's colour), opened from its centre as it comes in;
+     the letters not decoded yet keep their room (the box never changes width while the text decodes). */
+  #intro .status .sbg {
+    position: absolute;
+    inset: 0;
+    background: rgba(8, 10, 6, 0.75);
+    border-left: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    will-change: transform;
+  }
+  #intro .status #status {
+    position: relative;
+  }
+  #intro .status .hid {
+    color: transparent;
+    text-shadow: none;
+  }
+  /* While it searches: a thin scan line sweeps the plate, a faint trail behind its bright edge. */
+  #intro .status .scan {
+    position: absolute;
+    top: 1px;
+    bottom: 1px;
+    left: 0;
+    width: 30px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0), currentColor);
+    border-right: 1px solid #f1f3e8;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  /* (for screen readers only: the status's live text, as written, not in the label's capitals) */
+  #intro .vh {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    text-transform: none;
+  }
+  /* The legal lines, shown from the first paint. */
+  #intro .legal {
+    position: absolute;
+    left: 24px;
+    bottom: 14px;
+    max-width: max(46%, calc(100% - 360px));
+    font: 400 11.5px/1.55 var(--font-text);
+    letter-spacing: 0.02em;
+    color: var(--legal);
+    z-index: 4;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
+  }
+  #intro .legal p {
+    margin: 0;
+  }
+
+  /* Controls: always on top, even over the dips to black, from the first paint. (14 px: at 13 px, on a screen at
+     100 %, Edge runs the i's dot into its stem) */
+  #intro .ctrl {
+    position: absolute;
+    right: 24px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 5;
+    font: 500 14px/16px var(--font-ui);
+    letter-spacing: 0.1em;
+    transition: opacity 0.6s ease;
+  }
+  /* (the skip button; the languages: a link to the other language's home page, the page's own language in its accent) */
+  #intro .ctrl button,
+  #intro .lang a,
+  #intro .lang .cur {
+    appearance: none;
+    margin: 0;
+    padding: 6px 2px;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font: inherit;
+    letter-spacing: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
+  }
+  #intro .ctrl button:hover,
+  #intro .lang a:hover {
+    color: var(--title);
+  }
+  #intro .ctrl button:focus-visible,
+  #intro .lang a:focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 2px;
+    color: var(--title);
+  }
+  #intro .lang {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  /* (each at least 24 px wide, for a finger) */
+  #intro .lang a,
+  #intro .lang .cur {
+    padding: 6px 4px;
+  }
+  #intro .lang .cur {
+    color: var(--accent);
+    cursor: default;
+  }
+  #intro .lang .sl {
+    color: var(--zero);
+  }
+  /* The scope's view: the screen's edges softly darkened, no rounded corners (painted once, over the scenery and the
+     lens, under the texts); it comes in with the eyepiece and goes with the end. */
+  #intro #edge {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    will-change: opacity;
+    box-shadow: inset 0 0 160px 0 rgba(5, 6, 4, 0.35);
+  }
+  #intro.ended .ctrl {
+    opacity: 0;
+    pointer-events: none;
+  }
+  /* A requested still (?t=): no CSS transitions, the frame is exactly the requested moment. */
+  #intro.still,
+  #intro.still * {
+    transition: none !important;
+  }
+
+  #intro #cover {
+    background: var(--ground);
+    z-index: 3;
+  }
+  #intro #veil {
+    background: var(--ground);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 3;
+  }
+
+  @media (min-width: 601px) and (max-width: 1100px) {
+    #intro .legal {
+      font-size: 10px;
+      max-width: calc(100% - 290px);
+    }
+  }
+  @media (max-width: 600px) {
+    /* (phones: the heading strip takes the top; the magnification is read on the reticle's line) */
+    #intro .hud,
+    #intro .feed {
+      display: none;
+    }
+    #intro #hdg {
+      top: 8px;
+    }
+    #intro #hdgBox {
+      width: 70px;
+      margin-left: -35px;
+      font-size: 14px;
+      line-height: 22px;
+    }
+    #intro .status {
+      padding: 3px 9px 3px 8px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+    }
+    #intro .status .sq {
+      margin-right: 7px;
+    }
+    #intro .legal {
+      left: 16px;
+      right: 16px;
+      bottom: 44px;
+      max-width: none;
+      font-size: 9.5px;
+    }
+    #intro .ctrl {
+      left: 16px;
+      right: 16px;
+      bottom: 9px;
+      justify-content: space-between;
+    }
+    #intro .tag {
+      padding: 8px 13px 9px 12px;
+    }
+    #intro .tag .name {
+      font-size: 23px;
+    }
+  }
+</style>

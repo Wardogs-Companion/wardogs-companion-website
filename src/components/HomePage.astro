@@ -1,6 +1,8 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { introMedia } from 'virtual:wardogs/intro-media';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import IntroFilm from './IntroFilm.astro';
 import SiteFooter from './SiteFooter.astro';
 import { languages, useTranslations, type Lang } from '../i18n/ui';
 
@@ -14,32 +16,44 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== 
 ---
 
 <BaseLayout lang={lang} title={t('meta.title')} description={t('meta.description')}>
-  <header class="top">
-    <nav aria-label={t('nav.switchLabel')}>
-      {otherLangs.map((code) => (
-        <a class="lang" href={getRelativeLocaleUrl(code)} hreflang={code} lang={code}>
-          {languages[code]}
-        </a>
-      ))}
-    </nav>
-  </header>
+  {/* The intro film first, over the presentation; only when the build has its media (see IntroFilm.astro). */}
+  {introMedia && <IntroFilm lang={lang} media={introMedia} />}
 
-  <main class="hero">
-    <h1 class="logo">
-      <img src="/images/logo-horizontal.png" width="680" height="240" alt="WARDOGS Companion" />
-    </h1>
-    <p class="status">{t('home.status')}</p>
-    <p class="tagline">{t('home.tagline')}</p>
-    <p class="lead">{t('home.lead')}</p>
-  </main>
+  <div id="home">
+    <header class="top">
+      {introMedia && (
+        <button type="button" class="replay" id="intro-replay" hidden>
+          <span aria-hidden="true">↻</span> {t('intro.replay')}
+        </button>
+      )}
+      <nav aria-label={t('nav.switchLabel')}>
+        {otherLangs.map((code) => (
+          <a class="lang" href={getRelativeLocaleUrl(code)} hreflang={code} lang={code}>
+            {languages[code]}
+          </a>
+        ))}
+      </nav>
+    </header>
 
-  <SiteFooter langs={[lang]} />
+    <main class="hero" tabindex="-1">
+      <h1 class="logo">
+        <img src="/images/logo-horizontal.png" width="680" height="240" alt="WARDOGS Companion" />
+      </h1>
+      <p class="status">{t('home.status')}</p>
+      <p class="tagline">{t('home.tagline')}</p>
+      <p class="lead">{t('home.lead')}</p>
+    </main>
+
+    <SiteFooter langs={[lang]} />
+  </div>
 </BaseLayout>
 
 <style>
   .top {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
+    gap: 0.5rem 1rem;
     padding: 1rem clamp(1rem, 4vw, 2rem);
   }
 
@@ -58,6 +72,21 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== 
     color: var(--color-text);
   }
 
+  /* Plays the intro film again: discreet, beside the language. */
+  .replay {
+    padding: 0.35rem 0.25rem;
+    border: 0;
+    background: none;
+    color: var(--color-muted);
+    font: inherit;
+    font-size: 0.875rem;
+    cursor: pointer;
+  }
+
+  .replay:hover {
+    color: var(--color-text);
+  }
+
   .hero {
     display: flex;
     flex-direction: column;
@@ -67,6 +96,11 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== 
     margin: 0 auto;
     padding: clamp(2rem, 10vh, 6rem) 1rem 3rem;
     text-align: center;
+  }
+
+  /* (the focus comes here after the intro, by script only: no outline around the whole section) */
+  .hero:focus {
+    outline: none;
   }
 
   .logo {

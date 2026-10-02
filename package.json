@@ -15,6 +15,7 @@
     "preview": "astro preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "intro:svg": "node scripts/intro-svg.mjs",
     "astro": "astro"
   },
   "dependencies": {

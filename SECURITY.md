@@ -4,4 +4,4 @@ If you find a security issue on the website or in this repository, please report
 
 Please do not open a public issue or pull request for a security problem.
 
-This repository is public. It holds no secrets: no keys, no tokens and no environment variables are needed to build or run the website.
+This repository is public. It holds no secrets. Builds on Vercel read a Vercel Blob token from Vercel's own environment to fetch the media of the home page's intro; it is never in the repository, and the website builds without it (without the intro).
