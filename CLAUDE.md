@@ -16,6 +16,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
   - Le nom s'écrit « WARDOGS Companion », avec WARDOGS en capitales.
   - Chaque page porte la mention : projet communautaire, non officiel, sans lien avec BULKHEAD, Team17 ni Twitch. Elle est dans le pied de page commun, `src/components/SiteFooter.astro`.
 - **Pas d'images du jeu** tant que BULKHEAD n'a pas donné son accord, car elles appartiennent à leurs ayants droit. Les logos de WARDOGS Companion sont à nous.
+  - Les captures du jeu qui servent de modèle sont dans `reference-ordinateur/` (l'ordinateur des tours : tirées de vidéos, découpées par partie, avec des fiches) et `reference-intro/` (les lunettes du jeu). Ces dossiers sont ignorés par Git : ils ne doivent jamais être commités ni copiés dans `public/` ou `src/`.
 - **Hébergement gratuit Vercel (plan Hobby) = usage non commercial** : pas de publicité, de dons, de sponsors ni de liens affiliés.
 - **Deux langues, même contenu.** Chaque texte s'ajoute dans `src/i18n/ui.ts`, en anglais et en français. Chaque page anglaise a son équivalent dans `src/pages/fr/`, sauf `404.astro` : elle est unique et bilingue, car Vercel ne sert que `/404.html`.
 - **Rien de chargé depuis ailleurs** : pas de script tiers, de police externe ni de traceur. Tout ajout doit rester compatible avec la CSP (`astro.config.mjs`) et les en-têtes (`vercel.json`).
@@ -38,6 +39,8 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 | Logos et icônes                          | `public/`                      |
 | Architecture, backend possible plus tard | `docs/ARCHITECTURE.md`         |
 | Feuille de route                         | `docs/ROADMAP.md`              |
+| Modèles de l'ordinateur (jamais commit)  | `reference-ordinateur/`        |
+| Modèles de l'intro (jamais commit)       | `reference-intro/`             |
 
 ## Commandes
 

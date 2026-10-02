@@ -18,3 +18,8 @@ CLAUDE.local.md
 *.tsbuildinfo
 .DS_Store
 Thumbs.db
+
+# Captures du jeu servant de modèle (ordinateur, intro) : elles appartiennent à leurs ayants droit
+# et restent sur la machine, jamais sur GitHub ni sur le site.
+/reference-ordinateur/
+/reference-intro/
