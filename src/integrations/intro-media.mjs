@@ -9,27 +9,37 @@
 //   taken down: see docs/ARCHITECTURE.md). Some files only: the build fails, rather than go live half broken.
 // - Local test only: INTRO_MEDIA_DIR=<a folder holding the four files> copies them from there instead (then a missing
 //   file fails the build). The folder stays outside the repository.
+//
+// Plain JavaScript, like astro.config.mjs: it runs in Node at build time, and the project carries no Node type
+// definitions (types in JSDoc comments only).
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import type { AstroIntegration } from 'astro';
 
 // The private store (its address is not a secret: without a token it answers 403).
 const STORE = 'https://ctfqc1l6chxiqqbo.private.blob.vercel-storage.com/intro/';
 // Where the site serves them (public/ never holds them).
 const SITE_DIR = 'media/intro/';
+/** @typedef {'clip' | 'op' | 'lb' | 'l2'} Key */
 const FILES = {
   clip: { name: 'opening-clip.mp4', type: 'video/mp4' },
   op: { name: 'opening-last-4k.jpg', type: 'image/jpeg' },
   lb: { name: 'littlebird-1.jpg', type: 'image/jpeg' },
   l2: { name: 'littlebird-2.jpg', type: 'image/jpeg' },
-} as const;
-type Key = keyof typeof FILES;
+};
+const KEYS = /** @type {Key[]} */ (Object.keys(FILES));
 
 const VIRTUAL_ID = 'virtual:wardogs/intro-media';
 const RESOLVED_ID = '\0' + VIRTUAL_ID;
 
-// A file is what it claims: not empty, the expected type, the length announced, and the format's own signature.
-function check(key: Key, body: Buffer, type: string | null, length: string | null): string | null {
+/**
+ * A file is what it claims: not empty, the expected type, the length announced, and the format's own signature.
+ * @param {Key} key
+ * @param {Buffer} body
+ * @param {string | null} type
+ * @param {string | null} length
+ * @returns {string | null} the problem, or null
+ */
+function check(key, body, type, length) {
   const want = FILES[key].type;
   if (!body.length) return 'empty';
   if (type !== null && !type.startsWith(want)) return `type ${type}, expected ${want}`;
@@ -41,9 +51,14 @@ function check(key: Key, body: Buffer, type: string | null, length: string | nul
   return null;
 }
 
-type Result = { key: Key; body?: Buffer; problem?: string; missing?: boolean };
+/** @typedef {{ key: Key, body?: Buffer, problem?: string, missing?: boolean }} Result */
 
-async function download(key: Key, tokens: string[]): Promise<Result> {
+/**
+ * @param {Key} key
+ * @param {string[]} tokens
+ * @returns {Promise<Result>}
+ */
+async function download(key, tokens) {
   const url = STORE + FILES[key].name;
   let problem = '';
   for (const token of tokens) {
@@ -76,9 +91,13 @@ async function download(key: Key, tokens: string[]): Promise<Result> {
   return { key, problem };
 }
 
-async function fromFolder(dir: string): Promise<Result[]> {
+/**
+ * @param {string} dir
+ * @returns {Promise<Result[]>}
+ */
+async function fromFolder(dir) {
   return Promise.all(
-    (Object.keys(FILES) as Key[]).map(async (key) => {
+    KEYS.map(async (key) => {
       try {
         const body = await readFile(join(dir, FILES[key].name));
         const bad = check(key, body, null, null);
@@ -90,9 +109,10 @@ async function fromFolder(dir: string): Promise<Result[]> {
   );
 }
 
-export default function introMedia(): AstroIntegration {
-  // The four files, once fetched (null: the site is built without the intro).
-  let media: Map<Key, Buffer> | null = null;
+/** @returns {import('astro').AstroIntegration} */
+export default function introMedia() {
+  /** The four files, once fetched (null: the site is built without the intro). @type {Map<Key, Buffer> | null} */
+  let media = null;
   return {
     name: 'wardogs:intro-media',
     hooks: {
@@ -100,10 +120,11 @@ export default function introMedia(): AstroIntegration {
       'astro:config:setup': async ({ command, updateConfig, logger }) => {
         if (command === 'build') {
           const dir = process.env.INTRO_MEDIA_DIR;
-          const tokens = [process.env.VERCEL_OIDC_TOKEN, process.env.BLOB_READ_WRITE_TOKEN].filter(
-            (t): t is string => !!t,
+          const tokens = /** @type {string[]} */ (
+            [process.env.VERCEL_OIDC_TOKEN, process.env.BLOB_READ_WRITE_TOKEN].filter((t) => !!t)
           );
-          let results: Result[] | null = null;
+          /** @type {Result[] | null} */
+          let results = null;
           if (dir) {
             results = await fromFolder(dir);
             const bad = results.filter((r) => !r.body);
@@ -112,7 +133,7 @@ export default function introMedia(): AstroIntegration {
                 `intro media: INTRO_MEDIA_DIR is set but ${bad.map((r) => `${FILES[r.key].name} (${r.problem})`).join(', ')}`,
               );
           } else if (tokens.length) {
-            results = await Promise.all((Object.keys(FILES) as Key[]).map((key) => download(key, tokens)));
+            results = await Promise.all(KEYS.map((key) => download(key, tokens)));
             const got = results.filter((r) => r.body).length;
             const report = results
               .filter((r) => !r.body)
@@ -134,7 +155,7 @@ export default function introMedia(): AstroIntegration {
             );
           }
           if (results) {
-            media = new Map(results.map((r) => [r.key, r.body as Buffer]));
+            media = new Map(results.map((r) => [r.key, /** @type {Buffer} */ (r.body)]));
             const mb = [...media.values()].reduce((s, b) => s + b.length, 0) / 1e6;
             logger.info(
               `Intro media ready (${media.size} files, ${mb.toFixed(1)} MB, from ${dir ? 'INTRO_MEDIA_DIR' : 'the Blob store'}).`,
@@ -142,16 +163,16 @@ export default function introMedia(): AstroIntegration {
           }
         }
         // The pages read the result from a virtual module: the media's site paths, or null.
-        const paths = media
-          ? Object.fromEntries((Object.keys(FILES) as Key[]).map((k) => [k, '/' + SITE_DIR + FILES[k].name]))
-          : null;
+        const paths = media ? Object.fromEntries(KEYS.map((k) => [k, '/' + SITE_DIR + FILES[k].name])) : null;
         updateConfig({
           vite: {
             plugins: [
               {
                 name: 'wardogs:intro-media',
-                resolveId: (id: string) => (id === VIRTUAL_ID ? RESOLVED_ID : undefined),
-                load: (id: string) =>
+                /** @param {string} id */
+                resolveId: (id) => (id === VIRTUAL_ID ? RESOLVED_ID : undefined),
+                /** @param {string} id */
+                load: (id) =>
                   id === RESOLVED_ID ? `export const introMedia = ${JSON.stringify(paths)};` : undefined,
               },
             ],

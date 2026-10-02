@@ -25,7 +25,7 @@ Thumbs.db
 /reference-intro/
 
 # Médias du jeu de l'intro (vidéo et photos © BULKHEAD / Team17) : jamais dans le dépôt. Le build les récupère
-# depuis le stockage privé (src/integrations/intro-media.ts). Garde-fou : le dossier où le site les sert, et leurs
+# depuis le stockage privé (src/integrations/intro-media.mjs). Garde-fou : le dossier où le site les sert, et leurs
 # 4 noms de fichiers où qu'ils soient (public/, src/ ou ailleurs). Un renommage passerait : la règle de CLAUDE.md prime.
 /public/media/
 opening-clip.mp4

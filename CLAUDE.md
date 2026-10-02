@@ -16,7 +16,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
   - Le nom s'écrit « WARDOGS Companion », avec WARDOGS en capitales.
   - Chaque page porte la mention : projet communautaire, non officiel, sans lien avec BULKHEAD, Team17 ni Twitch. Elle est dans le pied de page commun, `src/components/SiteFooter.astro`.
 - **Médias du jeu : jamais dans le dépôt**, car ils appartiennent à leurs ayants droit (BULKHEAD, Team17). Les logos de WARDOGS Companion sont à nous.
-  - Seule l'intro de l'accueil en montre, pour présenter le projet à BULKHEAD, et elles sont retirées sur simple demande de leur part : l'ouverture de la bande-annonce (vidéo et dernière image) et deux photos du dossier de presse. Ces 4 fichiers sont dans le stockage privé Vercel Blob `wardogs-companion-intro-media` : le build les récupère et le site les sert sous `/media/intro/` (`src/integrations/intro-media.ts`, voir `docs/ARCHITECTURE.md`). Tout ce qui pourrait les mettre dans le dépôt est interdit : copie dans `public/` ou `src/`, capture d'écran de l'intro, fichier de test qui les contient. Aucun autre média du jeu sans leur accord.
+  - Seule l'intro de l'accueil en montre, pour présenter le projet à BULKHEAD, et elles sont retirées sur simple demande de leur part : l'ouverture de la bande-annonce (vidéo et dernière image) et deux photos du dossier de presse. Ces 4 fichiers sont dans le stockage privé Vercel Blob `wardogs-companion-intro-media` : le build les récupère et le site les sert sous `/media/intro/` (`src/integrations/intro-media.mjs`, voir `docs/ARCHITECTURE.md`). Tout ce qui pourrait les mettre dans le dépôt est interdit : copie dans `public/` ou `src/`, capture d'écran de l'intro, fichier de test qui les contient. Aucun autre média du jeu sans leur accord.
   - Les captures du jeu qui servent de modèle sont dans `reference-ordinateur/` (l'ordinateur des tours : tirées de vidéos, découpées par partie, avec des fiches) et `reference-intro/` (les lunettes du jeu). Ces dossiers sont ignorés par Git : ils ne doivent jamais être commités ni copiés dans `public/` ou `src/`.
 - **Hébergement gratuit Vercel (plan Hobby) = usage non commercial** : pas de publicité, de dons, de sponsors ni de liens affiliés.
 - **Deux langues, même contenu.** Chaque texte s'ajoute dans `src/i18n/ui.ts`, en anglais et en français. Chaque page anglaise a son équivalent dans `src/pages/fr/`, sauf `404.astro` : elle est unique et bilingue, car Vercel ne sert que `/404.html`.
@@ -34,7 +34,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 | Squelette HTML commun (`<head>`, icônes) | `src/layouts/BaseLayout.astro`                         |
 | Contenu des pages, pied de page commun   | `src/components/`                                      |
 | Intro de l'accueil (le film)             | `src/components/IntroFilm.astro`, `src/scripts/intro/` |
-| Médias du jeu de l'intro (au build)      | `src/integrations/intro-media.ts`                      |
+| Médias du jeu de l'intro (au build)      | `src/integrations/intro-media.mjs`                     |
 | Routes (le français sous `fr/`)          | `src/pages/`                                           |
 | Couleurs, fond quadrillé, styles communs | `src/styles/global.css`                                |
 | Langues, CSP                             | `astro.config.mjs`                                     |

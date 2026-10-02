@@ -1,6 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import introMedia from './src/integrations/intro-media';
+import introMedia from './src/integrations/intro-media.mjs';
 
 export default defineConfig({
   // Adresse de production. À changer si un nom de domaine est ajouté.

@@ -25,7 +25,7 @@
 // randomness: a moment always renders the same frame.
 // Media: the opening clip (2560 x 1440, muted) and its last frame in 4K, from the WARDOGS reveal trailer; littlebird-1
 // and littlebird-2, from the WARDOGS press kit; all © BULKHEAD / Team17. They are never in the repository: the build
-// fetches them from a private store into the site (src/integrations/intro-media.ts), and the stage names them in its
+// fetches them from a private store into the site (src/integrations/intro-media.mjs), and the stage names them in its
 // data-media attribute. The emblem's paint layers and the grain are still SVG pictures (public/images/intro, made by
 // scripts/intro-svg.mjs), the typefaces are in public/fonts, the reticle is drawn by the page: nothing is loaded from
 // elsewhere.
