@@ -12,6 +12,7 @@
 //
 // Plain JavaScript, like astro.config.mjs: it runs in Node at build time, and the project carries no Node type
 // definitions (types in JSDoc comments only).
+import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
@@ -29,6 +30,8 @@ const FILES = {
 const KEYS = /** @type {Key[]} */ (Object.keys(FILES));
 
 const VIRTUAL_ID = 'virtual:wardogs/intro-media';
+// The intro's once-per-visit check, rendered inline (before anything is drawn) by IntroFilm.astro.
+const SEEN_CHECK = new URL('../scripts/intro/seen-check.js', import.meta.url);
 const RESOLVED_ID = '\0' + VIRTUAL_ID;
 
 /**
@@ -118,6 +121,16 @@ export default function introMedia() {
     hooks: {
       // (only for a build, and before Astro reads any .env file: the token comes from the real environment)
       'astro:config:setup': async ({ command, updateConfig, logger }) => {
+        // The inline check's hash, from the very file the page renders, into the CSP's script-src (the two never drift
+        // apart).
+        const seen = await readFile(SEEN_CHECK, 'utf8');
+        updateConfig({
+          security: {
+            csp: {
+              scriptDirective: { hashes: ['sha256-' + createHash('sha256').update(seen).digest('base64')] },
+            },
+          },
+        });
         if (command === 'build') {
           const dir = process.env.INTRO_MEDIA_DIR;
           const tokens = /** @type {string[]} */ (

@@ -2957,6 +2957,14 @@ export function mountIntro(stage, home, replayBtn) {
   let active = true; // the stage is shown (from the page's start, or from a replay)
   let leaving = false; // the stage is on its way out
   let filmShown = false; // the black cover has lifted: the film (or a still) is on screen
+  // The intro once per visit: seen (ended or skipped) in this tab's session, the next home pages open on the
+  // presentation (IntroFilm.astro reads the mark before anything is drawn). Nothing else is stored.
+  const SEEN = 'wardogs-intro-seen';
+  function markSeen() {
+    try {
+      sessionStorage.setItem(SEEN, '1');
+    } catch {}
+  }
   let runId = 0; // counts every start and every stop: a load that resolves after a skip does nothing
   let runAbort = null; // the current start's listeners
   let focusHome = false; // the focus was on a control that went out of reach: it goes into the presentation
@@ -3023,6 +3031,8 @@ export function mountIntro(stage, home, replayBtn) {
   }
   // Out: the film stops where it is and the stage fades out over the presentation.
   function fadeOut() {
+    // (seen: the film was on screen, or skipped; a load that failed does not count)
+    if (filmShown || leaving) markSeen();
     const id = stop();
     // (the page's scrollbar comes back now, under the black: the presentation does not shift as it comes in)
     stage.classList.add('ended');
@@ -3056,6 +3066,8 @@ export function mountIntro(stage, home, replayBtn) {
   // the browser's cache). The focus, on the replay control, goes on to skip.
   function replay() {
     if (active || reducedMotion.matches) return;
+    // (a home page opened on the presentation, the intro seen: its mark no longer hides the stage)
+    document.documentElement.classList.remove('intro-seen');
     const fromButton = document.activeElement === replayBtn;
     active = true;
     home.inert = true;
@@ -3347,7 +3359,7 @@ export function mountIntro(stage, home, replayBtn) {
   });
   const late = getComputedStyle(stage).visibility === 'hidden';
   stage.classList.add('live', 'lock');
-  if (late || reducedMotion.matches) {
+  if (late || reducedMotion.matches || document.documentElement.classList.contains('intro-seen')) {
     finish();
     return;
   }

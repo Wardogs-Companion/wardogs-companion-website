@@ -3,6 +3,8 @@
 // when the build has the game media (src/integrations/intro-media.mjs). The legal lines and the skip control are in the
 // markup, shown by the style sheet from the first paint; the script plays the film and hands over to the presentation.
 import { getRelativeLocaleUrl } from 'astro:i18n';
+// (the once-per-visit check, rendered inline before the stage: see seen-check.js)
+import seenCheck from '../scripts/intro/seen-check.js?raw';
 import { languages, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -29,6 +31,7 @@ const texts = {
 const codes = Object.keys(languages) as Lang[];
 ---
 
+<script is:inline set:html={seenCheck} />
 <div id="intro" data-texts={JSON.stringify(texts)} data-media={JSON.stringify(media)}>
   <video
     class="pic"
@@ -298,7 +301,10 @@ const codes = Object.keys(languages) as Lang[];
       visibility: hidden;
     }
   }
-  /* No script, or reduced motion: no film, the presentation at once. */
+  /* No script, or reduced motion: no film, the presentation at once. Seen already in this visit: the same. */
+  :root.intro-seen #intro {
+    display: none;
+  }
   @media (scripting: none), (prefers-reduced-motion: reduce) {
     #intro {
       display: none;
@@ -310,7 +316,7 @@ const codes = Object.keys(languages) as Lang[];
     :root:has(#intro.lock) {
       overflow: hidden;
     }
-    :root:has(#intro:not(.live):not([hidden])) {
+    :root:not(.intro-seen):has(#intro:not(.live):not([hidden])) {
       scrollbar-width: none;
     }
   }
