@@ -23,7 +23,10 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== 
     <header class="top">
       {introMedia && (
         <button type="button" class="replay" id="intro-replay" hidden>
-          <span aria-hidden="true">↻</span> {t('intro.replay')}
+          <span class="if-motion">
+            <span aria-hidden="true">↻</span> {t('intro.replay')}
+          </span>
+          <span class="if-reduced">{t('intro.watch')}</span>
         </button>
       )}
       <nav aria-label={t('nav.switchLabel')}>
@@ -85,6 +88,28 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== 
 
   .replay:hover {
     color: var(--color-text);
+  }
+
+  /* Where animations are reduced, the film never starts by itself: the control offers it, as a button like the
+     language's, so that it is seen. */
+  .if-reduced {
+    display: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .replay {
+      padding: 0.35rem 0.8rem;
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+    }
+    .replay:hover {
+      border-color: var(--color-text);
+    }
+    .if-motion {
+      display: none;
+    }
+    .if-reduced {
+      display: inline;
+    }
   }
 
   .hero {

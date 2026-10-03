@@ -301,14 +301,19 @@ const codes = Object.keys(languages) as Lang[];
       visibility: hidden;
     }
   }
-  /* No script, or reduced motion: no film, the presentation at once. Seen already in this visit: the same. */
+  /* No script, or reduced motion: no film, the presentation at once (with reduced motion, until the visitor asks for
+     it: intro-play, set by film.js). Seen already in this visit: the same. */
   :root.intro-seen #intro {
     display: none;
   }
   @media (scripting: none), (prefers-reduced-motion: reduce) {
-    #intro {
+    :root:not(.intro-play) #intro {
       display: none;
     }
+  }
+  /* (the page under a film asked for with reduced motion does not scroll either) */
+  :root.intro-play:has(#intro.lock) {
+    overflow: hidden;
   }
   /* The page under the stage does not scroll while the film is on (lock: set by the script, lifted as the stage fades
      out); before the script runs, it shows no scrollbar beside the stage. */

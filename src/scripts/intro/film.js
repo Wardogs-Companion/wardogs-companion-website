@@ -2972,9 +2972,10 @@ export function mountIntro(stage, home, replayBtn) {
   const pending = new Set(); // the pictures loading
   const homeFocus = home.querySelector('main') || home;
   // The presentation's replay control: shown as soon as the stage starts going out, so that it comes in with the
-  // presentation, in the same fade (not with reduced motion, nor when the film cannot play).
+  // presentation, in the same fade (not when the film cannot play; with reduced motion, it offers the film instead of
+  // replaying it: see HomePage.astro).
   function offerReplay() {
-    if (replayBtn) replayBtn.hidden = !canReplay || reducedMotion.matches;
+    if (replayBtn) replayBtn.hidden = !canReplay;
   }
   // (a load that has not ended in this time gives way to the presentation. The clip has at least CLIP_WAIT from the
   // start to be able to play through, and at least CLIP_GRACE once the pictures are in (until then it shares the
@@ -3020,6 +3021,7 @@ export function mountIntro(stage, home, replayBtn) {
     const refocus = focusHome || stage.contains(document.activeElement);
     active = leaving = filmShown = focusHome = false;
     stage.hidden = true;
+    document.documentElement.classList.remove('intro-play');
     stage.style.transition = stage.style.opacity = '';
     stage.classList.remove('ended', 'still', 'lock');
     ctrl.inert = false;
@@ -3065,7 +3067,9 @@ export function mountIntro(stage, home, replayBtn) {
   // Replay, from the presentation: it dims to black under the stage, then the film starts again (its media come from
   // the browser's cache). The focus, on the replay control, goes on to skip.
   function replay() {
-    if (active || reducedMotion.matches) return;
+    if (active) return;
+    // (with reduced motion the film never starts by itself: here the visitor asked for it)
+    if (reducedMotion.matches) document.documentElement.classList.add('intro-play');
     // (a home page opened on the presentation, the intro seen: its mark no longer hides the stage)
     document.documentElement.classList.remove('intro-seen');
     const fromButton = document.activeElement === replayBtn;
@@ -3354,7 +3358,8 @@ export function mountIntro(stage, home, replayBtn) {
     if (e.persisted && active) finish();
   });
   reducedMotion.addEventListener('change', () => {
-    if (active && reducedMotion.matches) finish();
+    if (active && reducedMotion.matches && !document.documentElement.classList.contains('intro-play'))
+      finish();
     else if (!active) offerReplay();
   });
   const late = getComputedStyle(stage).visibility === 'hidden';

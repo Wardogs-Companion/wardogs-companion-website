@@ -38,6 +38,7 @@ const en = {
   'intro.legal2':
     'Footage and screenshots: WARDOGS reveal trailer and press kit © BULKHEAD / Team17 — shown to present this project to them, removed on request.',
   'intro.replay': 'Replay intro',
+  'intro.watch': 'Watch intro',
   'footer.disclaimer':
     'WARDOGS Companion is an independent, unofficial community project. It is not affiliated with BULKHEAD, Team17 or Twitch. WARDOGS and its names, logos and visuals belong to their respective rights holders.',
   'footer.copyright': '© 2026 BiggyQLF. All rights reserved.',
@@ -73,6 +74,7 @@ const fr: Record<keyof typeof en, string> = {
   'intro.legal2':
     'Images : bande-annonce de WARDOGS et dossier de presse © BULKHEAD / Team17 — montrées pour leur présenter ce projet, retirées sur simple demande.',
   'intro.replay': 'Revoir l’intro',
+  'intro.watch': 'Voir l’intro',
   'footer.disclaimer':
     'WARDOGS Companion est un projet communautaire indépendant et non officiel. Il n’est affilié ni à BULKHEAD, ni à Team17, ni à Twitch. WARDOGS, ses noms, logos et visuels appartiennent à leurs ayants droit.',
   'footer.copyright': '© 2026 BiggyQLF. Tous droits réservés.',
