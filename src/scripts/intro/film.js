@@ -2211,7 +2211,7 @@ export function mountIntro(stage, home, replayBtn) {
       openAt: [0.25, 0.53],
       lines: () => [
         ['.role', TEXT.creator, 'type', 0.53, 0.68],
-        ['.name', 'BiggyQLF', 'decode', 0.56, 0.9],
+        ['.name', 'Biggy', 'decode', 0.56, 0.9],
       ],
       // (ID 0001: the site's first; the leading zeros greyed, as everywhere)
       // (the range in whole metres, four figures, its leading zeros greyed: it follows the rangefinder, see renderTag)
