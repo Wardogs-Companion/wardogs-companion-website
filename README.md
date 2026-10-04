@@ -58,6 +58,19 @@ npm run dev
 └── vercel.json          HTTP security headers
 ```
 
+### Inspecting the intro film
+
+The home page's intro film (`/` and `/fr/`) can be inspected with two query parameters, on the live site or on any build that has the intro's media. `npm run dev` and builds without the media (a fork, a local build) have no film, so the parameters do nothing there.
+
+| Parameter      | Effect                                                                                                                                                                                                                                               |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `?perf=1`      | Logs the film's frame times to the browser's developer console every second. When the film plays to its end, the whole film's result is also shown over the page (its slow frames and when they fell), to be read off a screenshot.                  |
+| `?t=<seconds>` | Freezes the film on one frame, that many seconds from its start (the film lasts about 25 s), for example `?t=12.5`. `?t=lock` shows its last shot, the project's emblem locked in the scope; `?t=end` shows the page as it is once the film is over. |
+
+The film does not always start by itself: with reduced motion turned on in the system, or once it has been watched or skipped in the same tab, the home page opens straight on its presentation. The parameters then apply when **Watch intro** or **Replay intro**, at the top of the page, is pressed. After a visit, opening the address in a new tab also works.
+
+For example: `https://wardogs-companion.vercel.app/?perf=1`.
+
 ## Security
 
 This repository is public and holds no secrets. Please report security issues privately: see [SECURITY.md](SECURITY.md).
