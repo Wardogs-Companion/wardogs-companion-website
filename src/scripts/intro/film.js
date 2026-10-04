@@ -2828,7 +2828,8 @@ export function mountIntro(stage, home, replayBtn) {
     if (playing) raf = requestAnimationFrame(frame);
     else {
       if (PERF) logPerf('whole film', null);
-      // (the film is over: the stage has faded out over the presentation, see renderHud)
+      // (the film is over: the stage has faded out over the presentation, see renderHud; seen, as when skipped)
+      markSeen();
       finish();
     }
   }
