@@ -1,0 +1,501 @@
+{
+  "intro": [
+    {
+      "name": "littlebird-1.jpg",
+      "bytes": 1559779,
+      "sha256": "36da32f45c2a22f34634a229e53e9851dc3692bf4bc57a5b1a862c4a11295e19"
+    },
+    {
+      "name": "littlebird-2.jpg",
+      "bytes": 2603625,
+      "sha256": "2a90c9a1660bf4038e3552a47337cfea6f89a3811f5dd2cd79cc207e157890c5"
+    },
+    {
+      "name": "opening-clip.mp4",
+      "bytes": 5298711,
+      "sha256": "55cb1f31a4e8de7d2d5fc9515e8666bbbd804357c88f5390973c9c9183a7f8b0"
+    },
+    {
+      "name": "opening-last-4k.jpg",
+      "bytes": 1460804,
+      "sha256": "fea8a8c60d4c4006d223543345a7ee46e916838461cb2ec26e41ae07528e3c33"
+    }
+  ],
+  "console": [
+    {
+      "name": "captures/01-viewer-panel-lonestar.game.webp",
+      "bytes": 171030,
+      "sha256": "91729bff3b377277271f400ab5500b19079870c5d36ddca5fe3ef4f1506a3490"
+    },
+    {
+      "name": "captures/01-viewer-panel-manticore.game.webp",
+      "bytes": 172188,
+      "sha256": "e444d093c9cc8ed1fc060b3b0378aeae75e9d9c4aba128ab758ffcbe7213af22"
+    },
+    {
+      "name": "captures/01-viewer-panel-valkyra.game.webp",
+      "bytes": 170800,
+      "sha256": "aaebc7951fb89c06d63aa4f9c15c0dc3a7e5c04de94cee08f3eaa975a8c93bb4"
+    },
+    {
+      "name": "captures/02-backpack.game.webp",
+      "bytes": 156370,
+      "sha256": "5b3b93bf793680014a02d5d11255711afe75ea5581bec3c16de46abc69c49df2"
+    },
+    {
+      "name": "captures/03-gear-vehicles.game.webp",
+      "bytes": 138802,
+      "sha256": "2ac9cb3c1730499973672d33c8ddd7f6b8ac11d440f98c6f23aa5ca6fb702064"
+    },
+    {
+      "name": "captures/04-item-card.game.webp",
+      "bytes": 132752,
+      "sha256": "6f235bc387ef48ab2d4e4d02de36914b8a0d79a8d92db36813320287d5886d57"
+    },
+    {
+      "name": "captures/05-classes.game.webp",
+      "bytes": 89616,
+      "sha256": "3812475bdfa1207a301524ae2f8189e269e39e572390bcba4a9a393b23dfac67"
+    },
+    {
+      "name": "captures/06-streamer-editor.game.webp",
+      "bytes": 213476,
+      "sha256": "1cc88bfb418566a6528e18f5ef947ca49493b92e9773f962778ecb3feb1be881"
+    },
+    {
+      "name": "captures/07-item-picker.game.webp",
+      "bytes": 63744,
+      "sha256": "e5d5990aef5f978631d5e9f14d11ce3c9553400d56dc574a674529e8d6f6a112"
+    },
+    {
+      "name": "captures/08-backpack-editing.game.webp",
+      "bytes": 166408,
+      "sha256": "22e8fb1ed7e7f0dac6b6ddc7d3cf49b08d6ff6c5e4ea5449fafe01a663733045"
+    },
+    {
+      "name": "factions/lonestar.game.webp",
+      "bytes": 13754,
+      "sha256": "ff08ada505c513d2c369b72527503dbf9f888d521f94d9aa033b95a9be9ea6ae"
+    },
+    {
+      "name": "factions/manticore.game.webp",
+      "bytes": 63920,
+      "sha256": "cf8bdcf8a8ca7fe7225042ac6ff6266ecdf5543efb28af30df54441683fd9694"
+    },
+    {
+      "name": "factions/valkyra.game.webp",
+      "bytes": 19630,
+      "sha256": "4bbadf8d9694ebf931ec74c723885d27ba1178c86b6410dec219bef9aebb6afa"
+    },
+    {
+      "name": "illustrations/editor-quick.game.webp",
+      "bytes": 14924,
+      "sha256": "d30bcd505803391d40161a1caa9ea5095197a1769db3c7d713ed628c48f03f3f"
+    },
+    {
+      "name": "illustrations/launcher-icon.game.webp",
+      "bytes": 4136,
+      "sha256": "faf81938be29b50a8b9e238ba63cf1f98ebeb635286155c829612342b7bdd41b"
+    },
+    {
+      "name": "illustrations/viewer-classes.game.webp",
+      "bytes": 49716,
+      "sha256": "78e1277cf0bc37ebadb94c95a43b666999bf4e9a0a69d66e4de6e949430361b6"
+    },
+    {
+      "name": "keys/a-bande-blanche.game.webp",
+      "bytes": 1408,
+      "sha256": "291fb736e93e22f5ffbb619552009b4dbff488200e6835c5ed78f4311cfde6b7"
+    },
+    {
+      "name": "keys/a-bande-droite.game.webp",
+      "bytes": 1034,
+      "sha256": "46395bc756383d0cd006cb3bac4d467f4a12d722183099fa2426f64327ab7f02"
+    },
+    {
+      "name": "keys/a-bande-rouge.game.webp",
+      "bytes": 1244,
+      "sha256": "ce639e4d50b11436bacd7a5cc16bd0a17807e3bf00be3d0c2a43f04794679d8b"
+    },
+    {
+      "name": "keys/a-colonne-1.game.webp",
+      "bytes": 3928,
+      "sha256": "95157460fa9b8b384e15aa1dc892e0f0d28156718d69cb12f9783e5c4680d5b9"
+    },
+    {
+      "name": "keys/a-colonne-2.game.webp",
+      "bytes": 3688,
+      "sha256": "0438c040ab13d2a9d63c83e6be0e212d42f8fca0e431e444fd6b70477ecc393a"
+    },
+    {
+      "name": "keys/b-banc-1-1.game.webp",
+      "bytes": 848,
+      "sha256": "5382236725dfc3c6a6d73b5766d59806d25e0b47a0ed987a8164df4c9a01e5d0"
+    },
+    {
+      "name": "keys/b-banc-1-2.game.webp",
+      "bytes": 692,
+      "sha256": "a54dface17703b14985b1ebbead7c04e6451bb86b1aa69b9ef178a462c3dd2f7"
+    },
+    {
+      "name": "keys/b-banc-1-3.game.webp",
+      "bytes": 702,
+      "sha256": "c7ca2c21db8df2daca3196f128c3c75d560dda640beafec798f643cfce49788f"
+    },
+    {
+      "name": "keys/b-banc-1-4.game.webp",
+      "bytes": 674,
+      "sha256": "6ce5e18a5a44a32f32b65733c1d62a3a524f89c656b4be90933d456c357ef5e2"
+    },
+    {
+      "name": "keys/b-banc-1-5.game.webp",
+      "bytes": 692,
+      "sha256": "749e8bec0b74984815d10eb781f5a46cd72b08cc85cedf391fb3b7b7662aad76"
+    },
+    {
+      "name": "keys/b-banc-1-6.game.webp",
+      "bytes": 684,
+      "sha256": "e23e238413edca4183df65a94b12414e73ba1411c6aa74cc4405bafc407c09e4"
+    },
+    {
+      "name": "keys/b-banc-2-1.game.webp",
+      "bytes": 828,
+      "sha256": "7b8fff60074c08e3a4c6155a86d9d8e5695c222be294d2db16e46be7e3406d1f"
+    },
+    {
+      "name": "keys/b-banc-2-2.game.webp",
+      "bytes": 686,
+      "sha256": "be7f5d0f60e5ea74b228c1983f567ca38569d079806638fa58c44f2d1f7895e5"
+    },
+    {
+      "name": "keys/b-banc-2-3.game.webp",
+      "bytes": 684,
+      "sha256": "8c0a002e17d2c4227f6c949eb9e174eab53a5324e7f13420e79b84769e122115"
+    },
+    {
+      "name": "keys/b-banc-2-4.game.webp",
+      "bytes": 640,
+      "sha256": "d92117e3471a673daa6c8a640d5c38777add6271528094e6417609d5ca17793f"
+    },
+    {
+      "name": "keys/b-banc-2-5.game.webp",
+      "bytes": 706,
+      "sha256": "1104a5dbb07bc385af7e575e23e0f4f9af2884a72202ece4fdc6ac4b5af36d49"
+    },
+    {
+      "name": "keys/b-banc-2-6.game.webp",
+      "bytes": 670,
+      "sha256": "8324982adb8014063e330a2d7fb0d0841c3e2309ef7b487c4098f925ac5d22e5"
+    },
+    {
+      "name": "keys/b-banc-3-1.game.webp",
+      "bytes": 866,
+      "sha256": "db624e1ead9b847d0fea2eb47b9872d63e7b7899206a7cdc8e3b1bea6de6783b"
+    },
+    {
+      "name": "keys/b-banc-3-2.game.webp",
+      "bytes": 632,
+      "sha256": "97a06cb1c453110263e80a951db00116b8d868e15a30bb19f1a9b889253b884e"
+    },
+    {
+      "name": "keys/b-banc-3-3.game.webp",
+      "bytes": 654,
+      "sha256": "4f6b447746458e9c1287fee71cbdd744173ca9db2a185cd55677819c3c4265ae"
+    },
+    {
+      "name": "keys/b-banc-3-4.game.webp",
+      "bytes": 660,
+      "sha256": "c7cf151bb3e290e20b6f6b8572dd968e2802bf8949f3e552a6f291ee47f3e2e1"
+    },
+    {
+      "name": "keys/b-banc-3-5.game.webp",
+      "bytes": 710,
+      "sha256": "91531bd16aaf50fc84e36ca22ece54c7272026d87f413a73539e7bce5a1ca0a5"
+    },
+    {
+      "name": "keys/b-banc-3-6.game.webp",
+      "bytes": 662,
+      "sha256": "c2590dce3043c7e9e266568cc132fb4e4ca458fb33fb26ee29a5ebb425ce7d97"
+    },
+    {
+      "name": "keys/b-banc-4-1.game.webp",
+      "bytes": 806,
+      "sha256": "060c0fc9fc63fb9aace1441c060de4ffa8ad7ea2efc1076bb9c65e68d0e7400c"
+    },
+    {
+      "name": "keys/b-banc-4-2.game.webp",
+      "bytes": 646,
+      "sha256": "f0ad00409407093f590b9ef961a47255c2d193f60ce76b419b82043945c36608"
+    },
+    {
+      "name": "keys/b-banc-4-3.game.webp",
+      "bytes": 630,
+      "sha256": "bdad0c7c9980ee2a4434782c81e56feb93653f7836efcd4574f9204b85b932ba"
+    },
+    {
+      "name": "keys/b-banc-4-4.game.webp",
+      "bytes": 564,
+      "sha256": "748834a8dc7af63a40358d35f26ac71d6cdaeb913962325d9a300fd5637b687d"
+    },
+    {
+      "name": "keys/b-banc-4-5.game.webp",
+      "bytes": 656,
+      "sha256": "3de494f16629c5f58ee878db6f998917dbfa09d4104cf822f3a17c99b8220f4a"
+    },
+    {
+      "name": "keys/b-banc-4-6.game.webp",
+      "bytes": 612,
+      "sha256": "42cb0266d5d52405409ed2a4ddc404135885a9804b5e7325aff58b646e60a98f"
+    },
+    {
+      "name": "keys/b-bande-droite-1.game.webp",
+      "bytes": 1006,
+      "sha256": "29e4d3de413e82a7f27e8b74b9c3c6979eb70ea8777e7a301b9a4859c9d34292"
+    },
+    {
+      "name": "keys/b-bande-droite-2.game.webp",
+      "bytes": 1344,
+      "sha256": "f753c3f496fdc19a97e325e865f5de46f5f514d93558b9dfb7812400b945bd79"
+    },
+    {
+      "name": "keys/b-bande-gauche-1.game.webp",
+      "bytes": 1234,
+      "sha256": "296f2dddb64292fee023b8e28956bae519f21247fe50c6362431d4ef6628bd91"
+    },
+    {
+      "name": "keys/b-bande-gauche-2.game.webp",
+      "bytes": 1186,
+      "sha256": "18b421cabce94427d413f34cb8f6190757299f17854288b7cf05d3b8531c166a"
+    },
+    {
+      "name": "keys/b-bande-milieu-1.game.webp",
+      "bytes": 1186,
+      "sha256": "15fdaebd579d70f03182b6586306ae8ab83297bf067d1932c882b44e948febcb"
+    },
+    {
+      "name": "keys/b-bande-milieu-2.game.webp",
+      "bytes": 1266,
+      "sha256": "70efc1c21d5b3ba8419388bf10d25a065e5c2c8fd19062be57985dff963f30a9"
+    },
+    {
+      "name": "keys/c-bande-gauche.game.webp",
+      "bytes": 1328,
+      "sha256": "ffa96f7539d2f0a57f3f83b3ba461dc972a10fe6ad1cea57b9e783eb24fe4c23"
+    },
+    {
+      "name": "keys/c-bande-milieu.game.webp",
+      "bytes": 1422,
+      "sha256": "19334c19e5ea8fbe12e16e3a419ba99bff4cd530fd990ce34854633b77acef23"
+    },
+    {
+      "name": "keys/c-bande-rouge.game.webp",
+      "bytes": 686,
+      "sha256": "a748247b136fe43da1dc739c14d5a88e36bb8adefd2d8cb04ec35594bf85212a"
+    },
+    {
+      "name": "keys/c-colonne-1.game.webp",
+      "bytes": 1228,
+      "sha256": "f8f18de674ad7444fc89406f0babaa9f392e8aba52a29f429ca78bad4e4db542"
+    },
+    {
+      "name": "keys/c-colonne-2.game.webp",
+      "bytes": 1282,
+      "sha256": "d7f282ea308c6a16d75ee8b97e2650f4d92b3016a280ccd68565aebb204da6bb"
+    },
+    {
+      "name": "keys/c-colonne-3.game.webp",
+      "bytes": 1194,
+      "sha256": "112b82127a475c27038ddac257fa7049c9e308f6328d2d666ddf885c2ae7003a"
+    },
+    {
+      "name": "keys/c-colonne-4.game.webp",
+      "bytes": 1190,
+      "sha256": "0bf99224fa9613d37beb7df98a8b6157d2c7c0db904e8419ce3733e2e44ba1bc"
+    },
+    {
+      "name": "keys/c-colonne-5.game.webp",
+      "bytes": 1400,
+      "sha256": "d6f5a4c483053527333d81a05858c8c123a446ba6814ee4e3fd04beacd4aba2e"
+    },
+    {
+      "name": "keys/c-colonne-6.game.webp",
+      "bytes": 1240,
+      "sha256": "92afadc171385ec28c0f666233170e2255f7d246fa0e18ca015ee6d95b17d144"
+    },
+    {
+      "name": "keys/c-mini-1.game.webp",
+      "bytes": 1066,
+      "sha256": "ebc4441a6735d1f2fe18b638c63c1a4f3f06098879299048ede0eeb62e3fe5bb"
+    },
+    {
+      "name": "keys/c-mini-2.game.webp",
+      "bytes": 1144,
+      "sha256": "346509aa90f8024b14cfcff47aa31a20c989132f430750eb1354af1e1b44cab1"
+    },
+    {
+      "name": "keys/code-bas.game.webp",
+      "bytes": 2206,
+      "sha256": "8bf7428cb4f56eebaff96bae6853169a0ca05cbb7ca8ccdfd645fcd2e8927224"
+    },
+    {
+      "name": "keys/code-haut.game.webp",
+      "bytes": 2296,
+      "sha256": "e3deaff2624dc8ac157506962d9dae51e76fc700834d622cc91ecb895d69e60a"
+    },
+    {
+      "name": "keys/d-bande-droite.game.webp",
+      "bytes": 834,
+      "sha256": "369aa9823b284fed68b9fdc5090c7424260dbb5576d4089759e0af09cd42dcf3"
+    },
+    {
+      "name": "keys/d-bande-gauche.game.webp",
+      "bytes": 1498,
+      "sha256": "986a349ab047dfce3abcbbaa90a39b7afe71286bca65f96dad3aa99293d6b148"
+    },
+    {
+      "name": "keys/d-bande-milieu.game.webp",
+      "bytes": 1678,
+      "sha256": "cd9182669aaba53254d7b43f494f04c15e980d875c6259c78b17c0f1367eef1c"
+    },
+    {
+      "name": "pieces/bouton-alim-allumee.game.webp",
+      "bytes": 1978,
+      "sha256": "91183b2a2f501698afd55c7523a784f2c4c8cae85240c4e6e86360fefd0a72d4"
+    },
+    {
+      "name": "pieces/bouton-alim-enfonce-allumee.game.webp",
+      "bytes": 1384,
+      "sha256": "8f7c571a98a8d1ea1e7babcc832c4aa39152c7e73a61d7716d7226e14b1354a0"
+    },
+    {
+      "name": "pieces/bouton-alim-enfonce-eteinte.game.webp",
+      "bytes": 1382,
+      "sha256": "2ed764e1cc638875f07aa5b465103d626e3c09979c8efea5f8ca7bc005622fef"
+    },
+    {
+      "name": "pieces/bouton-alim-eteinte.game.webp",
+      "bytes": 1938,
+      "sha256": "0790dd64c05308b8c8d9cfb92eedf69cb6b0adf3010ccde09af222918cf841b0"
+    },
+    {
+      "name": "pieces/bouton-b-droit-allumee.game.webp",
+      "bytes": 2376,
+      "sha256": "93a3d96e75b2f742f39dadb03996e078a832673fdb0feaac244a9b557bab5783"
+    },
+    {
+      "name": "pieces/bouton-b-droit-eteinte.game.webp",
+      "bytes": 2250,
+      "sha256": "159e5744bcb3416ae765b2460405f786bc1134aec0650e115f2439f30f7b9755"
+    },
+    {
+      "name": "pieces/bouton-b-gauche-allumee.game.webp",
+      "bytes": 2544,
+      "sha256": "da20a13ffc6f3ffb1e629250f60f69c406ba1f93a34f251b588204b6db470b98"
+    },
+    {
+      "name": "pieces/bouton-b-gauche-eteinte.game.webp",
+      "bytes": 2370,
+      "sha256": "8dbc92a6138ba40c6ddcfe7dbcdba25956d0bfb4ebc8194b6c174160d74f9b01"
+    },
+    {
+      "name": "pieces/levier-b-droit-allumee.game.webp",
+      "bytes": 2318,
+      "sha256": "809cb5d3381df981b7d45ca74f660c91357f45a2d1a7de200feee5e494bfe2ca"
+    },
+    {
+      "name": "pieces/levier-b-droit-eteinte.game.webp",
+      "bytes": 2170,
+      "sha256": "a3abd28eb9732eb84af26cddb396c6f4cefda4ba488a27e9b8a9c2b9115517ee"
+    },
+    {
+      "name": "pieces/levier-b-gauche-allumee.game.webp",
+      "bytes": 2356,
+      "sha256": "0dad08614ad3873e4e76bbb3bd2d5a5e7d672c5445343756f3bcaeece6746552"
+    },
+    {
+      "name": "pieces/levier-b-gauche-eteinte.game.webp",
+      "bytes": 2228,
+      "sha256": "eaec86d4b8bbd4597b77a45b2533e6c0665702d69f0de288e6db04670b22265a"
+    },
+    {
+      "name": "pieces/plaque-son-allumee.game.webp",
+      "bytes": 638,
+      "sha256": "d9451a96dcc28efea71b0af73eb9b715c7c9543b4e8bbe4d543da1011e388d14"
+    },
+    {
+      "name": "pieces/plaque-son-eteinte.game.webp",
+      "bytes": 610,
+      "sha256": "b12057f6bd9bace6abad38e45b4ef353c6e7fe72ed9e9e0283dfc3d07617cfd3"
+    },
+    {
+      "name": "pieces/plaque-volume-allumee.game.webp",
+      "bytes": 710,
+      "sha256": "b22148b541b777fac9bced3aad90976a298a251003e19c022333ee3665093cef"
+    },
+    {
+      "name": "pieces/plaque-volume-eteinte.game.webp",
+      "bytes": 610,
+      "sha256": "50cd712d4a7b907c3bfe2553f3ac023aca1c87aec8cd2a1d5120bb8ff5531255"
+    },
+    {
+      "name": "pieces/son-levier-allumee.game.webp",
+      "bytes": 1908,
+      "sha256": "c41d41c7bc5c685edc9bec766565448c4c572dcfcacccb6a52c575c8b249bb47"
+    },
+    {
+      "name": "pieces/son-levier-eteinte.game.webp",
+      "bytes": 1640,
+      "sha256": "1d6d23c51ec18f0b6ee753715570c5582a8dd102504225fff64e158f17975d7b"
+    },
+    {
+      "name": "pieces/telephone-combine-allumee.game.webp",
+      "bytes": 7264,
+      "sha256": "ad1717cf49a32799f047523f33eaaf4d1414164d21b49b18339150befe599d72"
+    },
+    {
+      "name": "pieces/telephone-combine-eteinte.game.webp",
+      "bytes": 7010,
+      "sha256": "875492a7a2ab84b0ccfac648e92f82626bc717aca145ff5350513a859d3906c0"
+    },
+    {
+      "name": "pieces/volume-allumee.game.webp",
+      "bytes": 42944,
+      "sha256": "03c9585d131b5befa3c984c12567891b787f865a146fdecd9c8810ebf90ea0cc"
+    },
+    {
+      "name": "pieces/volume-eteinte.game.webp",
+      "bytes": 37544,
+      "sha256": "f1994cba79372e79eaa7856ce18a2931be3dc72f1f01708911704cd6670f837f"
+    },
+    {
+      "name": "salle-allumee-1.5x.game.webp",
+      "bytes": 374924,
+      "sha256": "1eb2da3f169509e0b1743fb06ff7f45ca93f6583c3e1a710a315bf77bc304749"
+    },
+    {
+      "name": "salle-allumee-1x.game.webp",
+      "bytes": 201920,
+      "sha256": "e0138b81e8c07610523d8baf93315d3f22b65cd4d3a4c094971ab3a22162829e"
+    },
+    {
+      "name": "salle-allumee-2x.game.webp",
+      "bytes": 579936,
+      "sha256": "ce5bf1bad3bb6386c3a2b528ae63c2161e7074a0bf12eb55e4e48661039e1bfb"
+    },
+    {
+      "name": "salle-eteinte-1.5x.game.webp",
+      "bytes": 310960,
+      "sha256": "61a818a5000f3eb2a74f564c380b92cee05e09d52b4942a42397a02dec6cff79"
+    },
+    {
+      "name": "salle-eteinte-1x.game.webp",
+      "bytes": 161390,
+      "sha256": "d63054d57b52b0c4776548327426853da065f9e42ccfdc793234c60627aabd1a"
+    },
+    {
+      "name": "salle-eteinte-2x.game.webp",
+      "bytes": 489944,
+      "sha256": "5842457047f4de5abdf3a47ecd9afb497ed5f1b2b44d563c9660754ec909fc89"
+    }
+  ]
+}

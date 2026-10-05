@@ -16,6 +16,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "intro:svg": "node scripts/intro-svg.mjs",
+    "media:manifest": "node scripts/game-media-manifest.mjs",
     "astro": "astro"
   },
   "dependencies": {

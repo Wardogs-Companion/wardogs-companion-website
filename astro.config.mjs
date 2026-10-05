@@ -1,12 +1,12 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import introMedia from './src/integrations/intro-media.mjs';
+import gameMedia from './src/integrations/game-media.mjs';
 
 export default defineConfig({
   // Adresse de production. À changer si un nom de domaine est ajouté.
   site: 'https://wardogs-companion.vercel.app',
-  // Médias du jeu pour l'intro de l'accueil : récupérés au build depuis le stockage privé, jamais dans le dépôt.
-  integrations: [introMedia()],
+  // Médias du jeu de l'accueil (intro, console) : récupérés au build depuis le stockage privé, jamais dans le dépôt.
+  integrations: [gameMedia()],
   i18n: {
     locales: ['en', 'fr'],
     defaultLocale: 'en',
