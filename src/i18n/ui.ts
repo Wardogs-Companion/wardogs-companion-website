@@ -15,7 +15,7 @@ const en = {
   'meta.description':
     'Wardogs Companion, an unofficial community Twitch extension that shows a streamer’s full WARDOGS loadout live on stream.',
   'nav.switchLabel': 'Language',
-  'home.status': 'Website under construction',
+  'home.status': 'Website in beta',
   'home.tagline': 'Your WARDOGS loadout, live on stream.',
   'home.lead':
     'An unofficial community Twitch extension that shows a streamer’s full WARDOGS loadout in a panel over the video, item by item, with the prices, sizes and weights the game uses.',
@@ -54,7 +54,7 @@ const fr: Record<keyof typeof en, string> = {
   'meta.description':
     'Wardogs Companion, une extension Twitch communautaire et non officielle qui affiche tout le loadout WARDOGS du streamer en direct sur le stream.',
   'nav.switchLabel': 'Langue',
-  'home.status': 'Site en construction',
+  'home.status': 'Site en bêta',
   'home.tagline': 'Ton loadout WARDOGS, en direct sur le stream.',
   'home.lead':
     'Une extension Twitch communautaire et non officielle qui affiche tout le loadout WARDOGS du streamer dans un panneau par-dessus la vidéo, objet par objet, avec les prix, les encombrements et les poids du jeu.',
