@@ -57,7 +57,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 | `npm run intro:svg`      | Refait les images SVG de l'intro (`public/images/intro/`).                                     |
 | `npm run media:manifest` | Refait la liste d'un groupe de médias du jeu : `-- intro <dossier>` ou `-- console <dossier>`. |
 
-Sans jeton Vercel Blob (build local, CI GitHub), le site est construit sans l'intro ni la console, et `npm run dev` ne les montre pas. Pour les tester en local : `INTRO_MEDIA_DIR=<dossier des 4 fichiers>` et `CONSOLE_MEDIA_DIR=<dossier des fichiers de la console>`, avec `npm run build` puis `npm run preview`, ou avec `npm run dev`. Ces dossiers restent hors du dépôt. Paramètres d'inspection de l'accueil : `?t=<secondes>` (une image fixe du film, `?t=lock`, `?t=end`) et `?perf=1` (temps de chaque image, dans la console).
+Sans jeton Vercel Blob (build local, CI GitHub), le site est construit sans l'intro ni la console, et `npm run dev` ne les montre pas. Pour les tester en local : `INTRO_MEDIA_DIR=<dossier des 4 fichiers>` et `CONSOLE_MEDIA_DIR=<dossier des fichiers de la console>`, avec `npm run build` puis `npm run preview`, ou avec `npm run dev`. Ces dossiers restent hors du dépôt. Paramètres d'inspection : pour l'intro, `?t=<secondes>` (une image fixe du film, `?t=lock`, `?t=end`) ; pour la console, `?ct=<secondes>` (une image fixe) et `?lite=1` ou `?lite=0` (version allégée ou complète) ; pour les deux, `?perf=1` (temps des images). Détails dans le README.
 
 ## Protections du dépôt GitHub
 

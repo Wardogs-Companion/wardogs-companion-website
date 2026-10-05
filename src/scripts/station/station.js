@@ -96,8 +96,6 @@ export function mountStation(ROOT) {
   }
   const liteParam = new URLSearchParams(location.search).get('lite');
   const LITE = liteParam === '1' ? true : liteParam === '0' ? false : softwareRendering();
-  // ?calib=1: the measuring mode of calibrate-lights.mjs: the lights alone, without the light they cast around them
-  const CALIB = new URLSearchParams(location.search).get('calib') === '1';
   const TXT = stationTexts;
   let LANG = ROOT.dataset.lang === 'fr' ? 'fr' : 'en'; // the page's
   // the screenshots' tile says how many there are, counted from its page (a capture more: the count follows)
@@ -190,10 +188,8 @@ export function mountStation(ROOT) {
   // The reading screen close up: one goes into it, its glass (READ_GLASS, its screen's quad) covering the whole window,
   // whatever its shape (no frame nor black bands at its sides: they look odd); centred on the glass. The screen
   // becomes the page: the site's lines (the languages, the legal lines) lie on its glass, which is dark, and its
-  // content keeps clear of them. READ_BOX, its bezel (the screen post's outline): what the corners lock on and what
-  // stays out of the dark on the way.
-  const READ_BOX = [1044, 527, 1444, 804],
-    READ_GLASS = [1062, 548, 1426, 779];
+  // content keeps clear of them.
+  const READ_GLASS = [1062, 548, 1426, 779];
   function readPose(vw, vh) {
     const [gx0, gy0, gx1, gy1] = READ_GLASS,
       s = Math.max(vw / (gx1 - gx0), vh / (gy1 - gy0));
@@ -618,12 +614,6 @@ export function mountStation(ROOT) {
       c.shadowColor = 'rgba(159, 251, 193, .35)';
       c.shadowBlur = 3;
     }
-    const path = (pts) => {
-      c.beginPath();
-      pts.forEach(([px, py], j) => (j ? c.lineTo(px, py) : c.moveTo(px, py)));
-      c.closePath();
-      c.stroke();
-    };
     if (id === 'extension') {
       // (our emblem)
       emblem(c, x, y, s * 1.12, ink);
@@ -2302,13 +2292,13 @@ export function mountStation(ROOT) {
       el.append(glass);
       box.append(el);
       const glow =
-        !hot && !CALIB && l.color !== 'blanc' && (round || evLenses.has(l.id))
+        !hot && l.color !== 'blanc' && (round || evLenses.has(l.id))
           ? lampPool(box, col, x, y, l.radius || Math.max(gw, gh) / 2)
           : null;
       const src = SOURCES[l.id];
       // an active light also lights the panel around it: its own layer, under the lamps' glass, coming on with it; the
       // light falls off smoothly, strong by the button and fading far out
-      if (src && !CALIB) {
+      if (src) {
         const { r, a, tint } = ACCENT;
         for (const [cls, k0] of [['spill', a]]) {
           const spill = document.createElement('div');
@@ -2466,13 +2456,10 @@ export function mountStation(ROOT) {
   // first, then each bay's relay closes in turn, one bay at a time (at, s after the first one); its tubes heat and come
   // up; the light of the bay, which comes from its screens, follows them a touch behind (the lit room through a soft
   // mask per bay).
-  // AUTO_POWER: the countdown before the station starts by itself (s); CAPTURE_POWER: s after the walk-in at which the
-  // frame-by-frame capture presses the button (?press=s to film the wait)
+  // AUTO_POWER: the countdown before the station starts by itself (s); CAPTURE_POWER: s after the walk-in at which a
+  // still frame (?ct=) has the button pressed
   const AUTO_POWER = 10,
-    CAPTURE_POWER = Math.min(
-      AUTO_POWER + 2,
-      Math.max(0, +(new URLSearchParams(location.search).get('press') ?? 1) || 0),
-    );
+    CAPTURE_POWER = 1;
   const BAYS = {
     A: [444, 803, 330, 430],
     B: [836, 803, 300, 430],
@@ -3380,7 +3367,7 @@ export function mountStation(ROOT) {
     // the top screen: at the screens' calm rate, faster while the terminal boots (its letters decode at 20 Hz)
     // (and while a line of the terminal is read again; what changed it at once: topDirty. The controls first, so that
     // a selection on the menu shows in this very frame)
-    if (!CALIB) controlsFrame(dt, forceDraw);
+    controlsFrame(dt, forceDraw);
     const every =
       (termT < bootLog().doneAt || shuttingDown() || (TQ.row >= 0 && t - TQ.at < TQ.window)) && !LITE
         ? BOOT.every
@@ -3407,38 +3394,39 @@ export function mountStation(ROOT) {
   }
   // ?perf=1: frames per second and the longest frame over each half second (tick); without frames, why (idle: motion
   // reduced, or a page read at rest), counted anew once they come back
-  const perfMeter = new URLSearchParams(location.search).has('perf')
-    ? (() => {
-        const el = document.createElement('div');
-        el.id = 'st-perf';
-        ROOT.append(el);
-        let frames = 0,
-          worst = 0,
-          since = null;
-        const meter = {
-          tick(now, gapMs) {
-            since ??= now - gapMs;
-            frames++;
-            worst = Math.max(worst, gapMs);
-            if (now - since >= 500) {
-              el.textContent = `${LITE ? 'LITE · ' : ''}${Math.round((frames * 1000) / (now - since))} fps · ${Math.round(worst)} ms`;
+  const perfMeter =
+    new URLSearchParams(location.search).get('perf') === '1'
+      ? (() => {
+          const el = document.createElement('div');
+          el.id = 'st-perf';
+          ROOT.append(el);
+          let frames = 0,
+            worst = 0,
+            since = null;
+          const meter = {
+            tick(now, gapMs) {
+              since ??= now - gapMs;
+              frames++;
+              worst = Math.max(worst, gapMs);
+              if (now - since >= 500) {
+                el.textContent = `${LITE ? 'LITE · ' : ''}${Math.round((frames * 1000) / (now - since))} fps · ${Math.round(worst)} ms`;
+                frames = 0;
+                worst = 0;
+                since = now;
+              }
+            },
+            idle() {
+              el.textContent = reduce ? 'still (reduced motion)' : 'at rest (page read)';
               frames = 0;
               worst = 0;
-              since = now;
-            }
-          },
-          idle() {
-            el.textContent = reduce ? 'still (reduced motion)' : 'at rest (page read)';
-            frames = 0;
-            worst = 0;
-            since = null;
-          },
-        };
-        if (reduce) meter.idle();
-        else el.textContent = '…';
-        return meter;
-      })()
-    : null;
+              since = null;
+            },
+          };
+          if (reduce) meter.idle();
+          else el.textContent = '…';
+          return meter;
+        })()
+      : null;
   // The scene moves slowly (needles, the radar's sweep, the lamps): it is updated on every REFRESH.stride-th refresh of
   // the screen, the fewest refreshes at least MIN_FRAME ms apart. Up to 100 Hz that is every refresh; on a higher-refresh
   // screen every other one (120 to 200 Hz) or every third (240, 300 Hz), 60 to 100 updates a second: the same look, half
@@ -3549,7 +3537,7 @@ export function mountStation(ROOT) {
         last = 0;
         requestAnimationFrame(frame);
       }
-    } else if (!CALIB && !stillAsked) {
+    } else if (!stillAsked) {
       stillAsked = true;
       requestAnimationFrame(stillFrame);
     }
@@ -6607,7 +6595,7 @@ export function mountStation(ROOT) {
       );
     }
   }
-  function buildPosts(z) {
+  function buildPosts() {
     const s = SCR.haut;
     termZone(s);
     buildSections();
@@ -8675,7 +8663,7 @@ export function mountStation(ROOT) {
     ROOT.classList.remove('seeking');
     arrival(0);
   }
-  // frame-by-frame capture (exposed once the page is ready): freezes the clocks and shows the scene at time t
+  // a still frame (?ct=<s>, read once the console is ready): the clocks frozen, the scene shown as it is at time t
   function seek(t) {
     readReset();
     seeking = true;
@@ -8686,7 +8674,7 @@ export function mountStation(ROOT) {
     ROOT.classList.add('seeking');
     TQ.row = -1; // (no line of the terminal read again in a capture)
     if (rerasterPending) rerasterWorld();
-    // the capture presses the button CAPTURE_POWER s after arriving, as a visitor would
+    // (the button pressed CAPTURE_POWER s after arriving, as a visitor would)
     powerAt = WALK_END + CAPTURE_POWER;
     if (t >= powerAt + P_TAIL) arrivalEnd();
     else arrival(t);
@@ -8699,12 +8687,10 @@ export function mountStation(ROOT) {
   // ===================================================================================================================
   function applyLang() {
     document.documentElement.lang = LANG;
-    $('replay').textContent = T().replay;
     $('skip').textContent = T().skip;
     $('skip').setAttribute('aria-label', T().skipLabel);
     soundLabel();
     motionLabel();
-    $('notice').textContent = T().notice;
     powerTexts();
     $('legal1').textContent = T().legal1;
     legal2.textContent = legalOwn ? T().legal2 : T().intro2;
@@ -8854,9 +8840,9 @@ export function mountStation(ROOT) {
       buildKeys(keys);
       buildLamps(z, glass);
       ROOT.classList.add('finish');
-      if (!CALIB) buildFills();
-      if (!CALIB) buildControls(pieces, knobFilm);
-      if (!CALIB) buildPosts(z);
+      buildFills();
+      buildControls(pieces, knobFilm);
+      buildPosts();
       lampStep(0);
       const SPILL = {
         carte: 'rgba(110,170,255,.2)',
@@ -8873,9 +8859,6 @@ export function mountStation(ROOT) {
       await Promise.all([...world.querySelectorAll('img')].map((i) => i.decode().catch(() => {})));
       // two frames and a quarter second under the black, so the first paint of the big pictures happens unseen
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(r, 250))));
-      const replayBtn = $('replay');
-      replayBtn.hidden = false;
-      replayBtn.addEventListener('click', replay);
       wirePowerButton();
       $('skip').addEventListener('click', skipArrival);
       addEventListener('keydown', (e) => {
@@ -8884,20 +8867,8 @@ export function mountStation(ROOT) {
           skipArrival();
         }
       });
-      addEventListener('keydown', (e) => {
-        if (
-          (e.key === 'r' || e.key === 'R') &&
-          READ.id === null &&
-          !reduce &&
-          !e.repeat &&
-          !e.ctrlKey &&
-          !e.metaKey &&
-          !e.altKey
-        )
-          replay();
-      }); // (not while a page is read: it would close it; nor with reduced motion: no arrival to play)
       // with reduced motion, the arrival's end state at once; else once per visit: already on if the station was switched
-      // on earlier in this tab (REPLAY plays the arrival again)
+      // on earlier in this tab
       if (reduce) {
         arrivalEnd();
         liveControls();
@@ -8905,51 +8876,47 @@ export function mountStation(ROOT) {
         arrivalEnd();
         fadeIn();
       } else replay();
-      if (!CALIB) {
-        soundOn = soundPref.get();
-        soundLabel();
-        soundBtn.hidden = false;
-        motionBtn.hidden = false; // ([ animations ] beside it)
-        CTL.lever.angle = soundOn ? LEVER_ON : 0;
-        applyControls(); // the switch already in place
-        soundBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          setSound(!soundOn);
-        });
-        // on earlier in the visit: the files are fetched now, and the first gesture lets the sound play
-        if (soundOn) {
-          soundFetch = fetchConsoleSounds(SOUND.base);
-          soundFetch.catch(() => {});
-          const unlock = () => {
-            if (soundOn) {
-              loadSound();
-              audioCtx.resume();
-            }
-            removeEventListener('pointerdown', unlock, true);
-            removeEventListener('keydown', unlock, true);
-          };
-          addEventListener('pointerdown', unlock, true);
-          addEventListener('keydown', unlock, true);
-        }
-        // a hidden tab is silent
-        document.addEventListener('visibilitychange', () => {
-          if (!audioCtx) return;
-          if (document.hidden) audioCtx.suspend();
-          else if (soundOn) audioCtx.resume();
-        });
+      soundOn = soundPref.get();
+      soundLabel();
+      soundBtn.hidden = false;
+      motionBtn.hidden = false; // ([ animations ] beside it)
+      CTL.lever.angle = soundOn ? LEVER_ON : 0;
+      applyControls(); // the switch already in place
+      soundBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setSound(!soundOn);
+      });
+      // on earlier in the visit: the files are fetched now, and the first gesture lets the sound play
+      if (soundOn) {
+        soundFetch = fetchConsoleSounds(SOUND.base);
+        soundFetch.catch(() => {});
+        const unlock = () => {
+          if (soundOn) {
+            loadSound();
+            audioCtx.resume();
+          }
+          removeEventListener('pointerdown', unlock, true);
+          removeEventListener('keydown', unlock, true);
+        };
+        addEventListener('pointerdown', unlock, true);
+        addEventListener('keydown', unlock, true);
       }
+      // a hidden tab is silent
+      document.addEventListener('visibilitychange', () => {
+        if (!audioCtx) return;
+        if (document.hidden) audioCtx.suspend();
+        else if (soundOn) audioCtx.resume();
+      });
       built = true;
       update(sceneT, 0, true); // the first drawing of the screens, in the state just set
       wake(); // (the frame loop; with reduced motion, the still frames as they are asked for)
-      window.seek = seek;
-      // the measuring mode tells calibrate-lights.mjs which lights are active and the levels it starts from
-      if (CALIB) window.calibInfo = { active: Object.keys(SOURCES), accent: ACCENT.level };
-      ROOT.dataset.ready = '1'; // the capture script waits for this (never set on the error path)
+      // ?ct=<s>: the console still, as it is s after the page opens (an inspection tool, as the intro's ?t=)
+      const still = new URLSearchParams(location.search).get('ct');
+      if (still !== null && Number.isFinite(+still)) seek(Math.max(0, +still));
+      ROOT.dataset.state = 'ready';
     } catch (err) {
-      // without its data the console cannot be drawn: say so, rather than leave a black page
-      curtain.style.opacity = 0.85;
-      ROOT.classList.remove('hud-hidden');
-      $('notice').hidden = false;
+      // without its data the console cannot be drawn: it gives the page back (station.css: [data-state='error'])
+      ROOT.dataset.state = 'error';
       console.error(err);
     }
   })();

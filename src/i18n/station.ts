@@ -4,7 +4,6 @@
 import { ui, type Lang } from './ui';
 
 const en = {
-  replay: '↻ REPLAY',
   skip: '[ skip ]',
   skipLabel: 'Skip the arrival',
   soundOff: '[ sound off ]',
@@ -56,7 +55,6 @@ const en = {
   powerOffHint: 'Click to switch off',
   powerOffTouch: 'Tap to switch off',
   powerOnLabel: 'Main power: on. Switch the station off',
-  notice: 'The console could not load. Open this page through the local server.',
   legal1: ui.en['intro.legal1'],
   legal2:
     'Images: the WARDOGS computer, faction emblems and items © BULKHEAD / Team17 — shown to present this project to them, removed on request.',
@@ -880,7 +878,6 @@ const en = {
 export type StationTexts = typeof en;
 
 const fr: StationTexts = {
-  replay: '↻ REJOUER',
   skip: '[ passer ]',
   skipLabel: "Passer l'arrivée",
   soundOff: '[ son coupé ]',
@@ -932,7 +929,6 @@ const fr: StationTexts = {
   powerOffHint: 'Clique pour éteindre',
   powerOffTouch: 'Touche pour éteindre',
   powerOnLabel: 'Alimentation : marche. Éteindre la station',
-  notice: "La console n'a pas pu se charger. Ouvre cette page par le serveur local.",
   legal1: ui.fr['intro.legal1'],
   legal2:
     "Images : l'ordinateur, les emblèmes des factions et les objets de WARDOGS © BULKHEAD / Team17 — montrés pour leur présenter ce projet, retirés sur simple demande.",

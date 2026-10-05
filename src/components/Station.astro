@@ -14,7 +14,13 @@ const t = useTranslations(lang);
 ---
 
 {/* (the first paint's state, before the script runs: the room dark, the HUD hidden) */}
-<div id="station" class="room-dark hud-hidden" data-media={consoleMedia} data-lang={lang}>
+<div
+  id="station"
+  class="room-dark hud-hidden"
+  data-state="loading"
+  data-media={consoleMedia}
+  data-lang={lang}
+>
   <div id="st-world">
     <img id="st-dark" class="room" alt="" />
     <img id="st-lit" class="room" alt="" />
@@ -147,8 +153,6 @@ const t = useTranslations(lang);
     <button type="button" id="st-motion" aria-pressed="true" hidden></button>
     <button type="button" id="st-sound" aria-pressed="false" hidden></button>
   </div>
-  <button type="button" class="hud" id="st-replay" hidden></button>
-  <p class="hud" id="st-notice" role="alert" hidden></p>
   <div class="legal" id="st-legal">
     {/* (in the markup, so the required mention shows from the first paint; line 2 opens on the intro's credit) */}
     <p id="st-legal1">{t('intro.legal1')}</p>

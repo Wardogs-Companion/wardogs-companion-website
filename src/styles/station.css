@@ -1,5 +1,9 @@
 /* The home page's console (src/components/Station.astro, src/scripts/station/station.js). Every rule is under
    #station, the console's root: the classes its script sets on the root (power-on, reading, reduce…) are on #station. */
+/* a console that could not load (its data or pictures missing): gone, the page under it shown instead */
+#station[data-state='error'] {
+  display: none;
+}
 #station {
   --ground: #0a0c08; /* the black the intro ends on, so the two pages join without a colour step */
   --khaki: #c3c98f;
@@ -434,18 +438,6 @@
 #station .hud button:focus-visible {
   outline: 1px solid var(--khaki);
   outline-offset: 2px;
-}
-/* mockup tool: replays the arrival; under the language buttons */
-#station #st-replay {
-  top: 46px;
-  right: 22px;
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: var(--muted);
-  background: rgba(8, 10, 9, 0.6);
-  border: 1px solid rgba(195, 201, 143, 0.3);
-  padding: 4px 10px;
-  cursor: pointer;
 }
 /* the main power button, in the intro's language. Four corners converge on it and snap into a lock, a leader line
    draws up to a tag whose plate opens from its centre and whose text decodes letter by letter; a hint line at the
@@ -1648,16 +1640,6 @@
 #station.reading .hud.tl {
   opacity: 0;
   visibility: hidden;
-}
-#station.reading #st-replay,
-#station.reduce #st-replay {
-  visibility: hidden;
-} /* (the mockup's REPLAY: out of the page's way; with reduced motion, no arrival to play) */
-/* while a screen is read, over the console: it takes the pointer (a click beside the screen goes back) */
-#station #st-shield {
-  position: absolute;
-  inset: 0;
-  display: none;
 }
 #station.reading #st-shield {
   display: block;
@@ -4317,15 +4299,6 @@
   color: #c3c98f;
   background: rgba(8, 10, 9, 0.8);
   padding: 3px 8px;
-}
-#station #st-notice {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  white-space: normal;
-  max-width: min(520px, calc(100% - 52px));
-  text-align: center;
-  letter-spacing: 0.08em;
 }
 /* legal lines: the intro's rule, to the pixel, so they do not move at the handover */
 #station .legal {

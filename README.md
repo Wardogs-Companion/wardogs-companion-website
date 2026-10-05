@@ -71,6 +71,18 @@ The film does not always start by itself: with reduced motion turned on in the s
 
 For example: `https://wardogs-companion.vercel.app/?perf=1`.
 
+### Inspecting the console
+
+The console (the tower's computer, `src/components/Station.astro`) has three query parameters of its own, on any build that has the console's media.
+
+| Parameter             | Effect                                                                                                                                                                                                      |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `?perf=1`             | Shows, in a corner, the frames per second and the longest frame of each half second; with no frames to draw (motion reduced, a page read at rest), why.                                                     |
+| `?ct=<seconds>`       | Freezes the console as it is that many seconds after the page opens, for example `?ct=25`. The main power is pressed at about 4.6 s, and the room is lit and at rest from about 20 s.                       |
+| `?lite=1` / `?lite=0` | Forces the light version (made for computers without a graphics card: no walk-in, fewer moving layers) or the full one. Without it, the console picks the light version when the browser draws in software. |
+
+For example: `https://wardogs-companion.vercel.app/station/?ct=25`.
+
 ## Security
 
 This repository is public and holds no secrets. Please report security issues privately: see [SECURITY.md](SECURITY.md).
