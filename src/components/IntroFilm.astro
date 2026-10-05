@@ -226,7 +226,7 @@ const codes = Object.keys(languages) as Lang[];
 
 <script>
   import { mountIntro } from '../scripts/intro/film.js';
-  import { filmLeaving, filmMounting, filmReplaying } from '../scripts/home.js';
+  import { filmGone, filmMounting, filmReplaying } from '../scripts/home.js';
 
   const stage = document.getElementById('intro');
   const home = document.getElementById('home');
@@ -244,12 +244,12 @@ const codes = Object.keys(languages) as Lang[];
       .filter((b): b is HTMLButtonElement => b instanceof HTMLButtonElement);
     filmMounting();
     try {
-      mountIntro(stage, home, replayBtns, { leaving: filmLeaving, replaying: filmReplaying, focus: station });
+      mountIntro(stage, home, replayBtns, { gone: filmGone, replaying: filmReplaying, focus: station });
     } catch (err) {
       // (the film could not be mounted: the page under it at once)
       stage.hidden = true;
       home.inert = false;
-      filmLeaving();
+      filmGone();
       throw err;
     }
   }

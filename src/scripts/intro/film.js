@@ -50,16 +50,16 @@ const GRAIN = ART + 'grain.svg';
  * @param {HTMLElement} home the page under it, out of reach while the stage is on
  * @param {HTMLButtonElement[]} replayBtns the page's controls that play the film again (the console's, the
  *   presentation's: whichever the page shows)
- * @param {{ leaving?: () => void, replaying?: () => void, focus?: () => HTMLElement | null }} [hooks] what the page
- *   under it does around the film: leaving, once per play as the stage starts going out (or at once when the film
- *   does not play); replaying, as a replay starts; focus, where the focus goes once the stage is off, asked then (by
- *   default the page's main element)
+ * @param {{ gone?: () => void, replaying?: () => void, focus?: () => HTMLElement | null }} [hooks] what the page
+ *   under it does around the film: gone, once per play as soon as the stage is off (or at once when the film does not
+ *   play); replaying, as a replay starts; focus, where the focus goes once the stage is off, asked then (by default
+ *   the page's main element)
  */
 export function mountIntro(stage, home, replayBtns, hooks = {}) {
   const MEDIA = JSON.parse(stage.dataset.media || 'null');
   if (!MEDIA) {
     stage.hidden = true;
-    hooks.leaving?.();
+    hooks.gone?.();
     return;
   }
   // ---------------------------------------------------------------------------------------------------------
@@ -2757,11 +2757,8 @@ export function mountIntro(stage, home, replayBtns, hooks = {}) {
       // (a control that had the focus goes out of reach: the focus will go into the presentation)
       if (ended && ctrl.contains(document.activeElement)) focusHome = true;
       ctrl.inert = ended;
-      // (the presentation's replay control comes in with it; the page under it takes over)
-      if (ended) {
-        offerReplay();
-        handOver();
-      }
+      // (the presentation's replay control comes in with it)
+      if (ended) offerReplay();
     }
   }
 
@@ -2981,13 +2978,14 @@ export function mountIntro(stage, home, replayBtns, hooks = {}) {
   let canReplay = true; // the film can play: the presentation offers it again
   const pending = new Set(); // the pictures loading
   const homeFocus = () => hooks.focus?.() || home.querySelector('main') || home;
-  // The page under the stage is told once per play that the stage is going out (hooks.leaving): as the film's end
-  // fades out, as it is skipped or fails, or at once when it does not play.
+  // The page under the stage is told once per play that the stage is off (hooks.gone): the film over, skipped or
+  // failed, its stage faded out; or at once when it does not play. (Not as it starts going out: its last fade is drawn
+  // frame by frame, and the page under it may have work to do.)
   let handedOver = false;
   function handOver() {
     if (handedOver) return;
     handedOver = true;
-    hooks.leaving?.();
+    hooks.gone?.();
   }
   // The presentation's replay control: shown as soon as the stage starts going out, so that it comes in with the
   // presentation, in the same fade (not when the film cannot play; with reduced motion, it offers the film instead of
@@ -3054,7 +3052,6 @@ export function mountIntro(stage, home, replayBtns, hooks = {}) {
   function fadeOut() {
     // (seen: the film was on screen, or skipped; a load that failed does not count)
     if (filmShown || leaving) markSeen();
-    handOver();
     const id = stop();
     // (the page's scrollbar comes back now, under the black: the presentation does not shift as it comes in)
     stage.classList.add('ended');

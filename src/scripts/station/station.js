@@ -22,9 +22,11 @@ import dataLights from './data/lights-calibration.json';
 export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // the root claimed: the page's style sheet no longer gives it up by itself (station.css: unclaimed)
   ROOT.dataset.state = 'loading';
-  // onHold (see start, hold); begun: opened since the page loaded
+  // onHold (see start, hold); begun: opened since the page loaded; buildGo: held from the start, the console builds only
+  // once start() is called (its build is long: under the film it would stall it)
   let onHold = heldAtStart,
-    begun = false;
+    begun = false,
+    buildGo = null;
   // a load that takes too long (a very slow connection) gives the page back to the presentation: LOAD_LIMIT ms, counted
   // from when the console is asked to open (not while it is built under the film)
   const LOAD_LIMIT = 15000;
@@ -8794,6 +8796,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
 
   (async () => {
     try {
+      if (onHold) await new Promise((go) => (buildGo = go));
       CAL = { ...CAL, ...dataLights };
       const [z, pieces, keys, glass, screenFix, knobFilm, lensFix] = [
         dataZones,
@@ -8963,7 +8966,11 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     if (!onHold && begun) return;
     onHold = false;
     loadLimit();
-    if (!built) return;
+    if (!built) {
+      buildGo?.(); // (held from the start: it builds now, then opens)
+      buildGo = null;
+      return;
+    }
     if (!begun) begin();
     else fadeIn();
     if (stillT !== null) seek(stillT);
