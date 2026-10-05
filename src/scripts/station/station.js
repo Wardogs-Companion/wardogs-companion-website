@@ -6684,7 +6684,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     const cards = topLayout(s.w, s.h).cards.map((r, i) => ({
       key: `card${i}`,
       kind: 'card',
-      lit: () => false,
+      lit: () => true, // (open, as the posts: its tag's square green)
       section: MENU_IDS[i],
       tile: r,
       pts: [
@@ -6728,7 +6728,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       const g = makeTarget(
         p.key,
         p.kind,
-        TG.lock + (p.kind === 'post' ? TG.lead(true) + TG.tag : ''),
+        TG.lock + TG.lead(true) + TG.tag, // (a menu's entry too: drawn on the screen, its words do not grow with the browser's zoom; its tag's do)
         40 + 10 * i,
         b,
         [(b[0] + b[2]) / 2, (b[1] + b[3]) / 2],
@@ -8060,6 +8060,9 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       }
       X.menu.forEach(([title, sub, code], i) => {
         const g = CTT[`card${i}`];
+        setLetters(g.name, `${title} · `);
+        setLetters(g.st, `CODE ${code}`);
+        setLetters(g.hint, sub);
         g.btn.setAttribute('aria-label', `${title}. ${sub}. CODE ${code}${tab(g)}`);
       });
     }
@@ -8155,9 +8158,8 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
         continue;
       }
       if (g.kind !== 'arcs') {
-        // a post: its tag on the leader, on its side, or on the other one when the window has no room there (a menu's
-        // entry has none)
-        if (!g.tag) continue;
+        // a post, or a menu's entry: its tag on the leader, on its side, or on the other one when the window has no room
+        // there
         [g.name, g.st, g.hint].forEach((L) => drawLetters(L, 'decode', 1, 0, 0));
         const w = g.tag.offsetWidth,
           hgt = g.tag.offsetHeight,
@@ -8415,7 +8417,6 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
           `matrix(${m}, ${(p[0] + d[0] * o).toFixed(2)}, ${(p[1] + d[1] * o).toFixed(2)})`,
         ),
       );
-      if (!g.tag) return; // (a menu's entry: its corners only)
     }
     // the leader, drawn from the lock (down to the tag below; the power button's, and a post's tag above it, up)
     const lead = expoOut(seg(inA, ...O.lead)) * (1 - out2(seg(tc, ...C.lead)));
