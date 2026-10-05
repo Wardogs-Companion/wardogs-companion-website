@@ -1,5 +1,6 @@
 // The home page's console: the tower's computer, rebuilt from the game's pictures, that the visitor switches on and
-// reads (src/components/Station.astro). mountStation(ROOT) runs it inside its root element, #station.
+// reads (src/components/Station.astro). mountStation(ROOT) runs it inside its root element, #station, and returns what
+// the page needs to share the screen with the intro film (src/scripts/home.js).
 import { stationTexts } from '../../i18n/station';
 import { createConsoleSounds, fetchConsoleSounds } from './sounds.js';
 import dataZones from './data/zones.json';
@@ -11,8 +12,29 @@ import dataKnob from './data/knob.json';
 import dataLenses from './data/lenses.json';
 import dataLights from './data/lights-calibration.json';
 
-/** @param {HTMLElement} ROOT */
-export function mountStation(ROOT) {
+/**
+ * @param {HTMLElement} ROOT the console's root (#station)
+ * @param {{ held?: boolean }} [options] held: the console waits, built but not started, until start() (the intro
+ *   film plays over it first)
+ * @returns {{ start: () => void, hold: () => void }} start: the console opens (or opens again), as it would alone;
+ *   hold: it stands, drawing nothing, answering no key, silent (the film replayed over it)
+ */
+export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
+  // the root claimed: the page's style sheet no longer gives it up by itself (station.css: unclaimed)
+  ROOT.dataset.state = 'loading';
+  // onHold (see start, hold); begun: opened since the page loaded
+  let onHold = heldAtStart,
+    begun = false;
+  // a load that takes too long (a very slow connection) gives the page back to the presentation: LOAD_LIMIT ms, counted
+  // from when the console is asked to open (not while it is built under the film)
+  const LOAD_LIMIT = 15000;
+  let loadTimer = 0,
+    loadGivenUp = false;
+  // ?ct=<s>: the console still, as it is s after it opens (an inspection tool, as the intro's ?t=)
+  const stillT = (() => {
+    const v = new URLSearchParams(location.search).get('ct');
+    return v !== null && Number.isFinite(+v) ? Math.max(0, +v) : null;
+  })();
   // ===================================================================================================================
   // Settings
   // ===================================================================================================================
@@ -51,7 +73,8 @@ export function mountStation(ROOT) {
   // (null), shown in its own places (its emblem and name on A2 and A3, C3, its echo ringed, the terminal, the radar's and
   // the echoes' tags, on a phone the factions' strip), the console's screens and frames keeping their own colours (its
   // green is the site's theme). Kept by the browser from one visit to the next, behind factionPref alone (a personal
-  // space may take it over one day); a value it does not know is none. factionAt: when it was last joined or left
+  // space may take it over one day): the faction and the date it was joined, forgotten 13 months on (FACTION_KEEP), as
+  // the extension keeps its own display preferences; a value it does not know is none. factionAt: when it was last joined or left
   // (scene time), its emblem and name coming up from then (none with motion reduced).
   const FACTIONS = [
     { id: 'lonestar', name: 'LONESTAR', colour: '#69b8ff' },
@@ -59,20 +82,29 @@ export function mountStation(ROOT) {
     { id: 'manticore', name: 'MANTICORE', colour: '#69d58c' },
   ];
   const factionOf = (id) => FACTIONS.find((f) => f.id === id) ?? null,
-    FACTION_PREF = 'wardogs.faction';
+    FACTION_PREF = 'wardogs.faction',
+    FACTION_KEEP = 396 * 24 * 3600 * 1000; // (13 months)
   const factionPref = {
     get: () => {
       try {
         const v = localStorage.getItem(FACTION_PREF);
-        return factionOf(v) ? v : null;
+        if (v === null) return null;
+        const { id, at } = JSON.parse(v);
+        if (factionOf(id) && Date.now() - at < FACTION_KEEP) return id;
+        localStorage.removeItem(FACTION_PREF); // (too old, or not a value of this site's: forgotten)
       } catch {
-        return null;
+        try {
+          localStorage.removeItem(FACTION_PREF);
+        } catch {
+          /* storage blocked */
+        }
       }
+      return null;
     },
     set: (id) => {
       try {
         if (id === null) localStorage.removeItem(FACTION_PREF);
-        else localStorage.setItem(FACTION_PREF, id);
+        else localStorage.setItem(FACTION_PREF, JSON.stringify({ id, at: Date.now() }));
       } catch {
         /* private mode: none at the next visit */
       }
@@ -97,7 +129,7 @@ export function mountStation(ROOT) {
   const liteParam = new URLSearchParams(location.search).get('lite');
   const LITE = liteParam === '1' ? true : liteParam === '0' ? false : softwareRendering();
   const TXT = stationTexts;
-  let LANG = ROOT.dataset.lang === 'fr' ? 'fr' : 'en'; // the page's
+  const LANG = ROOT.dataset.lang === 'fr' ? 'fr' : 'en'; // the page's
   // the screenshots' tile says how many there are, counted from its page (a capture more: the count follows)
   for (const X of Object.values(TXT)) {
     const n = X.pages.screenshots[0][1].body[0][1].flatMap(([, , g]) => g).length;
@@ -109,6 +141,9 @@ export function mountStation(ROOT) {
   // Helpers
   // ===================================================================================================================
   const $ = (id) => document.getElementById('st-' + id);
+  // the focus on nothing in particular: the page itself, or the console's root (focused once the intro film is gone,
+  // and still focused after a click in the room)
+  const unfocused = (el) => el === document.body || el === document.documentElement || el === ROOT;
   const clamp01 = (x) => Math.max(0, Math.min(1, x));
   const smoother = (x) => x * x * x * (x * (x * 6 - 15) + 10); // ease in and out, flat at both ends
   // tiny seeded random, so the static drawings never change between frames
@@ -3473,7 +3508,7 @@ export function mountStation(ROOT) {
     TOWER.offAt === null &&
     !targetsBusy(performance.now() / 1000);
   function frame(now) {
-    if (reduce) {
+    if (reduce || onHold) {
       looping = false;
       stoodAt ??= last;
       perfMeter?.idle();
@@ -3530,7 +3565,7 @@ export function mountStation(ROOT) {
     stillAsked = false,
     built = false;
   function wake() {
-    if (!built) return;
+    if (!built || onHold) return;
     if (!reduce) {
       if (!looping) {
         looping = true;
@@ -3561,6 +3596,7 @@ export function mountStation(ROOT) {
   }
   function stillFrame(now) {
     stillAsked = false;
+    if (onHold) return;
     const dt = stillLast ? Math.min(MAX_STEP, (now - stillLast) / 1000) : 0;
     stillLast = now;
     liveControls();
@@ -4286,7 +4322,7 @@ export function mountStation(ROOT) {
       READ.swap = true;
       if (pageOf(id)) pageShow(id, PAGE_T.swap);
       else pageHide();
-      if (document.activeElement === document.body)
+      if (unfocused(document.activeElement))
         (PAGE.id !== null ? pageTitle() : $('back')).focus({ preventScroll: true });
       else $('pad-status').textContent = T().pageSay.replace('{page}', sectionName(id)); // (the focus kept on the bar's button that changed it: screen readers told the page changed)
     }
@@ -4376,7 +4412,7 @@ export function mountStation(ROOT) {
         drawTower();
       } // (its page, swept in at once; none for a section without one, even read again on the way back from another's)
       const at = document.activeElement; // (the focus: on the page, to read it and scroll it from the keyboard; else BACK)
-      if (at === document.body || at === READ.opener)
+      if (unfocused(at) || at === READ.opener)
         (PAGE.id !== null ? pageTitle() : $('back')).focus({ preventScroll: true });
     }
     if (READ.to === 0 && CAM.r === 0) readEnd();
@@ -4400,7 +4436,7 @@ export function mountStation(ROOT) {
     if (CTT.knob) placeTargets();
     const o = READ.opener;
     READ.opener = null;
-    if (o?.isConnected && document.activeElement === document.body) o.focus({ preventScroll: true });
+    if (o?.isConnected && unfocused(document.activeElement)) o.focus({ preventScroll: true });
     if (rerasterPending) rerasterWorld();
     stillShow();
     wake(); // (motion reduced while it was read: the console, still while it was, drawn once as it stands now)
@@ -7788,8 +7824,7 @@ export function mountStation(ROOT) {
   function callDone() {
     $('call').classList.add('done');
     const at = document.activeElement;
-    if (CALL.byKey && (at === document.body || at === CTT.phone?.btn))
-      $('call-join').focus({ preventScroll: true });
+    if (CALL.byKey && (unfocused(at) || at === CTT.phone?.btn)) $('call-join').focus({ preventScroll: true });
   }
   // the box's texts, in the language of the moment (on a change of language too): its heading (CALL 112, the state) still
   // to decode (fresh: answered) or there at once (holoLine), its time, its buttons, the whole message for screen readers,
@@ -7833,6 +7868,7 @@ export function mountStation(ROOT) {
   // Escape hangs up; every key pressed shows on C1 (Space on a key of the keypad once: its click does)
   addEventListener('keydown', (e) => {
     if (
+      onHold ||
       !PAD.keys.clear ||
       e.repeat ||
       e.ctrlKey ||
@@ -7849,7 +7885,7 @@ export function mountStation(ROOT) {
       return;
     } // (while a section is read)
     const onPad = !!e.target.closest?.('.padkey') || e.target === CTT.code?.btn,
-      free = e.target === document.body || e.target === document.documentElement;
+      free = unfocused(e.target);
     const figure = /^[0-9]$/.test(e.key) ? e.key : /^Digit[0-9]$/.test(e.code) ? e.code.slice(5) : null;
     if (figure) padPress(figure);
     else if (e.key === 'Enter' && free && CALL.state === 'ringing' && !PAD.entry) {
@@ -8686,13 +8722,11 @@ export function mountStation(ROOT) {
   // Language
   // ===================================================================================================================
   function applyLang() {
-    document.documentElement.lang = LANG;
     $('skip').textContent = T().skip;
     $('skip').setAttribute('aria-label', T().skipLabel);
     soundLabel();
     motionLabel();
     powerTexts();
-    $('legal1').textContent = T().legal1;
     legal2.textContent = legalOwn ? T().legal2 : T().intro2;
     if (CTT.knob) controlsLabel();
     layout();
@@ -8700,7 +8734,6 @@ export function mountStation(ROOT) {
     if ($('sections').children.length) sectionsTexts();
     if (PAD.keys.clear) padTexts();
     if (CALL.state === 'connected') callTexts();
-    ROOT.querySelectorAll('.hud.tr button').forEach((b) => b.classList.toggle('on', b.dataset.l === LANG));
     if (SCR.principal) {
       drawTower();
       drawCode(SCR.code);
@@ -8713,12 +8746,6 @@ export function mountStation(ROOT) {
       drawTerminal(SCR.haut, sceneT);
     }
   }
-  ROOT.querySelectorAll('.hud.tr button').forEach((b) =>
-    b.addEventListener('click', () => {
-      LANG = b.dataset.l;
-      applyLang();
-    }),
-  );
 
   // The main power button: the button, a click anywhere on the console, Enter or Space power the station on; once it is
   // on, the button itself switches it off, and on again (a click elsewhere only switches it on)
@@ -8734,7 +8761,7 @@ export function mountStation(ROOT) {
       press(true);
     });
     ROOT.addEventListener('click', (e) => {
-      if (!e.target.closest('button, .ctl')) press(false);
+      if (!e.target.closest('button, a, .ctl')) press(false);
     });
     // under the pointer, or focused from the keyboard, the corners close in on the button
     const hover = (on) => () => {
@@ -8745,10 +8772,10 @@ export function mountStation(ROOT) {
     PT.btn.addEventListener('focus', hover(true));
     PT.btn.addEventListener('blur', hover(false));
     addEventListener('keydown', (e) => {
-      if ((e.key !== 'Enter' && e.key !== ' ') || e.repeat) return;
+      if ((e.key !== 'Enter' && e.key !== ' ') || e.repeat || onHold) return;
       const onButton = e.target.id === 'st-power-btn';
       if (!ROOT.classList.contains('awaiting-power') && !(onButton && stationUp())) return;
-      if (e.target.closest?.('button, .ctl') && !onButton) return; // another control keeps its own keys
+      if (e.target.closest?.('button, a, .ctl') && !onButton) return; // another control, or a link, keeps its own keys
       e.preventDefault();
       press(onButton);
     });
@@ -8859,23 +8886,17 @@ export function mountStation(ROOT) {
       await Promise.all([...world.querySelectorAll('img')].map((i) => i.decode().catch(() => {})));
       // two frames and a quarter second under the black, so the first paint of the big pictures happens unseen
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(r, 250))));
+      if (loadGivenUp) return; // (too late: the page is the presentation's)
+      clearTimeout(loadTimer);
       wirePowerButton();
       $('skip').addEventListener('click', skipArrival);
       addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !e.repeat && arrivalT !== null) {
+        if (e.key === 'Escape' && !e.repeat && arrivalT !== null && !onHold) {
           e.preventDefault();
           skipArrival();
         }
       });
-      // with reduced motion, the arrival's end state at once; else once per visit: already on if the station was switched
-      // on earlier in this tab
-      if (reduce) {
-        arrivalEnd();
-        liveControls();
-      } else if (visit.seen()) {
-        arrivalEnd();
-        fadeIn();
-      } else replay();
+      if (!onHold) begin();
       soundOn = soundPref.get();
       soundLabel();
       soundBtn.hidden = false;
@@ -8893,7 +8914,8 @@ export function mountStation(ROOT) {
         const unlock = () => {
           if (soundOn) {
             loadSound();
-            audioCtx.resume();
+            if (onHold) audioCtx.suspend();
+            else audioCtx.resume();
           }
           removeEventListener('pointerdown', unlock, true);
           removeEventListener('keydown', unlock, true);
@@ -8905,14 +8927,12 @@ export function mountStation(ROOT) {
       document.addEventListener('visibilitychange', () => {
         if (!audioCtx) return;
         if (document.hidden) audioCtx.suspend();
-        else if (soundOn) audioCtx.resume();
+        else if (soundOn && !onHold) audioCtx.resume();
       });
       built = true;
       update(sceneT, 0, true); // the first drawing of the screens, in the state just set
       wake(); // (the frame loop; with reduced motion, the still frames as they are asked for)
-      // ?ct=<s>: the console still, as it is s after the page opens (an inspection tool, as the intro's ?t=)
-      const still = new URLSearchParams(location.search).get('ct');
-      if (still !== null && Number.isFinite(+still)) seek(Math.max(0, +still));
+      if (stillT !== null && !onHold) seek(stillT);
       ROOT.dataset.state = 'ready';
     } catch (err) {
       // without its data the console cannot be drawn: it gives the page back (station.css: [data-state='error'])
@@ -8920,4 +8940,56 @@ export function mountStation(ROOT) {
       console.error(err);
     }
   })();
+  if (!onHold) loadLimit();
+
+  // ===================================================================================================================
+  // In its page, under the intro film
+  // ===================================================================================================================
+  // the console opens, once: with reduced motion, its arrival's end state at once; else once per visit, already on
+  // (from black) if the station was switched on earlier in this tab, or its arrival
+  function begin() {
+    begun = true;
+    if (reduce) {
+      arrivalEnd();
+      liveControls();
+    } else if (visit.seen()) {
+      arrivalEnd();
+      fadeIn();
+    } else replay();
+  }
+  // the film gone: the console opens (as soon as it is built, if it is not yet); after a hold, it goes on as it was (its
+  // arrival, a page read), from black
+  function start() {
+    if (!onHold && begun) return;
+    onHold = false;
+    loadLimit();
+    if (!built) return;
+    if (!begun) begin();
+    else fadeIn();
+    if (stillT !== null) seek(stillT);
+    update(sceneT, 0, true);
+    if (soundOn && audioCtx && !document.hidden) audioCtx.resume(); // (a hidden tab stays silent: visibilitychange)
+    wake();
+  }
+  // the film replayed over it: the console stands as it is (no frame, no key, no sound) until start(); what runs on its
+  // own timers is called off (a call, the keypad's answer, a hack)
+  function hold() {
+    if (onHold) return;
+    onHold = true;
+    if (built) {
+      padReset();
+      callStop();
+      hackEnd(false);
+    }
+    audioCtx?.suspend();
+  }
+  function loadLimit() {
+    if (built || loadTimer) return;
+    loadTimer = setTimeout(() => {
+      if (built) return;
+      loadGivenUp = true;
+      ROOT.dataset.state = 'error';
+    }, LOAD_LIMIT);
+  }
+  return { start, hold };
 }

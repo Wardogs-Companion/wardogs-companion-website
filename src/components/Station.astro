@@ -1,23 +1,29 @@
 ---
-// The home page's console (src/scripts/station/station.js), rendered only when the build has its media
-// (src/integrations/game-media.mjs). Its styles: src/styles/station.css.
+// The home page's console (src/scripts/station/station.js), over the home page's presentation, which stays its fallback
+// (station.css). Rendered only when the build has its media (src/integrations/game-media.mjs); its script meets the
+// intro film's in src/scripts/home.js.
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import { consoleMedia } from 'virtual:wardogs/game-media';
-import { useTranslations, type Lang } from '../i18n/ui';
+import { languages, useTranslations, type Lang } from '../i18n/ui';
 import '../styles/station.css';
 
 interface Props {
   lang: Lang;
+  // The intro film is on the page: the corner offers to replay it.
+  intro: boolean;
 }
 
-const { lang } = Astro.props;
+const { lang, intro } = Astro.props;
 const t = useTranslations(lang);
+const codes = Object.keys(languages) as Lang[];
 ---
 
-{/* (the first paint's state, before the script runs: the room dark, the HUD hidden) */}
+{/* (the first paint's state, before the script runs: the room dark, the HUD hidden; its script claims it, data-state) */}
 <div
   id="station"
   class="room-dark hud-hidden"
-  data-state="loading"
+  role="main"
+  tabindex="-1"
   data-media={consoleMedia}
   data-lang={lang}
 >
@@ -58,9 +64,9 @@ const t = useTranslations(lang);
     </div>
     <i class="scan" id="st-page-scan" aria-hidden="true"></i>
   </div>
-  <div class="hud tl">
+  <h1 class="hud tl">
     <span class="sq"></span>Wardogs Companion
-  </div>
+  </h1>
   <button type="button" id="st-back" hidden aria-keyshortcuts="Escape">
     <i class="c tl"></i>
     <i class="c tr"></i>
@@ -76,15 +82,30 @@ const t = useTranslations(lang);
   <nav id="st-sections"></nav>
   <p id="st-pad-status" class="sr" role="status"></p>
   <p id="st-faction-status" class="sr" role="status"></p>
-  <div class="hud tr">
-    <button type="button" data-l="en" class:list={{ on: lang === 'en' }}>
-      EN
-    </button>{' '}
-    /{' '}
-    <button type="button" data-l="fr" class:list={{ on: lang === 'fr' }}>
-      FR
+  <nav class="hud tr" aria-label={t('nav.switchLabel')}>
+    {codes.map((code, i) => (
+      <>
+        {i > 0 && <span aria-hidden="true"> / </span>}
+        <a
+          href={getRelativeLocaleUrl(code)}
+          hreflang={code}
+          lang={code}
+          title={languages[code]}
+          aria-current={code === lang ? 'page' : undefined}
+        >
+          {code.toUpperCase()}
+        </a>
+      </>
+    ))}
+  </nav>
+  {intro && (
+    <button type="button" class="hud" id="st-intro-replay" hidden>
+      <span class="if-motion">
+        <span aria-hidden="true">↻</span> {t('intro.replay')}
+      </span>
+      <span class="if-reduced">{t('intro.watch')}</span>
     </button>
-  </div>
+  )}
   <section id="st-call" hidden>
     <span class="plate"></span>
     <i class="c tl"></i>
@@ -155,14 +176,31 @@ const t = useTranslations(lang);
   </div>
   <div class="legal" id="st-legal">
     {/* (in the markup, so the required mention shows from the first paint; line 2 opens on the intro's credit) */}
-    <p id="st-legal1">{t('intro.legal1')}</p>
+    <p id="st-legal1">
+      {t('intro.legal1')}
+      <span class="legal-links">
+        <a href={getRelativeLocaleUrl(lang, 'privacy')}>{t('footer.privacy')}</a>
+        <a href={getRelativeLocaleUrl(lang, 'terms')}>{t('footer.terms')}</a>
+      </span>
+    </p>
     <p id="st-legal2">{t('intro.legal2')}</p>
   </div>
 </div>
 
 <script>
   import { mountStation } from '../scripts/station/station.js';
+  import { filmIsPlaying, stationMounted } from '../scripts/home.js';
 
   const root = document.getElementById('station');
-  if (root) mountStation(root);
+  if (root) {
+    // (a script come so late that the style sheet has given the page to the presentation already: it keeps it)
+    if (getComputedStyle(root).visibility === 'hidden') root.dataset.state = 'error';
+    else
+      try {
+        stationMounted(mountStation(root, { held: filmIsPlaying() }));
+      } catch (err) {
+        root.dataset.state = 'error';
+        throw err;
+      }
+  }
 </script>

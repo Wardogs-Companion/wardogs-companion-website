@@ -45,15 +45,21 @@ const PAINT_LAYERS = [
 const GRAIN = ART + 'grain.svg';
 
 /**
- * Mounts the intro film on its stage (IntroFilm.astro), over the home page's presentation.
+ * Mounts the intro film on its stage (IntroFilm.astro), over the home page.
  * @param {HTMLElement} stage the stage, with the film's texts (data-texts) and its media's site paths (data-media)
- * @param {HTMLElement} home the presentation under it, out of reach while the stage is on
- * @param {HTMLButtonElement | null} replayBtn the presentation's control that plays the film again
+ * @param {HTMLElement} home the page under it, out of reach while the stage is on
+ * @param {HTMLButtonElement[]} replayBtns the page's controls that play the film again (the console's, the
+ *   presentation's: whichever the page shows)
+ * @param {{ leaving?: () => void, replaying?: () => void, focus?: () => HTMLElement | null }} [hooks] what the page
+ *   under it does around the film: leaving, once per play as the stage starts going out (or at once when the film
+ *   does not play); replaying, as a replay starts; focus, where the focus goes once the stage is off, asked then (by
+ *   default the page's main element)
  */
-export function mountIntro(stage, home, replayBtn) {
+export function mountIntro(stage, home, replayBtns, hooks = {}) {
   const MEDIA = JSON.parse(stage.dataset.media || 'null');
   if (!MEDIA) {
     stage.hidden = true;
+    hooks.leaving?.();
     return;
   }
   // ---------------------------------------------------------------------------------------------------------
@@ -2751,8 +2757,11 @@ export function mountIntro(stage, home, replayBtn) {
       // (a control that had the focus goes out of reach: the focus will go into the presentation)
       if (ended && ctrl.contains(document.activeElement)) focusHome = true;
       ctrl.inert = ended;
-      // (the presentation's replay control comes in with it)
-      if (ended) offerReplay();
+      // (the presentation's replay control comes in with it; the page under it takes over)
+      if (ended) {
+        offerReplay();
+        handOver();
+      }
     }
   }
 
@@ -2971,12 +2980,20 @@ export function mountIntro(stage, home, replayBtn) {
   let focusHome = false; // the focus was on a control that went out of reach: it goes into the presentation
   let canReplay = true; // the film can play: the presentation offers it again
   const pending = new Set(); // the pictures loading
-  const homeFocus = home.querySelector('main') || home;
+  const homeFocus = () => hooks.focus?.() || home.querySelector('main') || home;
+  // The page under the stage is told once per play that the stage is going out (hooks.leaving): as the film's end
+  // fades out, as it is skipped or fails, or at once when it does not play.
+  let handedOver = false;
+  function handOver() {
+    if (handedOver) return;
+    handedOver = true;
+    hooks.leaving?.();
+  }
   // The presentation's replay control: shown as soon as the stage starts going out, so that it comes in with the
   // presentation, in the same fade (not when the film cannot play; with reduced motion, it offers the film instead of
   // replaying it: see HomePage.astro).
   function offerReplay() {
-    if (replayBtn) replayBtn.hidden = !canReplay;
+    for (const b of replayBtns) b.hidden = !canReplay;
   }
   // (a load that has not ended in this time gives way to the presentation. The clip has at least CLIP_WAIT from the
   // start to be able to play through, and at least CLIP_GRACE once the pictures are in (until then it shares the
@@ -3018,6 +3035,7 @@ export function mountIntro(stage, home, replayBtn) {
   // Off: the presentation is in reach (the focus goes into it if it was on the stage), the film's memory released, the
   // stage set back to its first state for a replay.
   function finish() {
+    handOver();
     stop();
     const refocus = focusHome || stage.contains(document.activeElement);
     active = leaving = filmShown = focusHome = false;
@@ -3030,12 +3048,13 @@ export function mountIntro(stage, home, replayBtn) {
     home.inert = false;
     release();
     offerReplay();
-    if (refocus) homeFocus.focus({ preventScroll: true });
+    if (refocus) homeFocus().focus({ preventScroll: true });
   }
   // Out: the film stops where it is and the stage fades out over the presentation.
   function fadeOut() {
     // (seen: the film was on screen, or skipped; a load that failed does not count)
     if (filmShown || leaving) markSeen();
+    handOver();
     const id = stop();
     // (the page's scrollbar comes back now, under the black: the presentation does not shift as it comes in)
     stage.classList.add('ended');
@@ -3069,11 +3088,13 @@ export function mountIntro(stage, home, replayBtn) {
   // the browser's cache). The focus, on the replay control, goes on to skip.
   function replay() {
     if (active) return;
+    handedOver = false;
+    hooks.replaying?.();
     // (with reduced motion the film never starts by itself: here the visitor asked for it)
     if (reducedMotion.matches) document.documentElement.classList.add('intro-play');
     // (a home page opened on the presentation, the intro seen: its mark no longer hides the stage)
     document.documentElement.classList.remove('intro-seen');
-    const fromButton = document.activeElement === replayBtn;
+    const fromButton = replayBtns.includes(/** @type {HTMLButtonElement} */ (document.activeElement));
     active = true;
     home.inert = true;
     stage.style.transition = 'none';
@@ -3353,7 +3374,7 @@ export function mountIntro(stage, home, replayBtn) {
   // The stage takes over: the presentation goes out of reach under it, and the film starts. Not with reduced motion,
   // nor when the script comes so late that the style sheet has already hidden the stage (see IntroFilm.astro).
   skipBtn.addEventListener('click', skip);
-  if (replayBtn) replayBtn.addEventListener('click', replay);
+  for (const b of replayBtns) b.addEventListener('click', replay);
   // (back on the page from the browser's history, the film possibly frozen mid-way: the presentation)
   window.addEventListener('pageshow', (e) => {
     if (e.persisted && active) finish();

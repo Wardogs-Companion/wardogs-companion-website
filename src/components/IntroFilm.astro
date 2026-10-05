@@ -1,7 +1,8 @@
 ---
 // The intro film, the home page's opening (src/scripts/intro/film.js): its stage, over the presentation. Rendered only
 // when the build has the game media (src/integrations/game-media.mjs). The legal lines and the skip control are in the
-// markup, shown by the style sheet from the first paint; the script plays the film and hands over to the presentation.
+// markup, shown by the style sheet from the first paint; the script plays the film and hands over to the page under it:
+// the console, or the presentation (src/scripts/home.js).
 import { getRelativeLocaleUrl } from 'astro:i18n';
 // (the once-per-visit check, rendered inline before the stage: see seen-check.js)
 import seenCheck from '../scripts/intro/seen-check.js?raw';
@@ -225,11 +226,33 @@ const codes = Object.keys(languages) as Lang[];
 
 <script>
   import { mountIntro } from '../scripts/intro/film.js';
+  import { filmLeaving, filmMounting, filmReplaying } from '../scripts/home.js';
 
   const stage = document.getElementById('intro');
   const home = document.getElementById('home');
-  if (stage && home)
-    mountIntro(stage, home, document.getElementById('intro-replay') as HTMLButtonElement | null);
+  if (stage && home) {
+    // the page under the film: the console while it holds (Station.astro), else the presentation; the controls that play
+    // the film again, the console's and the presentation's (the page shows one)
+    const station = () => {
+      const root = document.getElementById('station');
+      return root && root.dataset.state !== 'error' && getComputedStyle(root).visibility !== 'hidden'
+        ? root
+        : null;
+    };
+    const replayBtns = ['st-intro-replay', 'intro-replay']
+      .map((id) => document.getElementById(id))
+      .filter((b): b is HTMLButtonElement => b instanceof HTMLButtonElement);
+    filmMounting();
+    try {
+      mountIntro(stage, home, replayBtns, { leaving: filmLeaving, replaying: filmReplaying, focus: station });
+    } catch (err) {
+      // (the film could not be mounted: the page under it at once)
+      stage.hidden = true;
+      home.inert = false;
+      filmLeaving();
+      throw err;
+    }
+  }
 </script>
 
 <style is:global>

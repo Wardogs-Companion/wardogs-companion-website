@@ -1,8 +1,52 @@
 /* The home page's console (src/components/Station.astro, src/scripts/station/station.js). Every rule is under
    #station, the console's root: the classes its script sets on the root (power-on, reading, reduce…) are on #station. */
-/* a console that could not load (its data or pictures missing): gone, the page under it shown instead */
+/* ---- in the home page (HomePage.astro), over its presentation, which stays the page without the console ----
+   With a script, the console takes the page from the first paint: the presentation out of sight under it (and out of
+   reach), the page not scrolling. Its script claims it at once (data-state: loading, then ready). The presentation comes
+   back if no script has claimed it a few seconds on (its module failed to load: unclaimed, as the intro's stage does,
+   IntroFilm.astro) or if the console fails (error: its data or pictures missing). Without a script: the presentation. */
+@media (scripting: none) {
+  #station {
+    display: none;
+  }
+}
+#station:not([data-state]) {
+  animation: st-unclaimed 0s linear 8s forwards;
+}
 #station[data-state='error'] {
   display: none;
+}
+@keyframes st-unclaimed {
+  to {
+    visibility: hidden;
+  }
+}
+@keyframes st-unclaimed-page {
+  to {
+    visibility: visible;
+  }
+}
+@keyframes st-unclaimed-bar {
+  to {
+    scrollbar-width: auto;
+  }
+}
+@media (scripting: enabled) {
+  #home:has(> #station:not([data-state='error'])) > :not(#station) {
+    visibility: hidden;
+  }
+  #home:has(> #station:not([data-state])) > :not(#station) {
+    animation: st-unclaimed-page 0s linear 8s forwards;
+  }
+  /* (before its script claims it, no scrollbar beside it) */
+  :root:has(#station:not([data-state])) {
+    scrollbar-width: none;
+    animation: st-unclaimed-bar 0s linear 8s forwards; /* (unclaimed: the presentation's scrollbar back) */
+  }
+}
+/* (the focus comes here once the intro film is off, by script only: no outline round the whole console) */
+#station:focus {
+  outline: none;
 }
 #station {
   --ground: #0a0c08; /* the black the intro ends on, so the two pages join without a colour step */
@@ -20,9 +64,9 @@
 #station * {
   box-sizing: border-box;
 }
-:root:has(#station),
-:root:has(#station) body {
-  margin: 0;
+/* the page under the console, claimed: it does not scroll */
+:root:has(#station[data-state='loading'], #station[data-state='ready']),
+:root:has(#station[data-state='loading'], #station[data-state='ready']) body {
   height: 100%;
   overflow: hidden;
   background: #0a0c08; /* (--ground: the variables are on #station) */
@@ -402,6 +446,7 @@
 #station .hud.tl {
   top: 22px;
   left: 26px;
+  margin: 0; /* (the page's heading, h1) */
 }
 /* read by screen readers only (the keypad's answer) */
 #station .sr {
@@ -423,21 +468,54 @@
   top: 18px;
   right: 22px;
 }
-#station .hud.tr button {
-  font: inherit;
-  letter-spacing: inherit;
-  color: var(--muted);
-  background: none;
-  border: 0;
+/* the languages: the page in the other language (its address, /fr/ for French) */
+#station .hud.tr a {
+  display: inline-block;
   padding: 4px 2px;
-  cursor: pointer;
+  color: var(--muted);
+  text-decoration: none;
 }
-#station .hud.tr button.on {
+#station .hud.tr a:hover,
+#station .hud.tr a[aria-current='page'] {
   color: var(--khaki);
 }
-#station .hud button:focus-visible {
+#station .hud :is(a, button):focus-visible {
   outline: 1px solid var(--khaki);
   outline-offset: 2px;
+}
+/* the intro film again, under the languages (offered by the film's script once the film is off: film.js); out of the
+   way of a page read. Where animations are reduced in the system, it offers the film rather than replaying it. */
+#station #st-intro-replay {
+  top: 46px;
+  right: 22px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  background: rgba(8, 10, 9, 0.6);
+  border: 1px solid rgba(195, 201, 143, 0.3);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+#station #st-intro-replay:is(:hover, :focus-visible) {
+  color: var(--khaki);
+}
+#station #st-intro-replay:focus-visible {
+  outline: 1px solid var(--khaki);
+  outline-offset: 2px;
+}
+#station.reading #st-intro-replay {
+  visibility: hidden;
+}
+#station #st-intro-replay .if-reduced {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  #station #st-intro-replay .if-motion {
+    display: none;
+  }
+  #station #st-intro-replay .if-reduced {
+    display: inline;
+  }
 }
 /* the main power button, in the intro's language. Four corners converge on it and snap into a lock, a leader line
    draws up to a tag whose plate opens from its centre and whose text decodes letter by letter; a hint line at the
@@ -4313,6 +4391,19 @@
 }
 #station .legal p {
   margin: 0;
+}
+/* the legal pages, after the notice (the presentation's footer is out of sight under the console) */
+#station .legal-links a {
+  margin-left: 0.9em;
+  color: inherit;
+  text-underline-offset: 2px;
+}
+#station .legal-links a:hover {
+  color: var(--khaki);
+}
+#station .legal-links a:focus-visible {
+  outline: 1px solid var(--khaki);
+  outline-offset: 2px;
 }
 @media (min-width: 601px) and (max-width: 1100px) {
   #station .legal {

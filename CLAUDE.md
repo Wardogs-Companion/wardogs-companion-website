@@ -14,7 +14,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
   - N'annonce que ce qui existe sur master. Ce qui est « À venir » reste « coming soon », et ne promets aucune date.
   - Les chiffres (273 objets, familles, équipes, cartes, classes) viennent du `README.md` de l'appli.
   - Le nom s'écrit « Wardogs Companion » (décision de l'utilisateur du 02/10/2026). L'appli et les textes actuels du site écrivent encore « WARDOGS Companion » : on les aligne quand on y touche (le site à l'intégration de la console ; l'appli, c'est à l'utilisateur de décider). Le jeu, lui, reste WARDOGS.
-  - Chaque page porte la mention : projet communautaire, non officiel, sans lien avec BULKHEAD, Team17 ni Twitch. Elle est dans le pied de page commun, `src/components/SiteFooter.astro`.
+  - Chaque page porte la mention : projet communautaire, non officiel, sans lien avec BULKHEAD, Team17 ni Twitch. Elle est dans le pied de page commun, `src/components/SiteFooter.astro` ; sur l'accueil, la console la porte dans ses lignes légales, avec les liens vers la confidentialité et les conditions (`src/components/Station.astro`).
 - **Médias du jeu : jamais dans le dépôt**, car ils appartiennent à leurs ayants droit (BULKHEAD, Team17). Les logos de Wardogs Companion sont à nous.
   - Seul l'accueil en montre, pour présenter le projet à BULKHEAD, et ils sont retirés sur simple demande de leur part : l'intro (l'ouverture de la bande-annonce, vidéo et dernière image, et deux photos du dossier de presse) et la console (l'ordinateur de la tour recréé à partir d'images du jeu, les emblèmes des factions, des captures de l'extension). Ces fichiers sont dans le stockage privé Vercel Blob `wardogs-companion-intro-media` : le build les récupère et le site les sert sous `/media/` (`src/integrations/game-media.mjs`, voir `docs/ARCHITECTURE.md`). Tout ce qui pourrait les mettre dans le dépôt est interdit : copie dans `public/` ou `src/`, capture d'écran de l'intro ou de la console, fichier de test qui les contient. Aucun autre média du jeu sans leur accord.
   - Les captures du jeu qui servent de modèle sont dans `reference-ordinateur/` (l'ordinateur des tours : tirées de vidéos, découpées par partie, avec des fiches) et `reference-intro/` (les lunettes du jeu). Ces dossiers sont ignorés par Git : ils ne doivent jamais être commités ni copiés dans `public/` ou `src/`.
@@ -27,23 +27,25 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 
 ## Où sont les choses
 
-| Quoi                                     | Fichier                                                    |
-| ---------------------------------------- | ---------------------------------------------------------- |
-| Textes anglais et français               | `src/i18n/ui.ts` ; la console : `src/i18n/station.ts`      |
-| Textes juridiques, affichés tels quels   | `src/content/legal/`                                       |
-| Squelette HTML commun (`<head>`, icônes) | `src/layouts/BaseLayout.astro`                             |
-| Contenu des pages, pied de page commun   | `src/components/`                                          |
-| Intro de l'accueil (le film)             | `src/components/IntroFilm.astro`, `src/scripts/intro/`     |
-| Médias du jeu de l'accueil (au build)    | `src/integrations/game-media.mjs`, liste `game-media.json` |
-| Routes (le français sous `fr/`)          | `src/pages/`                                               |
-| Couleurs, fond quadrillé, styles communs | `src/styles/global.css`                                    |
-| Langues, CSP                             | `astro.config.mjs`                                         |
-| En-têtes HTTP de sécurité                | `vercel.json`                                              |
-| Logos, icônes, polices (Barlow)          | `public/`                                                  |
-| Architecture, backend possible plus tard | `docs/ARCHITECTURE.md`                                     |
-| Feuille de route                         | `docs/ROADMAP.md`                                          |
-| Modèles de l'ordinateur (jamais commit)  | `reference-ordinateur/`                                    |
-| Modèles de l'intro (jamais commit)       | `reference-intro/`                                         |
+| Quoi                                     | Fichier                                                                          |
+| ---------------------------------------- | -------------------------------------------------------------------------------- |
+| Textes anglais et français               | `src/i18n/ui.ts` ; la console : `src/i18n/station.ts`                            |
+| Textes juridiques, affichés tels quels   | `src/content/legal/`                                                             |
+| Squelette HTML commun (`<head>`, icônes) | `src/layouts/BaseLayout.astro`                                                   |
+| Contenu des pages, pied de page commun   | `src/components/`                                                                |
+| Intro de l'accueil (le film)             | `src/components/IntroFilm.astro`, `src/scripts/intro/`                           |
+| Console de l'accueil (l'ordinateur)      | `src/components/Station.astro`, `src/scripts/station/`, `src/styles/station.css` |
+| Script de l'accueil (intro puis console) | `src/scripts/home.js`                                                            |
+| Médias du jeu de l'accueil (au build)    | `src/integrations/game-media.mjs`, liste `game-media.json`                       |
+| Routes (le français sous `fr/`)          | `src/pages/`                                                                     |
+| Couleurs, fond quadrillé, styles communs | `src/styles/global.css`                                                          |
+| Langues, CSP                             | `astro.config.mjs`                                                               |
+| En-têtes HTTP de sécurité                | `vercel.json`                                                                    |
+| Logos, icônes, polices (Barlow)          | `public/`                                                                        |
+| Architecture, backend possible plus tard | `docs/ARCHITECTURE.md`                                                           |
+| Feuille de route                         | `docs/ROADMAP.md`                                                                |
+| Modèles de l'ordinateur (jamais commit)  | `reference-ordinateur/`                                                          |
+| Modèles de l'intro (jamais commit)       | `reference-intro/`                                                               |
 
 ## Commandes
 

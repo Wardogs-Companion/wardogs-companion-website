@@ -1,9 +1,10 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
-import { introMedia } from 'virtual:wardogs/game-media';
+import { consoleMedia, introMedia } from 'virtual:wardogs/game-media';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import IntroFilm from './IntroFilm.astro';
 import SiteFooter from './SiteFooter.astro';
+import Station from './Station.astro';
 import { languages, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -20,6 +21,8 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== 
   {introMedia && <IntroFilm lang={lang} media={introMedia} />}
 
   <div id="home">
+    {/* The console, over the presentation, which stays the page without it (see Station.astro, station.css). */}
+    {consoleMedia && <Station lang={lang} intro={!!introMedia} />}
     <header class="top">
       {introMedia && (
         <button type="button" class="replay" id="intro-replay" hidden>

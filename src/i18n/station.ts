@@ -55,7 +55,6 @@ const en = {
   powerOffHint: 'Click to switch off',
   powerOffTouch: 'Tap to switch off',
   powerOnLabel: 'Main power: on. Switch the station off',
-  legal1: ui.en['intro.legal1'],
   legal2:
     'Images: the WARDOGS computer, faction emblems and items © BULKHEAD / Team17 — shown to present this project to them, removed on request.',
   intro2: ui.en['intro.legal2'],
@@ -929,7 +928,6 @@ const fr: StationTexts = {
   powerOffHint: 'Clique pour éteindre',
   powerOffTouch: 'Touche pour éteindre',
   powerOnLabel: 'Alimentation : marche. Éteindre la station',
-  legal1: ui.fr['intro.legal1'],
   legal2:
     "Images : l'ordinateur, les emblèmes des factions et les objets de WARDOGS © BULKHEAD / Team17 — montrés pour leur présenter ce projet, retirés sur simple demande.",
   intro2: ui.fr['intro.legal2'],
