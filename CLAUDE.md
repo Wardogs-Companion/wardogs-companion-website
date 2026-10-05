@@ -16,7 +16,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
   - Le nom s'écrit « Wardogs Companion » (décision de l'utilisateur du 02/10/2026). L'appli et les textes actuels du site écrivent encore « WARDOGS Companion » : on les aligne quand on y touche (le site à l'intégration de la console ; l'appli, c'est à l'utilisateur de décider). Le jeu, lui, reste WARDOGS.
   - Chaque page porte la mention : projet communautaire, non officiel, sans lien avec BULKHEAD, Team17 ni Twitch. Elle est dans le pied de page commun, `src/components/SiteFooter.astro`.
 - **Médias du jeu : jamais dans le dépôt**, car ils appartiennent à leurs ayants droit (BULKHEAD, Team17). Les logos de Wardogs Companion sont à nous.
-  - Seule l'intro de l'accueil en montre, pour présenter le projet à BULKHEAD, et elles sont retirées sur simple demande de leur part : l'ouverture de la bande-annonce (vidéo et dernière image) et deux photos du dossier de presse. Ces 4 fichiers sont dans le stockage privé Vercel Blob `wardogs-companion-intro-media` : le build les récupère et le site les sert sous `/media/intro/` (`src/integrations/intro-media.mjs`, voir `docs/ARCHITECTURE.md`). Tout ce qui pourrait les mettre dans le dépôt est interdit : copie dans `public/` ou `src/`, capture d'écran de l'intro, fichier de test qui les contient. Aucun autre média du jeu sans leur accord.
+  - Seul l'accueil en montre, pour présenter le projet à BULKHEAD, et ils sont retirés sur simple demande de leur part : l'intro (l'ouverture de la bande-annonce, vidéo et dernière image, et deux photos du dossier de presse) et la console (l'ordinateur de la tour recréé à partir d'images du jeu, les emblèmes des factions, des captures de l'extension). Ces fichiers sont dans le stockage privé Vercel Blob `wardogs-companion-intro-media` : le build les récupère et le site les sert sous `/media/` (`src/integrations/game-media.mjs`, voir `docs/ARCHITECTURE.md`). Tout ce qui pourrait les mettre dans le dépôt est interdit : copie dans `public/` ou `src/`, capture d'écran de l'intro ou de la console, fichier de test qui les contient. Aucun autre média du jeu sans leur accord.
   - Les captures du jeu qui servent de modèle sont dans `reference-ordinateur/` (l'ordinateur des tours : tirées de vidéos, découpées par partie, avec des fiches) et `reference-intro/` (les lunettes du jeu). Ces dossiers sont ignorés par Git : ils ne doivent jamais être commités ni copiés dans `public/` ou `src/`.
 - **Hébergement gratuit Vercel (plan Hobby) = usage non commercial** : pas de publicité, de dons, de sponsors ni de liens affiliés.
 - **Deux langues, même contenu.** Chaque texte s'ajoute dans `src/i18n/ui.ts`, en anglais et en français. Chaque page anglaise a son équivalent dans `src/pages/fr/`, sauf `404.astro` : elle est unique et bilingue, car Vercel ne sert que `/404.html`.
@@ -27,36 +27,37 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 
 ## Où sont les choses
 
-| Quoi                                     | Fichier                                                |
-| ---------------------------------------- | ------------------------------------------------------ |
-| Textes anglais et français               | `src/i18n/ui.ts`                                       |
-| Textes juridiques, affichés tels quels   | `src/content/legal/`                                   |
-| Squelette HTML commun (`<head>`, icônes) | `src/layouts/BaseLayout.astro`                         |
-| Contenu des pages, pied de page commun   | `src/components/`                                      |
-| Intro de l'accueil (le film)             | `src/components/IntroFilm.astro`, `src/scripts/intro/` |
-| Médias du jeu de l'intro (au build)      | `src/integrations/intro-media.mjs`                     |
-| Routes (le français sous `fr/`)          | `src/pages/`                                           |
-| Couleurs, fond quadrillé, styles communs | `src/styles/global.css`                                |
-| Langues, CSP                             | `astro.config.mjs`                                     |
-| En-têtes HTTP de sécurité                | `vercel.json`                                          |
-| Logos, icônes, polices (Barlow)          | `public/`                                              |
-| Architecture, backend possible plus tard | `docs/ARCHITECTURE.md`                                 |
-| Feuille de route                         | `docs/ROADMAP.md`                                      |
-| Modèles de l'ordinateur (jamais commit)  | `reference-ordinateur/`                                |
-| Modèles de l'intro (jamais commit)       | `reference-intro/`                                     |
+| Quoi                                     | Fichier                                                    |
+| ---------------------------------------- | ---------------------------------------------------------- |
+| Textes anglais et français               | `src/i18n/ui.ts`                                           |
+| Textes juridiques, affichés tels quels   | `src/content/legal/`                                       |
+| Squelette HTML commun (`<head>`, icônes) | `src/layouts/BaseLayout.astro`                             |
+| Contenu des pages, pied de page commun   | `src/components/`                                          |
+| Intro de l'accueil (le film)             | `src/components/IntroFilm.astro`, `src/scripts/intro/`     |
+| Médias du jeu de l'accueil (au build)    | `src/integrations/game-media.mjs`, liste `game-media.json` |
+| Routes (le français sous `fr/`)          | `src/pages/`                                               |
+| Couleurs, fond quadrillé, styles communs | `src/styles/global.css`                                    |
+| Langues, CSP                             | `astro.config.mjs`                                         |
+| En-têtes HTTP de sécurité                | `vercel.json`                                              |
+| Logos, icônes, polices (Barlow)          | `public/`                                                  |
+| Architecture, backend possible plus tard | `docs/ARCHITECTURE.md`                                     |
+| Feuille de route                         | `docs/ROADMAP.md`                                          |
+| Modèles de l'ordinateur (jamais commit)  | `reference-ordinateur/`                                    |
+| Modèles de l'intro (jamais commit)       | `reference-intro/`                                         |
 
 ## Commandes
 
-| Commande            | Effet                                                      |
-| ------------------- | ---------------------------------------------------------- |
-| `npm run dev`       | Serveur local sur `http://localhost:4321`.                 |
-| `npm run check`     | Vérifie les types et les modèles.                          |
-| `npm run build`     | Vérifie, puis construit le site dans `dist/`.              |
-| `npm run preview`   | Sert `dist/`, seul moyen de tester la CSP.                 |
-| `npm run format`    | Met en forme ; `format:check` vérifie seulement.           |
-| `npm run intro:svg` | Refait les images SVG de l'intro (`public/images/intro/`). |
+| Commande                 | Effet                                                                                          |
+| ------------------------ | ---------------------------------------------------------------------------------------------- |
+| `npm run dev`            | Serveur local sur `http://localhost:4321`.                                                     |
+| `npm run check`          | Vérifie les types et les modèles.                                                              |
+| `npm run build`          | Vérifie, puis construit le site dans `dist/`.                                                  |
+| `npm run preview`        | Sert `dist/`, seul moyen de tester la CSP.                                                     |
+| `npm run format`         | Met en forme ; `format:check` vérifie seulement.                                               |
+| `npm run intro:svg`      | Refait les images SVG de l'intro (`public/images/intro/`).                                     |
+| `npm run media:manifest` | Refait la liste d'un groupe de médias du jeu : `-- intro <dossier>` ou `-- console <dossier>`. |
 
-Sans jeton Vercel Blob (build local, CI GitHub), le site est construit sans l'intro, et `npm run dev` ne la montre pas. Pour la tester en local : `INTRO_MEDIA_DIR=<dossier des 4 fichiers> npm run build`, puis `npm run preview`. Ce dossier reste hors du dépôt. Paramètres d'inspection de l'accueil : `?t=<secondes>` (une image fixe du film, `?t=lock`, `?t=end`) et `?perf=1` (temps de chaque image, dans la console).
+Sans jeton Vercel Blob (build local, CI GitHub), le site est construit sans l'intro ni la console, et `npm run dev` ne les montre pas. Pour les tester en local : `INTRO_MEDIA_DIR=<dossier des 4 fichiers>` et `CONSOLE_MEDIA_DIR=<dossier des fichiers de la console>`, avec `npm run build` puis `npm run preview`, ou avec `npm run dev`. Ces dossiers restent hors du dépôt. Paramètres d'inspection de l'accueil : `?t=<secondes>` (une image fixe du film, `?t=lock`, `?t=end`) et `?perf=1` (temps de chaque image, dans la console).
 
 ## Protections du dépôt GitHub
 
