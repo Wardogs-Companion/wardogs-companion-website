@@ -171,7 +171,7 @@ const en = {
   // of block more, one maker more): its hero, then modules (a title, a width out of 12, a body of pieces:
   // PIECES), and parts (a heading band the page's header line leads to; their modules numbered in them). The
   // extension's (a developer must understand precisely what it is and what it does): its hero, the author's
-  // own texts, the name written Wardogs Companion, its state coming soon (no review named, no date); the rest,
+  // own texts, the name written Wardogs Companion, its state: available on Twitch, open to all; the rest,
   // the app's own README on master, as written there, only shortened; the figures, from it
   onPage: 'On this page',
   shotPrev: 'Previous screenshot',
@@ -202,14 +202,18 @@ const en = {
           note: 'Community project, unofficial, not affiliated with BULKHEAD, Team17 or Twitch.',
           lead: "Viewers see the streamer's loadout, right on the stream.",
           text: 'In WARDOGS, the loadout is everything a player takes into battle: weapons, attachments, gear, backpack. The streamer prepares theirs in an editor on Twitch, and viewers open it with one click, over the video. Nothing is read from the game: the streamer enters everything.',
-          status: ['Coming soon', 'Not on Twitch yet: a beta first, then open to all.'],
+          status: [
+            'Available',
+            'On Twitch now, open to all: install it on your channel from Twitch.',
+            'ready',
+          ],
           pic: [
             'captures/01-viewer-panel-valkyra.webp',
             [1308, 799],
             'The viewer panel in Valkyra colors: the loadout shared by BiggyQLF on the Bakurani map, its weapons, backpack and parachute.',
             'What a viewer sees after clicking the icon, here in the Valkyra team colors.',
           ],
-          follow: ['Follow the release on Discord', 'discord'],
+          follow: ['Install on Twitch', 'twitch'],
           more: ["See what's planned", 'roadmap'],
         },
       ],
@@ -542,15 +546,21 @@ const en = {
                 here: [
                   'You are here',
                   'Today',
-                  ['The viewer panel', 'The streamer editor', "The game's 273 items", 'English and French'],
-                  'Coming soon',
+                  [
+                    'On Twitch, open to all',
+                    'The viewer panel',
+                    'The streamer editor',
+                    "The game's 273 items",
+                    'English and French',
+                  ],
+                  'Available',
+                  'ready',
                 ],
                 step: 'Step {n}',
                 stops: [
                   [
-                    'The launch',
+                    'On phones',
                     [
-                      'A beta with a few streamers first, to gather their feedback, then the extension open to all on Twitch.',
                       'A phone version: the panel easy to read and use on a phone, and on very small players.',
                     ],
                   ],
@@ -619,7 +629,7 @@ const en = {
               [
                 ['Help', 'With the extension: questions, installation, problems.'],
                 ['Your ideas', 'A place to share your ideas and feedback on the project.'],
-                ['The news first', 'Starting with the release of the extension.'],
+                ['The news first', 'Updates to the extension, as soon as they are out.'],
               ],
             ],
           ],
@@ -649,7 +659,7 @@ const en = {
           text: 'An unofficial community project around WARDOGS, created by Biggy: a Twitch extension, a Discord server and this site.',
           contact: 'biggy',
           states: [
-            ['The extension', 'Coming soon'],
+            ['The extension', 'Available', 'ready'],
             ['This site', 'Beta'],
             ['The Discord', 'Online', 'ready'],
             ['Game visuals', 'Pending approval'],
@@ -1089,8 +1099,9 @@ const fr: StationTexts = {
           lead: 'Les viewers voient le loadout du streamer, directement sur le stream.',
           text: "Dans WARDOGS, le loadout, c'est tout ce qu'un joueur emporte au combat : armes, accessoires, équipement, sac. Le streamer prépare le sien dans une régie sur Twitch, et ses viewers l'ouvrent d'un clic par-dessus la vidéo. Rien n'est lu dans le jeu : le streamer saisit tout lui-même.",
           status: [
-            'Bientôt disponible',
-            "Pas encore sur Twitch : une bêta d'abord, puis l'ouverture à tous.",
+            'Disponible',
+            'Sur Twitch dès maintenant, ouverte à tous : installe-la sur ta chaîne depuis Twitch.',
+            'ready',
           ],
           pic: [
             'captures/01-viewer-panel-valkyra.webp',
@@ -1098,7 +1109,7 @@ const fr: StationTexts = {
             'Le panneau viewer aux couleurs de Valkyra : le loadout partagé par BiggyQLF sur la carte Bakurani, ses armes, son sac et son parachute.',
             "Ce que voit un viewer après un clic sur l'icône, ici aux couleurs de l'équipe Valkyra.",
           ],
-          follow: ['Suivre la sortie sur le Discord', 'discord'],
+          follow: ['Installer sur Twitch', 'twitch'],
           more: ['Voir ce qui est prévu', 'roadmap'],
         },
       ],
@@ -1452,19 +1463,20 @@ const fr: StationTexts = {
                   'Vous êtes ici',
                   "Aujourd'hui",
                   [
+                    'Sur Twitch, ouverte à tous',
                     'Le panneau viewer',
                     'La régie du streamer',
                     'Les 273 objets du jeu',
                     'Anglais et français',
                   ],
-                  'Bientôt disponible',
+                  'Disponible',
+                  'ready',
                 ],
                 step: 'Étape {n}',
                 stops: [
                   [
-                    'Le lancement',
+                    'Sur téléphone',
                     [
-                      "D'abord une bêta avec quelques streamers, pour recueillir leurs retours, puis l'extension ouverte à tous sur Twitch.",
                       'Une version téléphone : le panneau lisible et pratique sur mobile, et sur les tout petits lecteurs.',
                     ],
                   ],
@@ -1526,7 +1538,7 @@ const fr: StationTexts = {
               [
                 ["De l'aide", "Sur l'extension : questions, installation, problèmes."],
                 ['Tes idées', 'Un endroit pour partager tes idées et tes retours sur le projet.'],
-                ['Les nouveautés en premier', "À commencer par la sortie de l'extension."],
+                ['Les nouveautés en premier', "Les mises à jour de l'extension, dès leur sortie."],
               ],
             ],
           ],
@@ -1556,7 +1568,7 @@ const fr: StationTexts = {
           text: 'Un projet communautaire non officiel autour de WARDOGS, créé par Biggy : une extension Twitch, un serveur Discord et ce site.',
           contact: 'biggy',
           states: [
-            ["L'extension", 'Bientôt disponible'],
+            ["L'extension", 'Disponible', 'ready'],
             ['Ce site', 'Bêta'],
             ['Le Discord', 'En ligne', 'ready'],
             ['Images du jeu', "En attente d'accord"],

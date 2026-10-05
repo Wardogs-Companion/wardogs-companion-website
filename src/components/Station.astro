@@ -6,8 +6,15 @@ import { getRelativeLocaleUrl } from 'astro:i18n';
 import { consoleMedia } from 'virtual:wardogs/game-media';
 import { stationTexts } from '../i18n/station';
 import { sectionPath } from '../scripts/station/sections.js';
+import { TWITCH_EXTENSION } from '../scripts/station/links.js';
 import { languages, useTranslations, type Lang } from '../i18n/ui';
 import '../styles/station.css';
+
+// The EXTENSION page offers to install the extension from its page on Twitch: no console built without that address.
+if (!/^https:\/\/([a-z]+\.)?twitch\.tv\/\S+$/.test(TWITCH_EXTENSION))
+  throw new Error(
+    "src/scripts/station/links.js: TWITCH_EXTENSION, the extension's page on Twitch, is not set",
+  );
 
 interface Props {
   lang: Lang;

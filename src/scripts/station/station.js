@@ -3,6 +3,7 @@
 // the page needs to share the screen with the intro film (src/scripts/home.js).
 import { stationTexts } from '../../i18n/station';
 import { SECTIONS as SECTION_IDS, sectionPath } from './sections.js';
+import { TWITCH_EXTENSION } from './links.js';
 import { createConsoleSounds, fetchConsoleSounds } from './sounds.js';
 import dataZones from './data/zones.json';
 import dataPieces from './data/pieces.json';
@@ -4249,6 +4250,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   const LINKS = {
     discord: 'https://discord.gg/bb7hMrw8S9',
     github: 'https://github.com/Wardogs-Companion/wardogs-companion-website',
+    twitch: TWITCH_EXTENSION, // (the extension's page on Twitch, to install it: links.js)
   };
   // the networks' names, as they write them (the same in both languages): the project's places and a person's links
   const NETWORKS = { twitch: 'Twitch', discord: 'Discord', github: 'GitHub' };
@@ -4772,7 +4774,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     // the roadmap as a mission route (its moves: routeRun): its track (a dashed course, lit as it is plotted), its
     // stops in order (a waypoint each: YOU ARE HERE, today, what is there ticked and its state; then each step, its
     // name, its items, each under a redaction bar until declassified), its foot (no date; an idea: Discord)
-    route: ({ here: [flag, name, done, state], step, stops, note, links }) => {
+    route: ({ here: [flag, name, done, state, tone], step, stops, note, links }) => {
       const mark = (cls, label) =>
         node('div', 'stop-mark', '', [
           unread(node('i', 'stop-node')),
@@ -4793,7 +4795,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
               '',
               done.map((t) => node('li', '', t)),
             ),
-            node('p', 'pg-state', '', [dec(state)]),
+            node('p', 'pg-state' + (tone ? ' ' + tone : ''), '', [dec(state)]), // (ready: green)
           ]),
         ]),
         ...stops.map(([n, items], i) =>

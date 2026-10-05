@@ -41,26 +41,27 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 
 ## Où sont les choses
 
-| Quoi                                     | Fichier                                                                          |
-| ---------------------------------------- | -------------------------------------------------------------------------------- |
-| Textes anglais et français               | `src/i18n/ui.ts` ; la console : `src/i18n/station.ts`                            |
-| Textes juridiques, affichés tels quels   | `src/content/legal/`                                                             |
-| Squelette HTML commun (`<head>`, icônes) | `src/layouts/BaseLayout.astro`                                                   |
-| Contenu des pages, pied de page commun   | `src/components/`                                                                |
-| Intro de l'accueil (le film)             | `src/components/IntroFilm.astro`, `src/scripts/intro/`                           |
-| Console de l'accueil (l'ordinateur)      | `src/components/Station.astro`, `src/scripts/station/`, `src/styles/station.css` |
-| Script de l'accueil (intro puis console) | `src/scripts/home.js`                                                            |
-| Médias du jeu de l'accueil (au build)    | `src/integrations/game-media.mjs`, liste `game-media.json`                       |
-| Routes (le français sous `fr/`)          | `src/pages/`                                                                     |
-| Une adresse par section de la console    | `src/scripts/station/sections.js` (la liste), `src/pages/[section].astro`        |
-| Couleurs, fond quadrillé, styles communs | `src/styles/global.css`                                                          |
-| Langues, CSP                             | `astro.config.mjs`                                                               |
-| En-têtes HTTP de sécurité                | `vercel.json`                                                                    |
-| Logos, icônes, polices (Barlow)          | `public/`                                                                        |
-| Architecture, backend possible plus tard | `docs/ARCHITECTURE.md`                                                           |
-| Feuille de route                         | `docs/ROADMAP.md`                                                                |
-| Modèles de l'ordinateur (jamais commit)  | `reference-ordinateur/`                                                          |
-| Modèles de l'intro (jamais commit)       | `reference-intro/`                                                               |
+| Quoi                                                 | Fichier                                                                          |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Textes anglais et français                           | `src/i18n/ui.ts` ; la console : `src/i18n/station.ts`                            |
+| Textes juridiques, affichés tels quels               | `src/content/legal/`                                                             |
+| Squelette HTML commun (`<head>`, icônes)             | `src/layouts/BaseLayout.astro`                                                   |
+| Contenu des pages, pied de page commun               | `src/components/`                                                                |
+| Intro de l'accueil (le film)                         | `src/components/IntroFilm.astro`, `src/scripts/intro/`                           |
+| Console de l'accueil (l'ordinateur)                  | `src/components/Station.astro`, `src/scripts/station/`, `src/styles/station.css` |
+| Script de l'accueil (intro puis console)             | `src/scripts/home.js`                                                            |
+| Médias du jeu de l'accueil (au build)                | `src/integrations/game-media.mjs`, liste `game-media.json`                       |
+| Routes (le français sous `fr/`)                      | `src/pages/`                                                                     |
+| Une adresse par section de la console                | `src/scripts/station/sections.js` (la liste), `src/pages/[section].astro`        |
+| La page de l'extension sur Twitch (bouton Installer) | `src/scripts/station/links.js` : sans elle, le site ne se construit pas          |
+| Couleurs, fond quadrillé, styles communs             | `src/styles/global.css`                                                          |
+| Langues, CSP                                         | `astro.config.mjs`                                                               |
+| En-têtes HTTP de sécurité                            | `vercel.json`                                                                    |
+| Logos, icônes, polices (Barlow)                      | `public/`                                                                        |
+| Architecture, backend possible plus tard             | `docs/ARCHITECTURE.md`                                                           |
+| Feuille de route                                     | `docs/ROADMAP.md`                                                                |
+| Modèles de l'ordinateur (jamais commit)              | `reference-ordinateur/`                                                          |
+| Modèles de l'intro (jamais commit)                   | `reference-intro/`                                                               |
 
 ## Commandes
 
