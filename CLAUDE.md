@@ -1,6 +1,6 @@
-# Site de WARDOGS Companion
+# Site de Wardogs Companion
 
-Ce dossier contient le site web de WARDOGS Companion : Astro 7, statique, en anglais et en français. Il complète l'extension Twitch (l'appli) et le serveur Discord (le bot), mais c'est un projet indépendant, avec son propre dépôt.
+Ce dossier contient le site web de Wardogs Companion : Astro 7, statique, en anglais et en français. Il complète l'extension Twitch (l'appli) et le serveur Discord (le bot), mais c'est un projet indépendant, avec son propre dépôt.
 
 Le projet complet est regroupé dans un dossier parent : `../app` contient l'appli, `../discord-bot` le bot, `site/` ce site.
 
@@ -13,9 +13,9 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 - **Fidèle à l'appli.**
   - N'annonce que ce qui existe sur master. Ce qui est « À venir » reste « coming soon », et ne promets aucune date.
   - Les chiffres (273 objets, familles, équipes, cartes, classes) viennent du `README.md` de l'appli.
-  - Le nom s'écrit « WARDOGS Companion », avec WARDOGS en capitales.
+  - Le nom s'écrit « Wardogs Companion » (décision de l'utilisateur du 02/10/2026). L'appli et les textes actuels du site écrivent encore « WARDOGS Companion » : on les aligne quand on y touche (le site à l'intégration de la console ; l'appli, c'est à l'utilisateur de décider). Le jeu, lui, reste WARDOGS.
   - Chaque page porte la mention : projet communautaire, non officiel, sans lien avec BULKHEAD, Team17 ni Twitch. Elle est dans le pied de page commun, `src/components/SiteFooter.astro`.
-- **Médias du jeu : jamais dans le dépôt**, car ils appartiennent à leurs ayants droit (BULKHEAD, Team17). Les logos de WARDOGS Companion sont à nous.
+- **Médias du jeu : jamais dans le dépôt**, car ils appartiennent à leurs ayants droit (BULKHEAD, Team17). Les logos de Wardogs Companion sont à nous.
   - Seule l'intro de l'accueil en montre, pour présenter le projet à BULKHEAD, et elles sont retirées sur simple demande de leur part : l'ouverture de la bande-annonce (vidéo et dernière image) et deux photos du dossier de presse. Ces 4 fichiers sont dans le stockage privé Vercel Blob `wardogs-companion-intro-media` : le build les récupère et le site les sert sous `/media/intro/` (`src/integrations/intro-media.mjs`, voir `docs/ARCHITECTURE.md`). Tout ce qui pourrait les mettre dans le dépôt est interdit : copie dans `public/` ou `src/`, capture d'écran de l'intro, fichier de test qui les contient. Aucun autre média du jeu sans leur accord.
   - Les captures du jeu qui servent de modèle sont dans `reference-ordinateur/` (l'ordinateur des tours : tirées de vidéos, découpées par partie, avec des fiches) et `reference-intro/` (les lunettes du jeu). Ces dossiers sont ignorés par Git : ils ne doivent jamais être commités ni copiés dans `public/` ou `src/`.
 - **Hébergement gratuit Vercel (plan Hobby) = usage non commercial** : pas de publicité, de dons, de sponsors ni de liens affiliés.
