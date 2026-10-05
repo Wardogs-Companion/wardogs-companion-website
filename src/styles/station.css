@@ -4,7 +4,11 @@
    With a script, the console takes the page from the first paint: the presentation out of sight under it (and out of
    reach), the page not scrolling. Its script claims it at once (data-state: loading, then ready). The presentation comes
    back if no script has claimed it a few seconds on (its module failed to load: unclaimed, as the intro's stage does,
-   IntroFilm.astro) or if the console fails (error: its data or pictures missing). Without a script: the presentation. */
+   IntroFilm.astro) or if the console fails (error: its data or pictures missing). Without a script: the presentation.
+   (The presentation is reached as #station's following siblings: the console comes first in #home, HomePage.astro. The
+   page itself, by data-station on the root element, which the console's script sets with its own state, empty before:
+   BaseLayout.astro, station.js stationState. Never by :has() from #home or :root, with which Chromium restyles the
+   whole page at each change in the console: a skipped frame now and then.) */
 @media (scripting: none) {
   #station {
     display: none;
@@ -32,14 +36,14 @@
   }
 }
 @media (scripting: enabled) {
-  #home:has(> #station:not([data-state='error'])) > :not(#station) {
+  #station:not([data-state='error']) ~ * {
     visibility: hidden;
   }
-  #home:has(> #station:not([data-state])) > :not(#station) {
+  #station:not([data-state]) ~ * {
     animation: st-unclaimed-page 0s linear 8s forwards;
   }
   /* (before its script claims it, no scrollbar beside it) */
-  :root:has(#station:not([data-state])) {
+  :root[data-station=''] {
     scrollbar-width: none;
     animation: st-unclaimed-bar 0s linear 8s forwards; /* (unclaimed: the presentation's scrollbar back) */
   }
@@ -59,14 +63,14 @@
   --ready: #69d58c;
   /* the screens' own: their phosphor's mint, their typeface (as the canvases draw them: MINT, FONT_TERM) */
   --mint: #9ffbc1;
-  --screen: Bahnschrift, 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
+  --screen: 'Barlow Semi Condensed', Bahnschrift, 'Arial Narrow', sans-serif;
 }
 #station * {
   box-sizing: border-box;
 }
 /* the page under the console, claimed: it does not scroll */
-:root:has(#station[data-state='loading'], #station[data-state='ready']),
-:root:has(#station[data-state='loading'], #station[data-state='ready']) body {
+:root:is([data-station='loading'], [data-station='ready']),
+:root:is([data-station='loading'], [data-station='ready']) body {
   height: 100%;
   overflow: hidden;
   background: #0a0c08; /* (--ground: the variables are on #station) */
@@ -437,6 +441,9 @@
 }
 #station.hud-hidden .hud {
   opacity: 0;
+}
+/* (the page's title, the h1, stays read by screen readers meanwhile: only the controls leave the tab order) */
+#station.hud-hidden .hud:not(h1) {
   visibility: hidden;
 }
 #station.seeking .scr,
@@ -457,6 +464,17 @@
   clip-path: inset(50%);
   white-space: nowrap;
 }
+/* a low window in landscape (a phone's: framing, BANDS.foot), the console up to the window's top: the corner's title
+   would lie on the terminal's screen; it gives way (the monitor says the name), read by screen readers still */
+@media (max-height: 499.98px) and (min-aspect-ratio: 9/10) {
+  #station .hud.tl {
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
 #station .hud.tl .sq {
   display: inline-block;
   width: 7px;
@@ -471,7 +489,8 @@
 /* the languages: the page in the other language (its address, /fr/ for French) */
 #station .hud.tr a {
   display: inline-block;
-  padding: 4px 2px;
+  padding: 8px 6px;
+  margin: -4px; /* (a touch target of at least 24 px each way, as the intro's; the text and its place unmoved) */
   color: var(--muted);
   text-decoration: none;
 }
@@ -546,6 +565,11 @@
 /* once the station is on, the button switches it off (it shows even when the start-up's target is gone) */
 #station.can-switch #st-power-btn {
   pointer-events: auto;
+  visibility: visible;
+}
+/* (pressed from the keyboard, it keeps the focus while its target is gone: shown as long as it has it; a press meanwhile
+   does nothing) */
+#station #st-power-btn:focus {
   visibility: visible;
 }
 #station #st-power-btn:focus-visible {
@@ -758,6 +782,11 @@
   letter-spacing: 0.08em;
   color: var(--muted);
 }
+@media (max-width: 359px) {
+  #station .tg-tag .l2 {
+    letter-spacing: 0;
+  } /* (the narrowest phones: the keypad's hint inside the window, in French too) */
+}
 #station .tg-tag .sq {
   display: inline-block;
   width: 6px;
@@ -906,6 +935,10 @@
   grid-auto-flow: column;
   align-items: center;
   column-gap: 20px;
+  pointer-events: none; /* (its buttons only take the pointer, not the gap between them) */
+}
+#station .ctrl > button {
+  pointer-events: auto;
 }
 #station #st-skip,
 #station #st-sound,
@@ -1091,12 +1124,17 @@
   align-items: center;
   justify-content: center;
   font:
-    700 9.5px/1 Bahnschrift,
+    700 9.5px/1 'Barlow Semi Condensed',
+    Bahnschrift,
     'DIN Alternate',
     'Arial Narrow',
     sans-serif;
   letter-spacing: 0.04em;
-  color: rgba(28, 24, 20, 0.72);
+  color: rgb(
+    176,
+    184,
+    190
+  ); /* (the ink of the figures printed on the other keys: read on their orange and green) */
 }
 /* the terminal's column: it reads the pointer once the station is up (before, a click anywhere powers it on) */
 #station .term-zone {
@@ -1719,6 +1757,13 @@
   opacity: 0;
   visibility: hidden;
 }
+/* while a screen is read, over the console: it takes the pointer (a click beside the screen goes back; the console
+   under it out of reach while the camera moves) */
+#station #st-shield {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
 #station.reading #st-shield {
   display: block;
 }
@@ -1915,6 +1960,18 @@
     margin-right: auto;
   }
 } /* (the path gives way to the parts' links; a page without parts keeps it) */
+@media (max-width: 799px) {
+  #station .ph-line {
+    --gut: 16px;
+    letter-spacing: 0.1em;
+  }
+  #station .ph-nav button {
+    padding-inline: 6px;
+  }
+  #station .ph-nav button .n {
+    display: none;
+  }
+} /* (a phone in landscape: the parts' links set tighter, without their numbers, all inside the window) */
 #station.menu-off .ph-line {
   display: none;
 } /* (on a phone: BACK and the languages fill the band; the parts follow each other) */
@@ -2024,12 +2081,6 @@
   min-height: 46px;
   padding: 10px 20px;
   border-bottom: 1px solid rgba(214, 220, 211, 0.1);
-}
-#station .mod-n {
-  flex: none;
-  font: 500 12px/16px var(--mono);
-  letter-spacing: 0.1em;
-  color: var(--mint);
 }
 #station .mod-head :is(h1, h2, h3) {
   font: 700 14.5px/1.3 var(--screen);
@@ -2302,11 +2353,6 @@
   text-decoration: none;
   color: var(--khaki);
 }
-#station .mod.join-mod .mod-body {
-  align-content: center;
-  justify-items: center;
-  text-align: center;
-}
 #station .join-box {
   display: grid;
   justify-items: center;
@@ -2387,9 +2433,6 @@
 }
 #station .pg .go.join small {
   color: var(--ready);
-}
-#station .mod.links-mod .mod-body {
-  align-content: start;
 }
 #station .mod .links {
   display: grid;
@@ -3751,7 +3794,7 @@
   overflow: hidden;
   background: radial-gradient(120% 120% at 50% 40%, #0e110e, #070908);
   border: 1px solid rgba(214, 220, 211, 0.1);
-  touch-action: pan-y;
+  touch-action: pan-y pinch-zoom; /* (the horizontal swipe is the captures'; scrolling and pinching the browser's) */
 }
 #station .shot-img {
   display: block;
@@ -4158,6 +4201,23 @@
   border-color: color-mix(in srgb, var(--team) 55%, transparent);
   background: color-mix(in srgb, var(--team) 12%, rgba(18, 21, 15, 0.85));
 }
+@media (max-width: 700px) {
+  #station .shot-box .shot-more-btn {
+    height: auto;
+    min-height: 34px;
+    padding-block: 6px;
+  } /* (on a phone, its words on two lines, or three, rather than out of its frame) */
+}
+@media (max-width: 359px) {
+  #station .shot-team {
+    gap: 0;
+    padding-inline: 2px;
+    letter-spacing: 0.04em;
+  }
+  #station .shot-team::before {
+    display: none;
+  } /* (the narrowest phones: the names alone, as the factions' strip; the team's colour on the one shown's underline) */
+}
 #station .shot-team[aria-pressed='true']::after {
   opacity: 1;
 }
@@ -4345,7 +4405,8 @@
 }
 #station .room-mark.figure {
   font:
-    300 8.6px/1 Bahnschrift,
+    400 8.6px/1 'Barlow Semi Condensed',
+    Bahnschrift,
     'Arial Narrow',
     sans-serif;
   color: rgb(176, 184, 190);
@@ -4356,7 +4417,8 @@
   padding-left: 0.14em;
   white-space: nowrap;
   font:
-    600 calc(6.6px * var(--sound-s, 1))/1 Bahnschrift,
+    600 calc(6.6px * var(--sound-s, 1))/1 'Barlow Semi Condensed',
+    Bahnschrift,
     'DIN Alternate',
     'Arial Narrow',
     sans-serif;
@@ -4448,3 +4510,39 @@
     padding-block: 14px;
   }
 } /* (a low window: the page whole, its last captures in view) */
+/* Windows' high contrast (forced colours): the room stays as it is drawn (its pictures, its dark veils, the aiming
+   marks laid on it), and the console's own layers of text take the system's colours; what is selected or current is
+   shown by them too (Highlight), not by a colour, a background or a shadow the browser takes away */
+@media (forced-colors: active) {
+  #station {
+    forced-color-adjust: none;
+  }
+  #station > :not(#st-world, #st-vignette, #st-curtain, #st-curtain-edge, #st-veil, #st-shield) {
+    forced-color-adjust: auto;
+  }
+  #station :is(.tg-lock, .tg-lead, .tg-end) {
+    forced-color-adjust: none;
+  }
+  #station
+    :is(
+      #st-sections button[aria-current],
+      #st-factions button[aria-pressed='true'],
+      .shot-team[aria-pressed='true'],
+      .shot-list button[aria-current],
+      .ph-nav button[aria-current],
+      .hud.tr a[aria-current='page']
+    ) {
+    background: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+  }
+  #station
+    :is(#st-sections button[aria-current], .shot-list button[aria-current], .ph-nav button[aria-current])
+    :is(small, .n) {
+    color: HighlightText;
+  }
+  #station .shot-team::before,
+  #station .shot-team::after {
+    forced-color-adjust: none;
+  } /* (the team's square and underline in its colour) */
+}

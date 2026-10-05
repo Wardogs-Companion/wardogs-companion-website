@@ -16,7 +16,7 @@ const t = useTranslations(lang);
 const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== lang);
 ---
 
-<BaseLayout lang={lang} title={t('meta.title')} description={t('meta.description')}>
+<BaseLayout lang={lang} title={t('meta.title')} description={t('meta.description')} station={!!consoleMedia}>
   {/* The intro film first, over the presentation; only when the build has its media (see IntroFilm.astro). */}
   {introMedia && <IntroFilm lang={lang} media={introMedia} />}
 
@@ -43,7 +43,7 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== 
 
     <main class="hero" tabindex="-1">
       <h1 class="logo">
-        <img src="/images/logo-horizontal.png" width="680" height="240" alt="WARDOGS Companion" />
+        <img src="/images/logo-horizontal.png" width="680" height="240" alt="Wardogs Companion" />
       </h1>
       <p class="status">{t('home.status')}</p>
       <p class="tagline">{t('home.tagline')}</p>

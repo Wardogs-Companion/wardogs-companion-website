@@ -6,13 +6,16 @@ interface Props {
   lang: Lang;
   title: string;
   description: string;
+  /** the page has the console (the home page, built with its media): data-station on the root element, empty until
+   *  the console's script sets its state (station.css, station.js stationState) */
+  station?: boolean;
 }
 
-const { lang, title, description } = Astro.props;
+const { lang, title, description, station = false } = Astro.props;
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} data-station={station ? '' : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

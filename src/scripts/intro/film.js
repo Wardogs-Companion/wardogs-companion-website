@@ -1,5 +1,5 @@
-// WARDOGS Companion's intro, the home page's opening: a film of about 24.7 s, drawn by the page as a pure function of
-// time, the same on every screen; then the home page's presentation fades in.
+// Wardogs Companion's intro, the home page's opening: a film of about 24.7 s, drawn by the page as a pure function of
+// time, the same on every screen; then the page under it comes in (the console, or the presentation).
 //   1. The opening shot of the WARDOGS reveal trailer (the clip, then its last frame in 4K): the rifle over the valley,
 //      the Little Birds flying in. The scenery dims around the eyepiece on the near helicopter and the scope pushes
 //      straight in on it, faster and faster (motion blur), while the eyepiece settles to where the creator will be; at

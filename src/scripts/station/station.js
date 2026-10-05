@@ -13,6 +13,18 @@ import dataLenses from './data/lenses.json';
 import dataLights from './data/lights-calibration.json';
 
 /**
+ * The console's state (loading, ready, error), on its root, for its own rules, and on the page's root element
+ * (data-station), for the page under it (station.css: held still while the console is loading or ready). Not found
+ * from the page's rules by :has(): Chromium then restyles the whole page at each change in the console.
+ * @param {HTMLElement} root the console's root (#station)
+ * @param {'loading' | 'ready' | 'error'} state
+ */
+export function stationState(root, state) {
+  root.dataset.state = state;
+  document.documentElement.dataset.station = state;
+}
+
+/**
  * @param {HTMLElement} ROOT the console's root (#station)
  * @param {{ held?: boolean }} [options] held: the console waits, built but not started, until start() (the intro
  *   film plays over it first)
@@ -21,7 +33,7 @@ import dataLights from './data/lights-calibration.json';
  */
 export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // the root claimed: the page's style sheet no longer gives it up by itself (station.css: unclaimed)
-  ROOT.dataset.state = 'loading';
+  stationState(ROOT, 'loading');
   // onHold (see start, hold); begun: opened since the page loaded; buildGo: held from the start, the console builds only
   // once start() is called (its build is long: under the film it would stall it)
   let onHold = heldAtStart,
@@ -185,7 +197,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // fall under the window's foot); between the site's top line and, at the bottom, the sections' bar and the legal
   // lines (BANDS, screen px; the bottom one measured, measureBands); never above PHONE_ROWS.top
   const BAY_D = { x: 1452, y: 500, w: 478, h: 560 };
-  const BANDS = { top: 56, bottom: 0, bar: 0 }; // (bottom: the bar and the factions' strip, for the framing; bar: the bar alone, for a page read)
+  const BANDS = { top: 56, bottom: 0, bar: 0, foot: 0 }; // (bottom: the bar and the factions' strip, for the framing; bar: the bar alone, for a page read; foot: in landscape, the controls' row)
   // the camera at rest, on the framing: scale and offset of the world on a vw x vh screen
   function framing(vw, vh) {
     const portrait = vw / vh < 0.9;
@@ -199,12 +211,14 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
         ty: Math.min(-PHONE_ROWS.top * s, BANDS.top + h / 2 - (BAY_D.y + BAY_D.h / 2) * s),
       };
     }
-    const s = Math.min(vw / FRAMING.w, vh / FRAMING.h);
+    // (a low window, a phone's in landscape: the room above the controls' row, never under it, BANDS.foot)
+    const h = vh < 500 ? vh - BANDS.foot : vh,
+      s = Math.min(vw / FRAMING.w, h / FRAMING.h);
     return {
       portrait,
       s,
       tx: vw / 2 - (FRAMING.x + FRAMING.w / 2) * s,
-      ty: vh / 2 - (FRAMING.y + FRAMING.h / 2) * s,
+      ty: h / 2 - (FRAMING.y + FRAMING.h / 2) * s,
     };
   }
   // The bottom band in portrait: the sections' bar (SECTIONS.h high) sits SECTIONS.gap above the legal lines, which
@@ -212,12 +226,19 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // the factions' strip SECTIONS.gap above the bar, its height from its CSS (--h: lower in a short window)
   const SECTIONS = { h: 48, gap: 10 };
   function measureBands() {
-    const above = innerHeight - $('legal').getBoundingClientRect().top + SECTIONS.gap; // (the bar's bottom, from the window's foot)
+    const legalTop = $('legal').getBoundingClientRect().top;
+    const above = innerHeight - legalTop + SECTIONS.gap; // (the bar's bottom, from the window's foot)
     const strip = parseFloat(getComputedStyle($('factions')).getPropertyValue('--h')) + SECTIONS.gap;
     BANDS.bar = above + SECTIONS.h + SECTIONS.gap;
     BANDS.bottom = BANDS.bar + strip;
     setStyle($('sections'), 'bottom', above + 'px');
     if (strip) setStyle($('factions'), 'bottom', above + SECTIONS.h + SECTIONS.gap + 'px');
+    // in landscape, the foot the legal lines and the controls' row take ([ animations ] [ sound ]): framing keeps a low
+    // window's room above it, the keypad and the power out from under them
+    BANDS.foot =
+      innerHeight -
+      Math.min(legalTop, ROOT.querySelector('.ctrl').getBoundingClientRect().top) +
+      SECTIONS.gap;
   }
   // at rest, the world lands on whole device pixels: at the scale it was rasterised at, the browser then only copies it
   // (no resampling), which keeps a page without a graphics card light
@@ -422,9 +443,9 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     FAINT = 'rgba(214,220,211,.14)',
     WHITE = '#f7f8f8',
     MINT = '#9ffbc1';
-  const FONT_TERM = 'Bahnschrift, "Arial Narrow", sans-serif',
+  const FONT_TERM = '"Barlow Semi Condensed", Bahnschrift, "Arial Narrow", sans-serif',
     FONT_MONO = 'Consolas, monospace';
-  const NAME = 'Wardogs Companion'; // (not WARDOGS Companion; the same in both languages)
+  const NAME = 'Wardogs Companion'; // (the project's name, not the game's capitals; the same in both languages)
   function glass(c, w, h, base = '#070a08') {
     c.fillStyle = base;
     c.fillRect(0, 0, w, h);
@@ -2777,6 +2798,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     );
   }
   function legalHandover(t) {
+    if (!legalHandoverOn) return; // (no film played at this load: the line is the console's own from the start)
     const { at, fade } = LEGAL_SWAP,
       own = t >= at + fade;
     setStyle(
@@ -2801,6 +2823,9 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // the arrival at time t; the power-on runs on the power time p (negative or -Infinity before the press)
   function arrival(t) {
     const p = t - powerAt;
+    // ([ skip ] goes once the arrival is visibly over: the focus it had stays on the console, not lost with it)
+    if (p >= P_END && ROOT.classList.contains('hud-hidden') && document.activeElement === $('skip'))
+      ROOT.focus({ preventScroll: true });
     ROOT.classList.toggle('arriving', p < P_TAIL);
     ROOT.classList.toggle('hud-hidden', p < P_END);
     ROOT.classList.toggle('awaiting-power', !powered() && t >= WALK_END);
@@ -4277,6 +4302,11 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   }; // (swap: a tab changed, close up)
   const READ_T = { lock: 0.3, in: 1.0, out: 0.8, shade: 1, tighten: 0.12, blink: [0.08, 0.28], off: 0.1 };
   const READ_SECTIONS = ['extension', 'screenshots', 'discord', 'about'];
+  // a section asked for by the page's address (/#extension, /fr/#about…: a link straight to it; the intro film is
+  // skipped for it, seen-check.js): the console opens already on (begin), the section is read as soon as the menu is
+  // live (livePosts), and the address becomes the page's own again
+  let deep = READ_SECTIONS.includes(location.hash.slice(1)) ? location.hash.slice(1) : null;
+  if (deep) history.replaceState(history.state, '', location.pathname + location.search);
   const SCREEN_SECTION = 'extension'; // (the tower's screen opens the extension's page: what the app does, first)
   const reading = () => READ.id !== null && READ.to === 1; // (going there, or there; not coming back)
   const held = () => READ.arrived && READ.to === 1; // (there, close up)
@@ -4934,7 +4964,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     a.setAttribute('aria-label', `${name}. ${words} (${X.newTab})`);
     return a;
   }
-  // a module: its corner ticks, its header strip (its number, its title), its body
+  // a module: its corner ticks, its header strip (its title), its body
   function mod(cls, head, body) {
     return node('section', 'mod ' + cls, '', [
       ...['tl', 'tr', 'bl', 'br'].map((c) => node('i', 'mc ' + c)),
@@ -6674,6 +6704,12 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
               ? (telVisit(p.section), window.open(p.href, '_blank', 'noopener'))
               : openSection(p.section),
         ); // (the phone, while it rings, answers; during the call, hangs up)
+      else if (p.key === 'code')
+        el.addEventListener('click', () =>
+          PAD_ORDER.map((a) => PAD.keys[a]?.el)
+            .find((k) => k?.tabIndex === 0)
+            ?.focus(),
+        ); // (ENTER CODE leads to the keypad; Enter on it, the keyboard's, enters the code typed: padPress)
       $('posts').append(el);
       wireTarget(el, p.key);
       const g = makeTarget(
@@ -7319,9 +7355,13 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     );
     if (snd && soundOn) snd.key();
     padHit();
+    const before = PAD.entry;
     if (action === 'clear') PAD.entry = '';
     else if (action === 'enter') padEnter();
     else if (PAD.entry.length < PAD.len) PAD.entry += action;
+    // the code as typed, read to a screen reader (the screens draw it on canvases), unless a call speaks there
+    if (PAD.entry !== before && CALL.state === 'idle')
+      $('pad-status').textContent = PAD.entry ? [...PAD.entry].join(' ') : T().keyClearLabel;
     padShow();
   }
   // The answer to ENTER, as in the game: about 83 ms after it, in one frame (no motion), ACTIVE in lime for a known
@@ -7866,7 +7906,8 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   $('call-hang').addEventListener('click', () => callStop('ended'));
   // the real keyboard: a figure types (by its key, or by its place on the top row: on an AZERTY keyboard the figures
   // need Shift there), Backspace or Delete clears (Escape too, once the arrival is over), Enter validates when the focus
-  // is on nothing else, on the keypad or on ENTER CODE (on another control, Enter is that control's); during the call,
+  // is on nothing else, on the keypad or on ENTER CODE with a code typed (on another control, or on ENTER CODE with
+  // nothing typed, Enter is that control's: ENTER CODE leads to the keypad); during the call,
   // Escape hangs up; every key pressed shows on C1 (Space on a key of the keypad once: its click does)
   addEventListener('keydown', (e) => {
     if (
@@ -7894,14 +7935,11 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       e.preventDefault();
       callAnswer(true);
     } // (it answers the phone)
-    else if (e.key === 'Enter' && (onPad || free)) {
+    // (on ENTER CODE with nothing typed, Enter is its own: it leads to the keypad, as its click does)
+    else if (e.key === 'Enter' && (onPad || free) && (PAD.entry || e.target !== CTT.code?.btn)) {
       e.preventDefault();
       padPress('enter');
-    } else if (
-      e.key === 'Backspace' ||
-      e.key === 'Delete' ||
-      (e.key === 'Escape' && arrivalT === null && PAD.entry)
-    ) {
+    } else if (e.key === 'Backspace' || e.key === 'Delete' || (e.key === 'Escape' && PAD.entry)) {
       e.preventDefault();
       padPress('clear');
     } else if (e.key === 'Escape' && CALL.state === 'connected') {
@@ -7927,6 +7965,11 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       TERM_LOG.length = 0;
       TERM_VISIT.clear();
     } // (the keypad empty again, the phone quiet, the hack called off, their lamps going out with the station; their lines leave the terminal)
+    if (on && deep) {
+      const id = deep;
+      deep = null;
+      setTimeout(() => openSection(id)); // (the section the address asked for; out of the frame that made the menu live)
+    }
     wake();
   }
   // what can be used now: the power button switches the station off once it is up; the posts once its menu is built
@@ -8786,7 +8829,9 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // ===================================================================================================================
   // Start
   // ===================================================================================================================
-  legalOwn = reduce; // (line 2 starts on the intro's credit, then the console's own)
+  // (line 2 starts on the intro's credit when the film has just played over the console, then the console's own)
+  const legalHandoverOn = heldAtStart && !reduce;
+  legalOwn = !legalHandoverOn;
   applyLang(); // texts first: the legal lines are right from the first paint
   camera(); // the world sits at the validated framing under the curtain
   ROOT.classList.add('room-dark', 'hud-hidden');
@@ -8797,6 +8842,14 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   (async () => {
     try {
       if (onHold) await new Promise((go) => (buildGo = go));
+      // the screens' typeface, loaded with the pictures and waited for before the screens' first drawing (their titles
+      // are fitted by measuring their text); a face that does not come within 3 s leaves its fallback
+      const faces = Promise.race([
+        Promise.all(
+          [400, 500, 600, 700].map((w) => document.fonts.load(`${w} 20px "Barlow Semi Condensed"`)),
+        ),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]).catch(() => {});
       CAL = { ...CAL, ...dataLights };
       const [z, pieces, keys, glass, screenFix, knobFilm, lensFix] = [
         dataZones,
@@ -8862,6 +8915,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
         if (lensFix[l.id]?.color) l.color = lensFix[l.id].color;
       }); // (recoloured in their pictures)
       padLampsFrom(z);
+      await faces;
       SCREEN_IDS.forEach((id) => makeScreen(z.screens.find((s) => s.id === id)));
       Object.values(SCR).forEach(emptyOn);
       drawRadarBase(SCR.carte);
@@ -8897,7 +8951,8 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       wirePowerButton();
       $('skip').addEventListener('click', skipArrival);
       addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !e.repeat && arrivalT !== null && !onHold) {
+        // (while [ skip ] shows: past P_END, ESC is BACK's, for a section the menu may already open)
+        if (e.key === 'Escape' && !e.repeat && arrivalT !== null && arrivalT - powerAt < P_END && !onHold) {
           e.preventDefault();
           skipArrival();
         }
@@ -8939,10 +8994,10 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       update(sceneT, 0, true); // the first drawing of the screens, in the state just set
       wake(); // (the frame loop; with reduced motion, the still frames as they are asked for)
       if (stillT !== null && !onHold) seek(stillT);
-      ROOT.dataset.state = 'ready';
+      stationState(ROOT, 'ready');
     } catch (err) {
       // without its data the console cannot be drawn: it gives the page back (station.css: [data-state='error'])
-      ROOT.dataset.state = 'error';
+      stationState(ROOT, 'error');
       console.error(err);
     }
   })();
@@ -8952,13 +9007,15 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // In its page, under the intro film
   // ===================================================================================================================
   // the console opens, once: with reduced motion, its arrival's end state at once; else once per visit, already on
-  // (from black) if the station was switched on earlier in this tab, or its arrival
+  // (from black) if the station was switched on earlier in this tab, or if the address asks for a section (deep), or
+  // its arrival
   function begin() {
     begun = true;
     if (reduce) {
       arrivalEnd();
       liveControls();
-    } else if (visit.seen()) {
+    } else if (visit.seen() || deep) {
+      visit.remember();
       arrivalEnd();
       fadeIn();
     } else replay();
@@ -8991,15 +9048,24 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       callStop();
       hackEnd(false);
     }
+    if (begun) veil.style.opacity = '1'; // (dark under the film, which ends on black; start() lifts it: fadeIn)
     audioCtx?.suspend();
   }
   function loadLimit() {
     if (built || loadTimer) return;
-    loadTimer = setTimeout(() => {
+    // (a hidden tab draws no frame, so the build waits there: its time counts again once the tab is shown)
+    const giveUp = () => {
       if (built) return;
+      if (document.hidden) {
+        document.addEventListener('visibilitychange', () => (loadTimer = setTimeout(giveUp, LOAD_LIMIT)), {
+          once: true,
+        });
+        return;
+      }
       loadGivenUp = true;
-      ROOT.dataset.state = 'error';
-    }, LOAD_LIMIT);
+      stationState(ROOT, 'error');
+    };
+    loadTimer = setTimeout(giveUp, LOAD_LIMIT);
   }
   return { start, hold };
 }

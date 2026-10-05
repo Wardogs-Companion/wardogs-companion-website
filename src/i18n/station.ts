@@ -703,6 +703,24 @@ const en = {
           ],
         },
       ],
+      [
+        'mod',
+        {
+          title: 'Privacy and credits',
+          w: 12,
+          kind: 'cols',
+          body: [
+            [
+              'p',
+              'This site sets no cookies and no trackers. It only keeps a few display preferences in your browser: the console switched on, the intro already seen, the sound and its volume, the animations and the sections read, all forgotten when the tab is closed; and the faction you join on the radar, forgotten after 13 months. Nothing is sent anywhere.',
+            ],
+            [
+              'p',
+              "The console's sounds are real recordings from Freesound, under Creative Commons 0; their authors are credited in the site's code.",
+            ],
+          ],
+        },
+      ],
     ],
     // the screenshots, in the extension's two sides, apart (so that one knows which panel one is looking at),
     // named as the extension's page names them: the viewer panel (what viewers see on the stream), then the
@@ -1587,6 +1605,24 @@ const fr: StationTexts = {
             [
               'p',
               'Les images du jeu de ce site sont montrées pour présenter ce projet à BULKHEAD, et retirées sur simple demande.',
+            ],
+          ],
+        },
+      ],
+      [
+        'mod',
+        {
+          title: 'Confidentialité et crédits',
+          w: 12,
+          kind: 'cols',
+          body: [
+            [
+              'p',
+              "Ce site ne dépose ni cookie ni traceur. Il garde seulement quelques préférences d'affichage dans ton navigateur : la console allumée, l'intro déjà vue, le son et son volume, les animations et les sections lues, tout cela oublié à la fermeture de l'onglet ; et la faction rejointe sur le radar, oubliée au bout de 13 mois. Rien n'est envoyé.",
+            ],
+            [
+              'p',
+              'Les sons de la console sont de vrais enregistrements de Freesound, sous licence Creative Commons 0 ; leurs auteurs sont crédités dans le code du site.',
             ],
           ],
         },

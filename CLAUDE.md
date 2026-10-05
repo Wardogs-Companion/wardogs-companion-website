@@ -13,7 +13,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 - **Fidèle à l'appli.**
   - N'annonce que ce qui existe sur master. Ce qui est « À venir » reste « coming soon », et ne promets aucune date.
   - Les chiffres (273 objets, familles, équipes, cartes, classes) viennent du `README.md` de l'appli.
-  - Le nom s'écrit « Wardogs Companion » (décision de l'utilisateur du 02/10/2026). L'appli et les textes actuels du site écrivent encore « WARDOGS Companion » : on les aligne quand on y touche (le site à l'intégration de la console ; l'appli, c'est à l'utilisateur de décider). Le jeu, lui, reste WARDOGS.
+  - Le nom s'écrit « Wardogs Companion » (décision de l'utilisateur du 02/10/2026). Le site est aligné ; seuls ses textes juridiques, repris tels quels de l'appli, gardent « WARDOGS Companion ». L'appli l'écrit encore ainsi : c'est à l'utilisateur de décider quand l'aligner. Le jeu, lui, reste WARDOGS.
   - Chaque page porte la mention : projet communautaire, non officiel, sans lien avec BULKHEAD, Team17 ni Twitch. Elle est dans le pied de page commun, `src/components/SiteFooter.astro` ; sur l'accueil, la console la porte dans ses lignes légales, avec les liens vers la confidentialité et les conditions (`src/components/Station.astro`).
 - **Médias du jeu : jamais dans le dépôt**, car ils appartiennent à leurs ayants droit (BULKHEAD, Team17). Les logos de Wardogs Companion sont à nous.
   - Seul l'accueil en montre, pour présenter le projet à BULKHEAD, et ils sont retirés sur simple demande de leur part : l'intro (l'ouverture de la bande-annonce, vidéo et dernière image, et deux photos du dossier de presse) et la console (l'ordinateur de la tour recréé à partir d'images du jeu, les emblèmes des factions, des captures de l'extension). Ces fichiers sont dans le stockage privé Vercel Blob `wardogs-companion-intro-media` : le build les récupère et le site les sert sous `/media/` (`src/integrations/game-media.mjs`, voir `docs/ARCHITECTURE.md`). Tout ce qui pourrait les mettre dans le dépôt est interdit : copie dans `public/` ou `src/`, capture d'écran de l'intro ou de la console, fichier de test qui les contient. Aucun autre média du jeu sans leur accord.
@@ -71,7 +71,7 @@ Les réglages ont été faits une fois ; ne les affaiblis pas sans accord :
 - signalement privé des failles (`SECURITY.md`) ;
 - Actions : jeton en lecture seule, actions épinglées par leur empreinte, validation obligatoire des workflows venant de forks ;
 - Wiki, Projects et Issues désactivés : le support passe par Discord ;
-- Vercel : protection des forks (Git Fork Protection) activée. N'autorise jamais le déploiement d'une pull request venant d'un fork : les builds ont le jeton `BLOB_READ_WRITE_TOKEN`, qui peut écrire dans le stockage des médias de l'intro.
+- Vercel : protection des forks (Git Fork Protection) activée. N'autorise jamais le déploiement d'une pull request venant d'un fork : les builds ont le jeton `BLOB_READ_WRITE_TOKEN`, qui peut écrire dans le stockage des médias du jeu.
 
 ## Couleurs des équipes
 

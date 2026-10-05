@@ -21,6 +21,46 @@
   --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
+/* The app's typefaces, served by the site (public/fonts, SIL Open Font License 1.1, its text next to them): Barlow Semi
+   Condensed, close to the game's own interface, for every label, figure and name on the intro and the console; Barlow
+   for running text. (block: the legal lines and the controls, on screen from the first paint, stay invisible the
+   moment their face takes to come, rather than show in a fallback face and shift when it comes) */
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('/fonts/barlow-semi-condensed-latin-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 500;
+  font-display: block;
+  src: url('/fonts/barlow-semi-condensed-latin-500-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 600;
+  font-display: block;
+  src: url('/fonts/barlow-semi-condensed-latin-600-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Barlow Semi Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+  src: url('/fonts/barlow-semi-condensed-latin-700-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('/fonts/barlow-latin-400-normal.woff2') format('woff2');
+}
+
 /* (the console, #station, keeps its pseudo-elements in content-box, as it was drawn) */
 *,
 :where(:not(#station, #station *))::before,

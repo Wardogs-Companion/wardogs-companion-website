@@ -4,6 +4,7 @@
 // intro film's in src/scripts/home.js.
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { consoleMedia } from 'virtual:wardogs/game-media';
+import { stationTexts } from '../i18n/station';
 import { languages, useTranslations, type Lang } from '../i18n/ui';
 import '../styles/station.css';
 
@@ -175,7 +176,8 @@ const codes = Object.keys(languages) as Lang[];
     <button type="button" id="st-sound" aria-pressed="false" hidden></button>
   </div>
   <div class="legal" id="st-legal">
-    {/* (in the markup, so the required mention shows from the first paint; line 2 opens on the intro's credit) */}
+    {/* (in the markup, so the required mention shows from the first paint; line 2 opens on the intro's credit when the
+       film is on the page, station.js legalHandover; else on the console's own) */}
     <p id="st-legal1">
       {t('intro.legal1')}
       <span class="legal-links">
@@ -183,23 +185,23 @@ const codes = Object.keys(languages) as Lang[];
         <a href={getRelativeLocaleUrl(lang, 'terms')}>{t('footer.terms')}</a>
       </span>
     </p>
-    <p id="st-legal2">{t('intro.legal2')}</p>
+    <p id="st-legal2">{intro ? t('intro.legal2') : stationTexts[lang].legal2}</p>
   </div>
 </div>
 
 <script>
-  import { mountStation } from '../scripts/station/station.js';
+  import { mountStation, stationState } from '../scripts/station/station.js';
   import { filmIsPlaying, stationMounted } from '../scripts/home.js';
 
   const root = document.getElementById('station');
   if (root) {
     // (a script come so late that the style sheet has given the page to the presentation already: it keeps it)
-    if (getComputedStyle(root).visibility === 'hidden') root.dataset.state = 'error';
+    if (getComputedStyle(root).visibility === 'hidden') stationState(root, 'error');
     else
       try {
         stationMounted(mountStation(root, { held: filmIsPlaying() }));
       } catch (err) {
-        root.dataset.state = 'error';
+        stationState(root, 'error');
         throw err;
       }
   }

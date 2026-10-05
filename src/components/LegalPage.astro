@@ -30,10 +30,10 @@ const heading = getHeadings().find((h) => h.depth === 1)?.text ?? t(legal.label)
 const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== lang);
 ---
 
-<BaseLayout lang={lang} title={`${heading} · WARDOGS Companion`} description={t(legal.description)}>
+<BaseLayout lang={lang} title={`${heading} · Wardogs Companion`} description={t(legal.description)}>
   <header class="top">
     <a class="home" href={getRelativeLocaleUrl(lang)}>
-      WARDOGS Companion
+      Wardogs Companion
     </a>
     <nav aria-label={t('nav.switchLabel')}>
       {otherLangs.map((code) => (

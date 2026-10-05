@@ -246,8 +246,9 @@ const codes = Object.keys(languages) as Lang[];
     try {
       mountIntro(stage, home, replayBtns, { gone: filmGone, replaying: filmReplaying, focus: station });
     } catch (err) {
-      // (the film could not be mounted: the page under it at once)
+      // (the film could not be mounted: the page under it at once, scrolling)
       stage.hidden = true;
+      stage.classList.remove('lock');
       home.inert = false;
       filmGone();
       throw err;
@@ -258,31 +259,7 @@ const codes = Object.keys(languages) as Lang[];
 <style is:global>
   /* The intro's styles, every rule inside the stage (#intro). */
 
-  /* The app's typefaces, served by the site (public/fonts, SIL Open Font License 1.1, its text next to them): Barlow
-     Semi Condensed, close to the game's own interface, for every label, figure and name; Barlow for running text.
-     (block: the legal lines and the controls, on screen from the first paint, stay invisible the moment their face
-     takes to come, rather than show in a fallback face and shift when it comes; the film itself waits for all three) */
-  @font-face {
-    font-family: 'Barlow Semi Condensed';
-    font-style: normal;
-    font-weight: 500;
-    font-display: block;
-    src: url('/fonts/barlow-semi-condensed-latin-500-normal.woff2') format('woff2');
-  }
-  @font-face {
-    font-family: 'Barlow Semi Condensed';
-    font-style: normal;
-    font-weight: 600;
-    font-display: block;
-    src: url('/fonts/barlow-semi-condensed-latin-600-normal.woff2') format('woff2');
-  }
-  @font-face {
-    font-family: 'Barlow';
-    font-style: normal;
-    font-weight: 400;
-    font-display: block;
-    src: url('/fonts/barlow-latin-400-normal.woff2') format('woff2');
-  }
+  /* (its typefaces, the app's Barlow faces: declared for the whole site, src/styles/global.css) */
 
   /* The stage: over the whole window, above the presentation, from the first paint. */
   #intro {
