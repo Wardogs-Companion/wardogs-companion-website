@@ -38,6 +38,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 | Script de l'accueil (intro puis console) | `src/scripts/home.js`                                                            |
 | Médias du jeu de l'accueil (au build)    | `src/integrations/game-media.mjs`, liste `game-media.json`                       |
 | Routes (le français sous `fr/`)          | `src/pages/`                                                                     |
+| Une adresse par section de la console    | `src/scripts/station/sections.js` (la liste), `src/pages/[section].astro`        |
 | Couleurs, fond quadrillé, styles communs | `src/styles/global.css`                                                          |
 | Langues, CSP                             | `astro.config.mjs`                                                               |
 | En-têtes HTTP de sécurité                | `vercel.json`                                                                    |

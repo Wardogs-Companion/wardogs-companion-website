@@ -159,6 +159,8 @@ const en = {
   chartSignal: 'SIGNAL',
   chartVisited: 'VISITED',
   socials: { discord: ['The community server', 'Join the Discord'], github: ["The site's source code"] },
+  // each section's name in its page's title (its own address: Extension · Wardogs Companion)
+  titles: { extension: 'Extension', screenshots: 'Screenshots', discord: 'Discord', about: 'About' },
   menu: [
     ['EXTENSION', 'The Twitch extension', '273'],
     ['SCREENSHOTS', '{shots} views', '226'],
@@ -1049,6 +1051,7 @@ const fr: StationTexts = {
     discord: ['Le serveur de la communauté', 'Rejoindre le Discord'],
     github: ['Le code source du site'],
   },
+  titles: { extension: 'Extension', screenshots: 'Captures', discord: 'Discord', about: 'À propos' },
   menu: [
     ['EXTENSION', "L'extension Twitch", '273'],
     ['CAPTURES', '{shots} vues', '226'],

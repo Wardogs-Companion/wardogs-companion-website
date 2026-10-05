@@ -1,0 +1,13 @@
+---
+// One address per section of the console, in French (/fr/extension, /fr/screenshots…): the home page, opened on it.
+import HomePage from '../../components/HomePage.astro';
+import { SECTIONS } from '../../scripts/station/sections.js';
+
+export function getStaticPaths() {
+  return SECTIONS.map((section) => ({ params: { section } }));
+}
+
+const { section } = Astro.params;
+---
+
+<HomePage lang="fr" section={section} />

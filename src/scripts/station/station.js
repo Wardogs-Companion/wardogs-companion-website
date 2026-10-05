@@ -2,6 +2,7 @@
 // reads (src/components/Station.astro). mountStation(ROOT) runs it inside its root element, #station, and returns what
 // the page needs to share the screen with the intro film (src/scripts/home.js).
 import { stationTexts } from '../../i18n/station';
+import { SECTIONS as SECTION_IDS, sectionPath } from './sections.js';
 import { createConsoleSounds, fetchConsoleSounds } from './sounds.js';
 import dataZones from './data/zones.json';
 import dataPieces from './data/pieces.json';
@@ -4271,7 +4272,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       ],
     },
   ]; // (their own profiles; the community's server)
-  const MENU_IDS = ['extension', 'screenshots', 'discord', 'about']; // (the menu's entries, in the order of TXT's menu)
+  const MENU_IDS = SECTION_IDS; // (the menu's entries, in the order of TXT's menu: sections.js)
   // a section opened, the same from the tiles, the sections' bar and the keypad: on the reading screen; a section that
   // would be a link elsewhere opens it in a new tab (none now: DISCORD has its own page; the phone is its direct line,
   // its post's href)
@@ -4301,12 +4302,21 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     swap: false,
   }; // (swap: a tab changed, close up)
   const READ_T = { lock: 0.3, in: 1.0, out: 0.8, shade: 1, tighten: 0.12, blink: [0.08, 0.28], off: 0.1 };
-  const READ_SECTIONS = ['extension', 'screenshots', 'discord', 'about'];
-  // a section asked for by the page's address (/#extension, /fr/#about…: a link straight to it; the intro film is
-  // skipped for it, seen-check.js): the console opens already on (begin), the section is read as soon as the menu is
-  // live (livePosts), and the address becomes the page's own again
-  let deep = READ_SECTIONS.includes(location.hash.slice(1)) ? location.hash.slice(1) : null;
-  if (deep) history.replaceState(history.state, '', location.pathname + location.search);
+  const READ_SECTIONS = SECTION_IDS; // (each read on the reading screen)
+  // a section asked for by the page's address (/extension, /fr/about…: its own page, src/pages/[section].astro, which
+  // marks the root element; the intro film skipped for it, seen-check.js): the console opens already on (begin), the
+  // section is read as soon as the menu is live (livePosts)
+  const asked = document.documentElement.dataset.section;
+  let deep = READ_SECTIONS.includes(asked) ? asked : null;
+  // the address follows the section read (its own page's), and is the home page's again once back on the menu; the
+  // page's title and the languages' links with it (the same section in the other language)
+  function addressFor(id) {
+    const path = sectionPath(ROOT.dataset.lang, id);
+    if (location.pathname.replace(/\/$/, '') !== path.replace(/\/$/, ''))
+      history.replaceState(history.state, '', path + location.search);
+    document.title = id ? `${T().titles[id]} · ${NAME}` : NAME;
+    for (const a of document.querySelectorAll('#home a[hreflang]')) a.href = sectionPath(a.hreflang, id);
+  }
   const SCREEN_SECTION = 'extension'; // (the tower's screen opens the extension's page: what the app does, first)
   const reading = () => READ.id !== null && READ.to === 1; // (going there, or there; not coming back)
   const held = () => READ.arrived && READ.to === 1; // (there, close up)
@@ -4329,6 +4339,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       turning = was && READ.to === 0,
       other = was && !turning && id !== READ.id;
     READ.id = id;
+    addressFor(id);
     const sound = snd && soundOn; // (the lock's relay, or a tab's detent)
     if (sound && (!was || turning)) snd.lock();
     else if (sound && other) snd.tab();
@@ -4364,6 +4375,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   }
   function back() {
     if (!reading()) return;
+    addressFor(null);
     $('back').hidden = true;
     ROOT.classList.remove('read-there');
     navCurrent();
@@ -4483,6 +4495,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       veil.style.opacity = '0';
     } // (a dip on its way: the black lifted)
     if (READ.id === null) return;
+    addressFor(null);
     READ.opener = null;
     $('back').hidden = true;
     CAM.r = 0;

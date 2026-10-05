@@ -486,7 +486,7 @@
   top: 18px;
   right: 22px;
 }
-/* the languages: the page in the other language (its address, /fr/ for French) */
+/* the languages: the same page in the other language (the same section: sections.js sectionPath) */
 #station .hud.tr a {
   display: inline-block;
   padding: 8px 6px;

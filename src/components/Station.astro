@@ -5,6 +5,7 @@
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { consoleMedia } from 'virtual:wardogs/game-media';
 import { stationTexts } from '../i18n/station';
+import { sectionPath } from '../scripts/station/sections.js';
 import { languages, useTranslations, type Lang } from '../i18n/ui';
 import '../styles/station.css';
 
@@ -12,9 +13,11 @@ interface Props {
   lang: Lang;
   // The intro film is on the page: the corner offers to replay it.
   intro: boolean;
+  // The page is a section's own address: the languages lead to the same section (station.js keeps them so).
+  section?: string;
 }
 
-const { lang, intro } = Astro.props;
+const { lang, intro, section } = Astro.props;
 const t = useTranslations(lang);
 const codes = Object.keys(languages) as Lang[];
 ---
@@ -88,7 +91,7 @@ const codes = Object.keys(languages) as Lang[];
       <>
         {i > 0 && <span aria-hidden="true"> / </span>}
         <a
-          href={getRelativeLocaleUrl(code)}
+          href={sectionPath(code, section)}
           hreflang={code}
           lang={code}
           title={languages[code]}

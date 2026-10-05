@@ -84,7 +84,7 @@ The home page's console (the tower's computer, `src/components/Station.astro`), 
 
 For example: `https://wardogs-companion.vercel.app/?ct=25`.
 
-A section can also be opened straight from the address: `/#extension`, `/#screenshots`, `/#discord` or `/#about` (and under `/fr/`) skip the intro film and open the console on that section.
+Each section of the console has its own address: `/extension`, `/screenshots`, `/discord` and `/about` (and `/fr/extension`… in French). They open the console straight on that section, without the intro film; the address follows the section read.
 
 ## Security
 

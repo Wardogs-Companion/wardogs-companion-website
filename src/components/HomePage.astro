@@ -1,28 +1,36 @@
 ---
-import { getRelativeLocaleUrl } from 'astro:i18n';
 import { consoleMedia, introMedia } from 'virtual:wardogs/game-media';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import IntroFilm from './IntroFilm.astro';
 import SiteFooter from './SiteFooter.astro';
 import Station from './Station.astro';
+import { stationTexts, type StationTexts } from '../i18n/station';
+import { sectionPath } from '../scripts/station/sections.js';
 import { languages, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
+  // a section's own address (src/pages/[section].astro): the page opens on it, its name in the title
+  section?: string;
 }
 
-const { lang } = Astro.props;
+const { lang, section } = Astro.props;
 const t = useTranslations(lang);
 const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== lang);
+// (without the console, a section's address is the home page itself)
+const opened = consoleMedia && section ? section : undefined;
+const title = opened
+  ? `${stationTexts[lang].titles[opened as keyof StationTexts['titles']]} · ${t('meta.title')}`
+  : t('meta.title');
 ---
 
-<BaseLayout lang={lang} title={t('meta.title')} description={t('meta.description')} station={!!consoleMedia}>
+<BaseLayout lang={lang} {title} description={t('meta.description')} station={!!consoleMedia} section={opened}>
   {/* The intro film first, over the presentation; only when the build has its media (see IntroFilm.astro). */}
   {introMedia && <IntroFilm lang={lang} media={introMedia} />}
 
   <div id="home">
     {/* The console, over the presentation, which stays the page without it (see Station.astro, station.css). */}
-    {consoleMedia && <Station lang={lang} intro={!!introMedia} />}
+    {consoleMedia && <Station lang={lang} intro={!!introMedia} section={opened} />}
     <header class="top">
       {introMedia && (
         <button type="button" class="replay" id="intro-replay" hidden>
@@ -34,7 +42,7 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== 
       )}
       <nav aria-label={t('nav.switchLabel')}>
         {otherLangs.map((code) => (
-          <a class="lang" href={getRelativeLocaleUrl(code)} hreflang={code} lang={code}>
+          <a class="lang" href={sectionPath(code, opened)} hreflang={code} lang={code}>
             {languages[code]}
           </a>
         ))}
