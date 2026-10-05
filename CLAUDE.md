@@ -19,7 +19,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
   - Seul l'accueil en montre, pour présenter le projet à BULKHEAD, et ils sont retirés sur simple demande de leur part : l'intro (l'ouverture de la bande-annonce, vidéo et dernière image, et deux photos du dossier de presse) et la console (l'ordinateur de la tour recréé à partir d'images du jeu, les emblèmes des factions, des captures de l'extension). Ces fichiers sont dans le stockage privé Vercel Blob `wardogs-companion-intro-media` : le build les récupère et le site les sert sous `/media/` (`src/integrations/game-media.mjs`, voir `docs/ARCHITECTURE.md`). Tout ce qui pourrait les mettre dans le dépôt est interdit : copie dans `public/` ou `src/`, capture d'écran de l'intro ou de la console, fichier de test qui les contient. Aucun autre média du jeu sans leur accord.
   - Les captures du jeu qui servent de modèle sont dans `reference-ordinateur/` (l'ordinateur des tours : tirées de vidéos, découpées par partie, avec des fiches) et `reference-intro/` (les lunettes du jeu). Ces dossiers sont ignorés par Git : ils ne doivent jamais être commités ni copiés dans `public/` ou `src/`.
 - **Hébergement gratuit Vercel (plan Hobby) = usage non commercial** : pas de publicité, de dons, de sponsors ni de liens affiliés.
-- **Deux langues, même contenu.** Chaque texte s'ajoute dans `src/i18n/ui.ts`, en anglais et en français. Chaque page anglaise a son équivalent dans `src/pages/fr/`, sauf `404.astro` : elle est unique et bilingue, car Vercel ne sert que `/404.html`.
+- **Deux langues, même contenu.** Chaque texte s'ajoute dans `src/i18n/`, en anglais et en français : `ui.ts` pour les pages, `station.ts` pour la console (le français y a la même forme que l'anglais, vérifiée par le typage). Chaque page anglaise a son équivalent dans `src/pages/fr/`, sauf `404.astro` : elle est unique et bilingue, car Vercel ne sert que `/404.html`.
 - **Rien de chargé depuis ailleurs** : pas de script tiers, de police externe ni de traceur. Tout ajout doit rester compatible avec la CSP (`astro.config.mjs`) et les en-têtes (`vercel.json`).
 - **Un push sur `main` met le site en ligne.** Avant chaque push : `npm run format:check` et `npm run build` doivent passer. Pour un changement visible important, passe par une branche et une pull request pour avoir un aperçu Vercel.
 - **Git.** Messages de commit en français. Pousse après chaque commit sur `main`. Pas de force-push : `main` est protégée.
@@ -29,7 +29,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 
 | Quoi                                     | Fichier                                                    |
 | ---------------------------------------- | ---------------------------------------------------------- |
-| Textes anglais et français               | `src/i18n/ui.ts`                                           |
+| Textes anglais et français               | `src/i18n/ui.ts` ; la console : `src/i18n/station.ts`      |
 | Textes juridiques, affichés tels quels   | `src/content/legal/`                                       |
 | Squelette HTML commun (`<head>`, icônes) | `src/layouts/BaseLayout.astro`                             |
 | Contenu des pages, pied de page commun   | `src/components/`                                          |

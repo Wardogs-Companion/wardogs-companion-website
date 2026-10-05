@@ -18,7 +18,7 @@ The website is under construction, in English and in French, at **https://wardog
 ## Stack
 
 - [Astro](https://astro.build) 7, static output, TypeScript in strict mode.
-- English is the reference language; French says the same thing (`src/i18n/ui.ts`).
+- English is the reference language; French says the same thing (`src/i18n/ui.ts`; the console's texts: `src/i18n/station.ts`).
 - Hosted on [Vercel](https://vercel.com): every push to `main` goes live, every pull request gets a preview.
 - No server, no database, no cookies and no tracking for now. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for how a backend could be added later.
 - The intro's game footage is never in this repository: the build fetches it from private storage (see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)). Without it, for example in a fork, the home page shows its presentation only.

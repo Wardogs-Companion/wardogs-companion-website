@@ -2,7 +2,7 @@
 // The home page's console (src/scripts/station/station.js), rendered only when the build has its media
 // (src/integrations/game-media.mjs). Its styles: src/styles/station.css.
 import { consoleMedia } from 'virtual:wardogs/game-media';
-import type { Lang } from '../i18n/ui';
+import { useTranslations, type Lang } from '../i18n/ui';
 import '../styles/station.css';
 
 interface Props {
@@ -10,9 +10,10 @@ interface Props {
 }
 
 const { lang } = Astro.props;
+const t = useTranslations(lang);
 ---
 
-<!-- (the first paint's state, before the script runs: the room dark, the HUD hidden) -->
+{/* (the first paint's state, before the script runs: the room dark, the HUD hidden) */}
 <div id="station" class="room-dark hud-hidden" data-media={consoleMedia} data-lang={lang}>
   <div id="st-world">
     <img id="st-dark" class="room" alt="" />
@@ -149,8 +150,9 @@ const { lang } = Astro.props;
   <button type="button" class="hud" id="st-replay" hidden></button>
   <p class="hud" id="st-notice" role="alert" hidden></p>
   <div class="legal" id="st-legal">
-    <p id="st-legal1"></p>
-    <p id="st-legal2"></p>
+    {/* (in the markup, so the required mention shows from the first paint; line 2 opens on the intro's credit) */}
+    <p id="st-legal1">{t('intro.legal1')}</p>
+    <p id="st-legal2">{t('intro.legal2')}</p>
   </div>
 </div>
 
