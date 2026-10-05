@@ -8887,6 +8887,9 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       Object.values(SCR).forEach((s) => tubeOn(s, -1)); // no power yet
       // every picture is decoded before anything is shown
       await Promise.all([...world.querySelectorAll('img')].map((i) => i.decode().catch(() => {})));
+      // (a picture that could not load, the network cut: no console with a hole in it, the page given back)
+      const missing = [...world.querySelectorAll('img')].filter((i) => !i.naturalWidth).length;
+      if (missing) throw new Error(`${missing} of the console's pictures could not load`);
       // two frames and a quarter second under the black, so the first paint of the big pictures happens unseen
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(r, 250))));
       if (loadGivenUp) return; // (too late: the page is the presentation's)
