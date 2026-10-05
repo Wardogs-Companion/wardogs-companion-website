@@ -1,0 +1,10 @@
+---
+// Work page for the console's port (step 8b), never merged: the console alone, as it will open the home page.
+import { consoleMedia } from 'virtual:wardogs/game-media';
+import Station from '../../components/Station.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout lang="fr" title="Wardogs Companion" description="Console (work page)">
+  {consoleMedia && <Station lang="fr" />}
+</BaseLayout>

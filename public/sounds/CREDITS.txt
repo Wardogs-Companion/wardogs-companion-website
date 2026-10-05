@@ -1,0 +1,24 @@
+The console's sounds (Wardogs Companion website)
+
+Real recordings from Freesound, each under Creative Commons 0 (CC0 1.0, public domain dedication:
+https://creativecommons.org/publicdomain/zero/1.0/). They are cut, cleaned and levelled for the console;
+their authors are credited here with thanks, though CC0 does not require it.
+
+bouton.m4a       Push Toggle Switch 3, by cookies+policy
+                 https://freesound.org/people/cookies+policy/sounds/556632/
+relais.m4a       Switch.Big.Power.wav, by jessepash
+                 https://freesound.org/people/jessepash/sounds/139970/
+ecran.m4a        CRT computer monitor startup, by corkob
+ecran-petit.m4a  https://freesound.org/people/corkob/sounds/415594/
+ronflement.m4a   Power station interior ATM.aif, by alexmol
+                 https://freesound.org/people/alexmol/sounds/132563/
+tic.m4a          Computer Keyboard Foley Percussion, by 8bitmyketison
+                 https://freesound.org/people/8bitmyketison/sounds/701113/
+bip.m4a          Mainboard Error Code, by qubodup
+                 https://freesound.org/people/qubodup/sounds/167848/
+pave.m4a         home alarm, keypad, beeps, close perspective.wav, by SizEffects
+                 https://freesound.org/people/SizEffects/sounds/618895/
+sonnerie.m4a     Office_phone ring_medium loud.aif, by vrodge
+                 https://freesound.org/people/vrodge/sounds/119555/
+decroche.m4a     Telephone - Pick up hang up 01 (L Close, R Distant), by othercee
+raccroche.m4a    https://freesound.org/people/othercee/sounds/273350/

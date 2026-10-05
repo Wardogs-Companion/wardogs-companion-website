@@ -1,0 +1,4415 @@
+/* The home page's console (src/components/Station.astro, src/scripts/station/station.js). Every rule is under
+   #station, the console's root: the classes its script sets on the root (power-on, reading, reduce…) are on #station. */
+#station {
+  --ground: #0a0c08; /* the black the intro ends on, so the two pages join without a colour step */
+  --khaki: #c3c98f;
+  --muted: #9ca188;
+  --legal: #7d826c;
+  --mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  /* the main power's states: standby (amber, "check") and running (green, "ready"), as on military panels */
+  --standby: #d6ab3c;
+  --ready: #69d58c;
+  /* the screens' own: their phosphor's mint, their typeface (as the canvases draw them: MINT, FONT_TERM) */
+  --mint: #9ffbc1;
+  --screen: Bahnschrift, 'Barlow Semi Condensed', 'Arial Narrow', sans-serif;
+}
+#station * {
+  box-sizing: border-box;
+}
+:root:has(#station),
+:root:has(#station) body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #0a0c08; /* (--ground: the variables are on #station) */
+}
+/* (clip, not only hidden: the stage must never scroll, even when the keyboard focuses something partly outside the
+   window, such as ENTER CODE on a portrait tablet; hidden stays for the browsers without clip) */
+#station {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  overflow: clip;
+  background: var(--ground);
+}
+
+/* ---- the world: rasterised once at the validated framing (where the camera sits at first paint) and kept, so the
+   walk-in only moves and scales that raster (no re-rasterising of the room pictures, no hitch) and ends crisp ---- */
+#station #st-world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2192px;
+  height: 1261px;
+  transform-origin: 0 0;
+  will-change: transform;
+}
+#station .room,
+#station .piece {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+#station .room {
+  left: 0;
+  top: 0;
+  width: 2192px;
+  height: 1261px;
+}
+/* The layers that fade during the arrival are announced to the browser, so it prepares them ahead of time rather
+   than when they first appear. In the full version, while the light comes on, each bay shows the lit room through a
+   soft mask, cropped to the bay's own box; the bay layers exist (at opacity 0, prepared unseen) from the start of the
+   arrival until the lit room takes over. */
+#station #st-lit,
+#station .piece.lit,
+#station .tube,
+#station .warm,
+#station .litbay {
+  will-change: opacity;
+}
+/* a filmstrip piece (the volume knob): its box shows one frame; the strip slides behind it, frame by frame */
+#station .piece.film {
+  overflow: hidden;
+}
+#station .piece.film .strip {
+  position: absolute;
+  left: 0;
+  top: 0;
+  max-width: none;
+  will-change: transform;
+}
+/* the power button: released until it is pressed, then pressed (latched); one replaces the other */
+#station .piece[data-p='bouton-alim-enfonce'],
+#station.power-on .piece[data-p='bouton-alim'] {
+  visibility: hidden;
+}
+#station.power-on .piece[data-p='bouton-alim-enfonce'] {
+  visibility: visible;
+}
+/* the handset off its hook while the call is on: tilted about its plug (the room's cord goes on from there: the
+   handset piece ends at it), the cradle's hook showing, a little shadow under it; back on its hook
+   when the call ends */
+#station .piece[data-p='telephone-combine'] {
+  transform-origin: 31.5px 169.5px;
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
+    filter 0.35s ease;
+}
+#station.call-on .piece[data-p='telephone-combine'] {
+  transform: rotate(-8deg);
+  filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.5));
+}
+#station.reduce .piece[data-p='telephone-combine'] {
+  transition: none;
+} /* (#station.reduce: motion reduced, by the system's setting or by [ animations ]: the script's one state, motionSet) */
+/* the lit faces of the keys of bays A to C, over the room where every key is off */
+#station .key {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0;
+  will-change: opacity;
+}
+#station .litbay {
+  position: absolute;
+  display: none;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 2192px 1261px;
+}
+#station.lighting .litbay {
+  display: block;
+}
+/* the room's own border melts into the dark (seen only from far, at the start of the walk-in) */
+#station #st-rim {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2192px;
+  height: 1261px;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, var(--ground) 0, transparent 140px, transparent 2052px, var(--ground) 2192px),
+    linear-gradient(180deg, var(--ground) 0, transparent 110px, transparent 1151px, var(--ground) 1261px);
+}
+/* beyond the validated framing (x 193-1990, y 155-1053) the room falls into shadow; faded in as the walk-in ends */
+#station #st-edge {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2192px;
+  height: 1261px;
+  pointer-events: none;
+  will-change: opacity;
+  background:
+    linear-gradient(90deg, var(--ground) 113px, transparent 193px, transparent 1990px, var(--ground) 2070px),
+    linear-gradient(180deg, var(--ground) 95px, transparent 155px, transparent 1053px, var(--ground) 1123px);
+}
+#station.lite #st-edge {
+  will-change: auto;
+}
+#station.lite #st-curtain-edge {
+  display: none;
+} /* the light version has no separate edge darkness */
+
+/* ---- screens: a box of the screen's own size, projected onto its quad, holding a tube (what the screen shows) ---- */
+#station .scr {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  overflow: hidden;
+  background: radial-gradient(120% 120% at 45% 40%, #111412, #070908);
+}
+#station .scr canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+#station .tube {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% 50%;
+}
+/* the glow of the phosphor while the tube heats; the picture then comes up through it (see tubeOn) */
+#station .warm {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(closest-side, var(--glow), transparent);
+}
+/* a tube switched off: the beam, all its energy in one bright line across the middle, then a dot */
+#station .beam {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 3px;
+  margin-top: -1.5px;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--beam) 10%, var(--beam) 90%, transparent);
+  box-shadow: 0 0 5px 1px var(--beam);
+  will-change: transform, opacity;
+}
+/* the glass: faint raster lines, darker corners, a soft reflection */
+#station .scr::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: none;
+  background:
+    linear-gradient(118deg, rgba(255, 255, 255, 0.045) 0%, rgba(255, 255, 255, 0) 38%),
+    radial-gradient(130% 120% at 50% 45%, transparent 60%, rgba(0, 0, 0, 0.45) 100%),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.16) 0 var(--line, 1px), transparent var(--line, 1px) 3px);
+}
+/* the radar and the oscilloscope draw their trace directly (vector displays): no raster lines */
+#station .scr.vec::after {
+  background:
+    linear-gradient(118deg, rgba(255, 255, 255, 0.045) 0%, rgba(255, 255, 255, 0) 38%),
+    radial-gradient(130% 120% at 50% 45%, transparent 60%, rgba(0, 0, 0, 0.45) 100%);
+}
+#station.finish .scr::after {
+  display: block;
+}
+/* each lit screen spills a little of its light onto its metal bezel; during the arrival the lit room picture carries
+   that light already, so the shadow comes once it is over (one transition, not a repaint at every frame) */
+#station.finish .scr {
+  box-shadow: 0 0 24px 5px var(--spill, rgba(200, 230, 210, 0.05));
+  transition: box-shadow 0.8s;
+}
+#station.finish.arriving .scr {
+  box-shadow: none;
+}
+
+/* radar: a plan position indicator, as a ship's: its base drawn once on the screen's canvas (drawRadarBase); over it
+   the scope (radarDraw: the sweep, its afterglow, the echoes it paints, the clutter), added to the glass as a
+   phosphor's light is (screen); the faction joined, its echo ringed */
+#station .radar {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+#station .radar .scope {
+  position: absolute;
+  left: 0;
+  top: 0;
+  mix-blend-mode: screen;
+}
+#station.lite .radar .scope {
+  mix-blend-mode: normal;
+} /* (LITE: the processor blends; laid over as it is, nearly the same light) */
+/* the radar's light on its bezel and the console round it, turning with the sweep: a layer in the screen's plane, its
+   projection widened by --pad (radarLight), fading away from the glass (the mask's first layer), the glass itself left
+   out (the second, subtracted from it); the light strongest at the line and just behind it, fading as its afterglow
+   does, a little ahead; added as light is (screen); faded in with the receiver (will-change: ready before it shows, as
+   the arrival's layers); none in LITE (blending a layer that turns, at each frame, is the processor's) nor without the
+   mask's subtraction: the bezel keeps the screen's still spill, .scr */
+#station .radar-light {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  mix-blend-mode: screen;
+  will-change: opacity;
+  mask:
+    radial-gradient(closest-side, #000 64%, transparent 94%),
+    linear-gradient(#000 0 0) var(--pad) var(--pad) / var(--w) var(--h) no-repeat;
+  mask-composite: subtract;
+}
+#station .radar-light i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--d);
+  height: var(--d);
+  margin: calc(var(--d) / -2) 0 0 calc(var(--d) / -2);
+  will-change: transform;
+  background: conic-gradient(
+    rgba(140, 190, 255, 0.6) 0deg,
+    rgba(140, 190, 255, 0) 24deg,
+    rgba(140, 190, 255, 0) 200deg,
+    rgba(140, 190, 255, 0.1) 260deg,
+    rgba(140, 190, 255, 0.32) 325deg,
+    rgba(140, 190, 255, 0.6) 360deg
+  );
+}
+#station .radar .mark {
+  position: absolute;
+  width: 19px;
+  height: 19px;
+  margin: -9.5px 0 0 -9.5px;
+  border: 1.5px solid var(--c);
+  border-radius: 50%;
+  box-shadow: 0 0 5px var(--c);
+  opacity: 0;
+} /* (the faction joined: its echo ringed, whether the sweep lights it or not) */
+
+/* needles and lamps: small elements of their own, turned or lit by the compositor (with a graphics card nothing is
+   redrawn; without one, LITE, the processor redraws round what moves: the needles stay still at rest
+   there, needleStep) */
+#station #st-fx,
+#station #st-lamps,
+#station #st-needles {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2192px;
+  height: 1261px;
+  pointer-events: none;
+}
+#station .needle {
+  position: absolute;
+  overflow: visible;
+  will-change: transform, opacity;
+}
+#station .lamp {
+  position: absolute;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  opacity: 0;
+  will-change: opacity;
+}
+#station .lamp > i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+/* the light an active button casts on the panel around it: soft-light lightens the surface under it and keeps its
+   texture and contrast, like light falling on it (screen would lay a milky white veil over it, like a flash) */
+#station .spill {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  will-change: opacity;
+}
+#station .pool {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  opacity: 0;
+  will-change: opacity;
+} /* (a coloured lamp's light on the metal: lampPool) */
+/* the arrival starts in the dark: the lit room and the lit pieces are hidden until the power-on reveals them (it sets
+   their opacity) */
+#station.room-dark #st-lit,
+#station.room-dark .piece.lit {
+  opacity: 0;
+}
+
+/* ---- over the world ---- */
+#station #st-vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 100% at 50% 46%, transparent 62%, rgba(3, 4, 2, 0.38) 100%);
+}
+/* The dark of the arrival, in two layers whose opacity only changes (compositor work): an even black, and a
+   vignette for the edges, which stay darker a little longer. Opaque from the first paint: nothing shows before the
+   page is ready. It sits under the site layer, so the legal lines are readable from the first frame. */
+#station #st-curtain,
+#station #st-curtain-edge {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+#station #st-curtain {
+  background: var(--ground);
+}
+#station #st-curtain-edge {
+  background: radial-gradient(ellipse 70% 65% at 50% 46%, transparent 0%, var(--ground) 100%);
+  opacity: 0;
+}
+
+/* ---- site layer, same language as the intro ---- */
+#station .hud {
+  position: absolute;
+  font: 400 12px/16px var(--mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--khaki);
+  white-space: nowrap;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+  transition: opacity 0.6s;
+}
+#station.hud-hidden .hud {
+  opacity: 0;
+  visibility: hidden;
+}
+#station.seeking .scr,
+#station.seeking .hud {
+  transition: none;
+} /* frame-by-frame capture: no real-time fades */
+#station .hud.tl {
+  top: 22px;
+  left: 26px;
+}
+/* read by screen readers only (the keypad's answer) */
+#station .sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+#station .hud.tl .sq {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 10px;
+  background: var(--khaki);
+}
+#station .hud.tr {
+  top: 18px;
+  right: 22px;
+}
+#station .hud.tr button {
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  padding: 4px 2px;
+  cursor: pointer;
+}
+#station .hud.tr button.on {
+  color: var(--khaki);
+}
+#station .hud button:focus-visible {
+  outline: 1px solid var(--khaki);
+  outline-offset: 2px;
+}
+/* mockup tool: replays the arrival; under the language buttons */
+#station #st-replay {
+  top: 46px;
+  right: 22px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  background: rgba(8, 10, 9, 0.6);
+  border: 1px solid rgba(195, 201, 143, 0.3);
+  padding: 4px 10px;
+  cursor: pointer;
+}
+/* the main power button, in the intro's language. Four corners converge on it and snap into a lock, a leader line
+   draws up to a tag whose plate opens from its centre and whose text decodes letter by letter; a hint line at the
+   bottom. All of it follows the arrival's clock (powerTarget), placed in screen pixels from the button's world
+   position (placePowerTarget); only transforms, opacity and letters change. A button over it takes the click
+   and the keyboard. */
+#station #st-power {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+#station #st-power-btn {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: none;
+}
+#station.awaiting-power #st-power-btn {
+  pointer-events: auto;
+}
+/* once the station is on, the button switches it off (it shows even when the start-up's target is gone) */
+#station.can-switch #st-power-btn {
+  pointer-events: auto;
+  visibility: visible;
+}
+#station #st-power-btn:focus-visible {
+  outline: 1px solid var(--khaki);
+  outline-offset: 7px;
+}
+/* the target's look (.tg-*), shared by the power button and the sound's controls */
+#station .tg-lock {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--khaki);
+  will-change: transform, opacity;
+}
+#station .tg-corner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  width: var(--cl, 10px);
+  height: var(--cl, 10px);
+  border: 0 solid currentColor;
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9));
+  will-change: transform;
+}
+#station .tg-corner.tl {
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+#station .tg-corner.tr {
+  border-top-width: 2px;
+  border-right-width: 2px;
+}
+#station .tg-corner.bl {
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+}
+#station .tg-corner.br {
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+}
+/* the leader: a hair line on a dark casing, drawn up from the lock to the tag; a small square where it meets the tag */
+#station .tg-lead {
+  position: absolute;
+  left: -0.5px;
+  width: 1px;
+  background: var(--khaki);
+  box-shadow: 0 0 0 1px rgba(6, 8, 4, 0.5);
+  opacity: 0.8;
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+#station .tg-lead.down {
+  transform-origin: 50% 0;
+}
+#station .tg-end {
+  position: absolute;
+  left: -1.5px;
+  width: 3px;
+  height: 3px;
+  background: var(--khaki);
+  will-change: opacity;
+}
+#station .tg-tag {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 7px 14px 8px 12px;
+  white-space: nowrap;
+  will-change: transform, opacity;
+}
+#station :is(.tg-tag, #st-call) .plate {
+  position: absolute;
+  inset: 0;
+}
+#station .tg-tag .plate {
+  will-change: transform;
+} /* (the tags' alone: scaled from their centre, powerTarget, drawTarget) */
+/* the tags' plate, a discreet holo touch (the holo windows', lit fully): tinted with the screens' mint, fine scan
+   lines, its edge a shade softer than theirs, its glow faint (read as often as the console is pointed at); its glow
+   none in LITE */
+#station .tg-tag .plate {
+  background: linear-gradient(rgba(159, 251, 193, 0.07), rgba(159, 251, 193, 0.025)), rgba(12, 15, 10, 0.88);
+  border: 1px solid rgba(195, 201, 143, 0.5);
+  box-shadow:
+    0 0 14px rgba(159, 251, 193, 0.08),
+    inset 0 0 12px rgba(159, 251, 193, 0.06);
+}
+#station .tg-tag .plate::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(214, 240, 210, 0.05) 0 1px, transparent 1px 3px);
+}
+#station.lite .tg-tag .plate {
+  box-shadow: none;
+}
+#station
+  :is(
+    .tg-tag,
+    #st-sections,
+    #st-factions,
+    #st-call,
+    #st-back,
+    .pg .go,
+    .shot-btn,
+    .zoom-frame,
+    .fig-cell,
+    .holo-card
+  )
+  .c {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border: 0 solid var(--khaki);
+}
+#station .tg-tag .c {
+  will-change: opacity;
+} /* (only the tags' marks fade, frame by frame: powerTarget, drawTarget; the buttons' and the pictures' change at once if at all, a picture's on hover: a layer each, dozens on a page, for nothing) */
+#station
+  :is(
+    .tg-tag,
+    #st-sections,
+    #st-factions,
+    #st-call,
+    #st-back,
+    .pg .go,
+    .shot-btn,
+    .zoom-frame,
+    .fig-cell,
+    .holo-card
+  )
+  .c.tl {
+  top: -1px;
+  left: -1px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+#station
+  :is(
+    .tg-tag,
+    #st-sections,
+    #st-factions,
+    #st-call,
+    #st-back,
+    .pg .go,
+    .shot-btn,
+    .zoom-frame,
+    .fig-cell,
+    .holo-card
+  )
+  .c.tr {
+  top: -1px;
+  right: -1px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+}
+#station
+  :is(
+    .tg-tag,
+    #st-sections,
+    #st-factions,
+    #st-call,
+    #st-back,
+    .pg .go,
+    .shot-btn,
+    .zoom-frame,
+    .fig-cell,
+    .holo-card
+  )
+  .c.bl {
+  bottom: -1px;
+  left: -1px;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+}
+#station
+  :is(
+    .tg-tag,
+    #st-sections,
+    #st-factions,
+    #st-call,
+    #st-back,
+    .pg .go,
+    .shot-btn,
+    .zoom-frame,
+    .fig-cell,
+    .holo-card
+  )
+  .c.br {
+  bottom: -1px;
+  right: -1px;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+}
+#station .tg-tag p {
+  position: relative;
+  margin: 0;
+  white-space: pre;
+} /* (the states and hints padded to their longest keep their spaces: a tag never changes width) */
+#station .tg-tag .l1 {
+  font: 600 13px/16px var(--mono);
+  letter-spacing: 0.2em;
+  color: var(--khaki);
+}
+#station .tg-tag .l2 {
+  margin-top: 3px;
+  font: 400 11px/15px var(--mono);
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+#station .tg-tag .sq {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 9px;
+  vertical-align: 1px;
+  background: currentColor;
+  will-change: opacity;
+}
+#station .tg-tag .st {
+  color: var(--standby);
+}
+#station .tg-tag .st.on {
+  color: var(--ready);
+}
+/* the curved arrow round a control: a hair line on a dark casing, drawn along its length (pathLength 1), its head
+   last */
+#station .tg-arc {
+  position: absolute;
+  overflow: visible;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+#station .tg-arc path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+#station .tg-arc .arc {
+  stroke-dasharray: 1 1;
+}
+#station .tg-arc .case {
+  stroke: rgba(6, 8, 4, 0.55);
+  stroke-width: 3.5;
+}
+#station .tg-arc .line {
+  stroke: var(--khaki);
+  stroke-width: 1.5;
+}
+/* the sound controls' targets, in screen pixels over the world (placeTargets) */
+#station #st-ctl-targets {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+#station .ctl-tg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  visibility: hidden;
+}
+#station.seeking #st-ctl-targets {
+  visibility: hidden;
+}
+/* letters waiting to be decoded, or already wiped out, keep their room: the boxes never change size */
+#station :is(.tg-tag, #st-call, .holo-card, .zoom-titles) .hid,
+#station #st-power-line .hid {
+  color: transparent;
+  text-shadow: none;
+}
+#station #st-power-line {
+  position: absolute;
+  left: 50%;
+  top: 14px;
+  padding: 5px 14px;
+  font: 400 12px/16px var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--khaki);
+  white-space: nowrap;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  visibility: hidden;
+  transform: translateX(-50%);
+}
+#station #st-power-line .plate {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 10, 9, 0.62);
+  border-top: 1px solid rgba(195, 201, 143, 0.35);
+  border-bottom: 1px solid rgba(195, 201, 143, 0.35);
+  will-change: transform;
+}
+#station #st-power-line .txt {
+  position: relative;
+}
+/* under it, the countdown to the automatic start */
+#station #st-power-line .count {
+  position: relative;
+  display: block;
+  margin-top: 4px;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+/* on a wide screen, in the middle of the top screen (dark until the station starts) */
+#station #st-power-line.on-screen {
+  top: 0;
+  left: 0;
+  text-align: center;
+}
+/* a thin scan line crosses the hint, twice, its bright edge ahead of a faint trail */
+#station #st-power-line .scan {
+  position: absolute;
+  left: 0;
+  top: 1px;
+  bottom: 1px;
+  width: 30px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0), currentColor);
+  border-right: 1px solid #f1f3e8;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+/* the hint line: at the top, in the middle, like a mission objective (the site's own top line is hidden until the
+   station is on); on a phone, under that line, on two lines if needed */
+@media (max-width: 700px) {
+  #station #st-power-line {
+    white-space: normal;
+    width: calc(100% - 32px);
+    text-align: center;
+    top: 52px;
+    letter-spacing: 0.08em;
+    font-size: 11px;
+  }
+}
+/* skipping the arrival, as in the intro (same place, same look): [ skip ] at the bottom right while it plays; the
+   veil makes the short dip to black (never a hard cut) */
+#station #st-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--ground);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.32s ease;
+}
+#station .ctrl {
+  position: absolute;
+  right: 24px;
+  bottom: 10px;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  column-gap: 20px;
+}
+#station #st-skip,
+#station #st-sound,
+#station #st-motion {
+  appearance: none;
+  margin: 0;
+  padding: 6px 2px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font:
+    500 13px/16px 'Barlow Semi Condensed',
+    Bahnschrift,
+    'Arial Narrow',
+    sans-serif;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.6s ease,
+    color 0.2s ease,
+    visibility 0s 0.6s;
+}
+#station.arriving.hud-hidden:not(.seeking) #st-skip {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.6s ease,
+    color 0.2s ease;
+}
+#station :is(#st-skip, #st-sound, #st-motion):is(:hover, :focus-visible) {
+  color: #e4e6da;
+}
+#station :is(#st-skip, #st-sound, #st-motion):focus-visible {
+  outline: 1px solid var(--khaki);
+  outline-offset: 2px;
+}
+/* the sound, off by default; on, the button takes the accent. [ animations ] the same way: on unless motion is
+   reduced (the system's setting, or the visitor's choice for the visit: motionSet); in [ skip ]'s place once the
+   arrival is over, after it has gone ([ skip ] and Escape are the way out of the arrival's motion while it plays), so
+   that the row keeps to two buttons, in the room the legal lines leave it (the intro's rule: from 601 to 1100 px wide,
+   242 px beside them) */
+#station #st-sound {
+  opacity: 1;
+  visibility: visible;
+  transition: color 0.2s ease;
+}
+#station :is(#st-sound, #st-motion)[aria-pressed='true'] {
+  color: var(--khaki);
+}
+#station.seeking #st-sound {
+  visibility: hidden;
+}
+#station :is(#st-skip, #st-motion) {
+  grid-area: 1 / 1;
+  justify-self: end;
+}
+#station:not(.arriving.hud-hidden):not(.seeking) #st-motion {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.6s ease 0.6s,
+    color 0.2s ease,
+    visibility 0s 0.6s;
+}
+/* the console's own sound controls under the audio monitor: the volume knob and the sound switch, over their
+   pieces; the monitor shows what they do */
+#station #st-controls {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2192px;
+  height: 1261px;
+  pointer-events: none;
+}
+#station .ctl {
+  position: absolute;
+  pointer-events: auto;
+  touch-action: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  -webkit-tap-highlight-color: transparent;
+}
+#station .ctl.knob {
+  border-radius: 50%;
+  cursor: grab;
+}
+#station .ctl.knob.dragging {
+  cursor: grabbing;
+}
+#station .ctl.lever {
+  border-radius: 4px;
+  cursor: pointer;
+}
+#station .ctl:focus-visible {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: 3px;
+}
+/* the posts (the menu's entries, the reading screen, ENTER CODE, the phone), over their place on the console; they
+   take the pointer and the keyboard once the station is up (before, a click anywhere powers it on). Their target's
+   corners are their focus mark: no outline on top of them. */
+#station #st-posts {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2192px;
+  height: 1261px;
+  pointer-events: none;
+}
+#station .post {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  pointer-events: none;
+  visibility: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+#station.posts-live .post {
+  pointer-events: auto;
+  visibility: visible;
+}
+/* a post or a control outside the window (a phone shows bay D) takes neither the pointer nor the keyboard */
+#station.posts-live .post.off-view,
+#station .ctl.off-view {
+  pointer-events: none;
+  visibility: hidden;
+}
+/* a focused post shows the outline only while its corners are elsewhere (the pointer took the target) */
+#station .post.zone {
+  cursor: default;
+} /* (pointed at only: its own controls are what one uses) */
+#station .post.echo {
+  border-radius: 50%;
+} /* (a radar's echo, round) */
+/* the keypad's keys, inside its zone (they take the pointer and the keyboard with it); a key's flash, its face
+   whitening as it is pressed, and the two coloured keys' legends, each laid on its key's quad (project) */
+#station .padkey {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+#station .padkey:focus-visible {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: 1px;
+}
+#station .keyflash,
+#station .keylabel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  pointer-events: none;
+  user-select: none;
+}
+/* a key pressed lights in its own colour: its face's (measured on the lit room) brought to full light, its brightest
+   channel at 245 (CLEAR's and ENTER's in their colour, not white); the figures' keys, a neutral grey, light white */
+#station .keyflash {
+  --lit: 242, 246, 240;
+  border-radius: 2px;
+  background: rgba(var(--lit), 0.62);
+  opacity: 0;
+  will-change: opacity;
+}
+#station .keyflash.clear {
+  --lit: 245, 125, 70;
+} /* (its face 80, 41, 23) */
+#station .keyflash.enter {
+  --lit: 88, 245, 160;
+} /* (its face 19, 52, 34) */
+#station .keylabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font:
+    700 9.5px/1 Bahnschrift,
+    'DIN Alternate',
+    'Arial Narrow',
+    sans-serif;
+  letter-spacing: 0.04em;
+  color: rgba(28, 24, 20, 0.72);
+}
+/* the terminal's column: it reads the pointer once the station is up (before, a click anywhere powers it on) */
+#station .term-zone {
+  position: absolute;
+  pointer-events: none;
+  cursor: default;
+}
+#station.posts-live:not(.seeking) .term-zone {
+  pointer-events: auto;
+}
+/* the light under the pointer on the menu's tiles (after Aceternity's Card Spotlight): the phosphor lit where the
+   pointer is, a soft glow and the screen's dot mask showing through it, in the screen's mint; inside the tile, on the
+   top screen's tube (it goes with the picture); only while the pointer is on the tile */
+#station .spot {
+  position: absolute;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  mix-blend-mode: screen;
+  background: radial-gradient(
+    circle 80px at var(--x, 50%) var(--y, 50%),
+    rgba(159, 251, 193, 0.12),
+    transparent 75%
+  );
+}
+#station .spot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(159, 251, 193, 0.55) 0 0.7px, transparent 1.1px) 0 0 / 4px 4px;
+  -webkit-mask-image: radial-gradient(
+    circle 64px at var(--x, 50%) var(--y, 50%),
+    rgba(0, 0, 0, 0.6),
+    transparent
+  );
+  mask-image: radial-gradient(circle 64px at var(--x, 50%) var(--y, 50%), rgba(0, 0, 0, 0.6), transparent);
+}
+#station .spot.on {
+  opacity: 1;
+}
+#station:not(.posts-live) .spot {
+  opacity: 0;
+}
+/* when the menu is out of view (a phone, a tablet in portrait: the framing shows bay D), its sections as a bar of
+   big buttons above the legal lines (placed by measureBands), in the tags' language: a plate, corner marks, the name
+   in khaki capitals and the code in green; the same destinations as the tiles */
+#station #st-sections {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  height: 48px;
+  display: none;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 8px;
+}
+#station.posts-live.menu-off:not(.seeking) #st-sections {
+  display: grid;
+}
+/* while a screen is read, the bar is the page's navigation (NAV_IDS: the menu's sections; the one read in green, as an
+   entry matched): on a phone where it is; on a computer at the top of the page once close, between BACK and the
+   languages (#station.read-there) */
+#station.read-there:not(.menu-off) #st-sections {
+  display: grid;
+  top: 12px;
+  left: 50%;
+  right: auto;
+  width: min(680px, calc(100% - 300px));
+  height: 40px;
+  transform: translateX(-50%);
+}
+#station :where(#st-sections button, #st-factions button, #st-call .acts > *, #st-back, .pg .go, .shot-btn) {
+  position: relative;
+  margin: 0;
+  padding: 0 4px;
+  border: 1px solid rgba(200, 206, 170, 0.38);
+  background: rgba(18, 21, 15, 0.85);
+  color: var(--khaki);
+  font: 600 11px/1.2 var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+#station :where(#st-call .acts > *, dialog.zoom .shot-btn) {
+  border-color: rgba(195, 201, 143, 0.5);
+  background: rgba(195, 201, 143, 0.06);
+  color: #e4e6da;
+} /* (the holo windows', lit as them; no weight: pressed, matched and hovered still win) */
+#station :is(#st-sections button, .pg .go) small {
+  display: block;
+  margin-top: 4px;
+  font: 400 10px/1 var(--mono);
+  letter-spacing: 0.08em;
+  color: var(--ready);
+}
+#station
+  :where(#st-sections button, #st-factions button, #st-call .acts > *, #st-back, .pg .go, .shot-btn):active {
+  background: rgba(105, 213, 140, 0.14);
+}
+/* the entry whose code starts with the figures typed on the keypad */
+#station :is(#st-sections button.match, #st-sections button[aria-current], #st-call .join) {
+  border-color: var(--ready);
+  background: rgba(105, 213, 140, 0.14);
+}
+/* on a phone (menu-off), the factions over the sections' bar (placed by measureBands; not while a page is read):
+   FACTION and the one joined, then a button each, its emblem and its name, in the bar's language; the one joined lit
+   in its colour (a touch on it leaves it); --h: its height, read by measureBands */
+#station #st-factions {
+  --h: 60px;
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  height: var(--h);
+  display: none;
+  flex-direction: column;
+}
+#station.posts-live.menu-off:not(.seeking):not(.reading) #st-factions:has(button) {
+  display: flex;
+}
+@media (max-height: 699px) {
+  #station #st-factions {
+    --h: 36px;
+  }
+  #station #st-factions p {
+    display: none;
+  }
+} /* (a short window: the buttons alone, lower, for the console; the one joined still lit) */
+#station.call-on #st-factions {
+  visibility: hidden;
+} /* (a call answered: its box in the strip's place, the strip back once it ends) */
+#station #st-factions p {
+  margin: 0 0 6px;
+  font: 600 10px/14px var(--mono);
+  letter-spacing: 0.14em;
+  color: var(--khaki);
+}
+#station #st-factions p b {
+  font-weight: 600;
+  color: var(--c, var(--khaki));
+}
+#station #st-factions .row {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+#station #st-factions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+}
+#station #st-factions img {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+#station #st-factions button[aria-pressed='true'] {
+  border-color: var(--c);
+  background: color-mix(in srgb, var(--c) 18%, rgba(18, 21, 15, 0.85));
+  color: #f7f8f8;
+}
+@media (max-width: 359px) {
+  #station #st-factions img {
+    display: none;
+  }
+} /* (the narrowest phones: the names alone) */
+#station #st-sections .ico {
+  display: none;
+} /* on a phone, a pictogram over each name (buildSections) */
+#station.menu-off #st-sections .ico[width] {
+  display: block;
+  width: 15px;
+  height: 15px;
+  margin: 0 auto 3px;
+}
+@media (max-width: 359px) {
+  /* (the narrowest phones: the names alone, as the factions' strip, set tighter: each name and code on one line, in the phones' monospace too) */
+  #station.menu-off #st-sections .ico[width] {
+    display: none;
+  }
+  #station #st-sections button {
+    padding: 0 2px;
+    letter-spacing: 0.04em;
+  }
+  #station #st-sections button small {
+    letter-spacing: 0;
+  }
+}
+#station #st-sections button.dim {
+  opacity: 0.7;
+} /* (an entry the figures typed do not lead to: quieter, still read at AA on the ground, its name 5.7:1 and its code 5.5:1; not dimmed, 10.7:1 and 10.2:1) */
+/* a person's card, a hologram from the radar (cardOpen): the window over the whole site, the card and its beam
+   placed by cardPlace; a dark ground nearly opaque tinted with the radar's blue-white, fine scan lines, its edges lit,
+   never taller than the window (its words scroll then, inside its frame: .holo-body); on the ABOUT page, the handle a
+   link to it */
+#station dialog.holo {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  overflow: hidden;
+}
+#station dialog.holo::backdrop {
+  background: rgba(2, 6, 12, 0.55);
+}
+#station .holo-beam {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  transform-origin: 50% 100%;
+  background: linear-gradient(to top, rgba(220, 235, 255, 0.9), rgba(150, 200, 255, 0.2));
+  box-shadow: 0 0 8px rgba(140, 195, 255, 0.55);
+  opacity: 0.5;
+}
+#station .holo-card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  width: 340px;
+  max-width: calc(100% - 32px);
+  max-height: calc(100% - 32px);
+  padding: 18px 18px 16px;
+  color: #dcecff;
+  font: 400 14px/1.45 var(--screen);
+  border: 1px solid rgba(170, 210, 255, 0.55);
+  box-shadow:
+    0 0 22px rgba(120, 180, 255, 0.22),
+    inset 0 0 18px rgba(120, 180, 255, 0.12);
+  background: linear-gradient(rgba(70, 130, 210, 0.16), rgba(70, 130, 210, 0.07)), rgba(6, 14, 26, 0.9);
+  --holo-edge: #cfe3ff;
+} /* (the projection's blue over a dark ground: read over the console, not through it) */
+#station .holo-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(190, 220, 255, 0.07) 0 1px, transparent 1px 3px);
+}
+#station .holo-body {
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(170, 210, 255, 0.35) transparent;
+}
+#station .holo-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 28px;
+}
+#station .holo-mark {
+  flex: none;
+  width: 40px;
+  height: 40px;
+}
+#station .holo-kicker {
+  margin: 0;
+  font: 600 10px/14px var(--mono);
+  letter-spacing: 0.2em;
+  color: rgba(170, 210, 255, 0.8);
+}
+#station .holo-name {
+  margin: 2px 0 0;
+  font: 700 26px/1 var(--screen);
+  letter-spacing: 0.06em;
+  color: #f2f7ff;
+  text-shadow: 0 0 8px rgba(140, 195, 255, 0.5);
+}
+#station .holo-rows {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 12px;
+  margin: 14px 0 0;
+  font: 400 11px/16px var(--mono);
+  letter-spacing: 0.1em;
+}
+#station .holo-rows dt {
+  color: rgba(170, 210, 255, 0.7);
+}
+#station .holo-rows dd {
+  margin: 0;
+  color: #e6f0ff;
+}
+#station .holo-text {
+  margin: 12px 0 0;
+  color: #d6e6ff;
+}
+#station .holo-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+#station .holo-link,
+#station .holo-close {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(170, 210, 255, 0.5);
+  background: rgba(30, 60, 110, 0.35);
+  color: #e6f0ff;
+  font: 600 11px/1 var(--mono);
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  cursor: pointer;
+}
+#station .holo-link {
+  min-height: 32px;
+  padding: 0 8px;
+  letter-spacing: 0.1em;
+}
+#station .holo-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  font-size: 16px;
+  letter-spacing: 0;
+}
+#station :is(.holo-link, .holo-close):is(:hover, :focus-visible) {
+  background: rgba(120, 180, 255, 0.22);
+}
+#station :is(.holo-link, .holo-close):focus-visible {
+  outline: 1.5px solid #cfe3ff;
+  outline-offset: 2px;
+}
+#station.lite :is(.holo-card, .holo-beam) {
+  box-shadow: none;
+}
+#station.lite .holo-name {
+  text-shadow: none;
+}
+#station .card-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-decoration-color: rgba(159, 251, 193, 0.55);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+#station .card-link:is(:hover, :focus-visible) {
+  color: var(--mint);
+}
+#station .card-link:focus-visible {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: 2px;
+}
+#station
+  :where(
+    #st-sections button,
+    #st-factions button,
+    #st-call .acts > *,
+    #st-back,
+    .pg .go,
+    .shot-btn
+  ):focus-visible {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: 3px;
+}
+/* the holo windows in the site's colours, after the person's card: the call's box and a capture enlarged. A dark
+   ground nearly opaque (read over the console, not through it) tinted with the screens' mint, fine scan lines, its
+   edges lit, its corners brighter; at its head our emblem, a kicker small and a title large in mint; its buttons lit
+   as it (above). Each unfolds from its foot, its heading decoded once (holoOpen). */
+#station :is(#st-call .plate, .zoom-frame) {
+  background: linear-gradient(rgba(159, 251, 193, 0.11), rgba(159, 251, 193, 0.04)), rgba(8, 11, 8, 0.94);
+  border: 1px solid rgba(195, 201, 143, 0.6);
+  box-shadow:
+    0 0 24px rgba(159, 251, 193, 0.14),
+    inset 0 0 20px rgba(159, 251, 193, 0.1);
+}
+#station :is(#st-call .plate, .zoom-frame)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(214, 240, 210, 0.07) 0 1px, transparent 1px 3px);
+}
+#station :is(#st-call, .zoom-frame, .holo-card) > .c {
+  width: 8px;
+  height: 8px;
+  border-color: var(--holo-edge, #e4e6da);
+} /* (the card's in its blue: --holo-edge) */
+#station :is(.call-mark, .zoom-mark) {
+  flex: none;
+  width: 36px;
+  height: 36px;
+}
+#station :is(.call-kicker, .zoom-kicker) {
+  margin: 0;
+  font: 600 10px/14px var(--mono);
+  letter-spacing: 0.2em;
+  color: rgba(195, 201, 143, 0.85);
+}
+#station :is(.call-title, .zoom-title) {
+  margin: 2px 0 0;
+  font: 700 24px/1 var(--screen);
+  letter-spacing: 0.06em;
+  color: var(--mint);
+  text-shadow: 0 0 8px rgba(159, 251, 193, 0.45);
+}
+#station.lite :is(#st-call .plate, .zoom-frame) {
+  box-shadow: none;
+}
+#station.lite :is(.call-title, .zoom-title) {
+  text-shadow: none;
+}
+/* the call's box, at the bottom in the middle, above the legal lines (in portrait, above the sections' bar:
+   placeCall), a holo window: CALL 112, the time on its line; the state with the station's voice (its bars move
+   while it speaks: callType). What the station says, typed (the letters still to come keep their place: the box never
+   changes size); then the invitation, in green as an entry matched, a new tab (↗); HANG UP all along. */
+#station #st-call {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: min(560px, calc(100% - 32px));
+  padding: 16px 18px;
+  transform: translateX(-50%);
+}
+#station #st-call .talk p {
+  margin: 0;
+}
+#station #st-call .call-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+#station #st-call .call-titles {
+  flex: 1;
+  min-width: 0;
+} /* (the time on the kicker's line: the state and its voice the whole width, even on the narrowest phone) */
+#station #st-call .call-kicker {
+  display: flex;
+  align-items: baseline;
+}
+#station #st-call .call-title {
+  white-space: nowrap;
+}
+#station #st-call-state {
+  display: inline-block;
+} /* (its width that of its word: callTexts) */
+#station #st-call .voice {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 16px;
+  margin-left: 12px;
+}
+#station #st-call .voice i {
+  width: 3px;
+  height: 100%;
+  background: var(--mint);
+  box-shadow: 0 0 4px rgba(159, 251, 193, 0.5);
+  opacity: 0.55;
+  transform: scaleY(0.4);
+  transform-origin: 50% 100%;
+} /* (at rest: the line open, quiet) */
+#station #st-call.talking .voice i {
+  opacity: 1;
+  animation: st-call-voice 0.55s ease-in-out infinite alternate;
+} /* (each bar its own pace: a voice, not a pulse) */
+#station #st-call.talking .voice i:nth-child(2) {
+  animation-duration: 0.42s;
+  animation-delay: -0.2s;
+}
+#station #st-call.talking .voice i:nth-child(3) {
+  animation-duration: 0.63s;
+  animation-delay: -0.45s;
+}
+#station #st-call.talking .voice i:nth-child(4) {
+  animation-duration: 0.48s;
+  animation-delay: -0.1s;
+}
+@keyframes st-call-voice {
+  from {
+    transform: scaleY(0.3);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+#station #st-call .time {
+  margin-left: auto;
+  padding-left: 12px;
+  font: 400 12px/14px var(--mono);
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+#station #st-call .talk {
+  position: relative;
+  margin-top: 12px;
+  font: 400 15px/1.45 var(--screen);
+  letter-spacing: 0.01em;
+  color: #e8f0e2;
+  text-shadow: 0 0 8px rgba(159, 251, 193, 0.18);
+}
+#station #st-call .talk .cur {
+  background: var(--khaki);
+  color: transparent;
+  text-shadow: none;
+}
+#station #st-call .acts {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+}
+#station #st-call .acts > * {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 14px;
+  text-decoration: none;
+} /* (its colours with the bar's buttons, above) */
+#station :is(#st-call .acts > *, .pg .go, .shot-btn):hover {
+  background: rgba(200, 206, 170, 0.12);
+}
+#station #st-call .join {
+  visibility: hidden;
+  color: #effbf2;
+}
+#station #st-call .join::after {
+  content: '↗' / '';
+  margin-left: 8px;
+}
+#station #st-call .join:hover {
+  background: rgba(105, 213, 140, 0.24);
+}
+@media (max-width: 600px) {
+  #station #st-call {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  #station #st-call .acts > * {
+    padding: 0 8px;
+  }
+} /* (on a narrow phone, REJOINDRE LE DISCORD on one line, in the phones' monospace too, wider than Windows') */
+@media (max-width: 359px) {
+  #station #st-call .acts {
+    gap: 8px;
+  }
+  #station #st-call .acts > * {
+    padding: 0 6px;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+  }
+} /* (the narrowest phones: still one line, set tighter as the sections' bar) */
+#station #st-call.done .join {
+  visibility: visible;
+  animation: st-call-join 0.3s ease-out both;
+}
+@keyframes st-call-join {
+  from {
+    opacity: 0;
+  }
+}
+#station.reduce #st-call.done .join {
+  animation-duration: 0s;
+} /* (its duration, not its name: motion back never starts it again) */
+#station.reduce #st-call .voice i {
+  animation: none;
+}
+#station.lite #st-call .voice i {
+  box-shadow: none;
+}
+#station.lite #st-call .talk {
+  text-shadow: none;
+}
+/* while the reading screen is read close up, the rest of the console in the dark (the ground's black, cut out along
+   the bezel's outline, the screen post's, 1 px out), then its frame too, at the end of the approach (cut out along the
+   glass, READ_GLASS: the frame's photo, enlarged 5 times, is blurred beside the sharp page, a difference that would
+   show just before the full screen); only their opacity changes */
+#station #st-focus,
+#station #st-focus-in {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2192px;
+  height: 1261px;
+  pointer-events: none;
+  opacity: 0;
+  will-change: opacity;
+  background: var(--ground);
+}
+#station #st-focus {
+  clip-path: path(evenodd, 'M0 0H2192V1261H0Z M1045 526L1436 526L1445 805L1043 805Z');
+}
+#station #st-focus-in {
+  clip-path: path(evenodd, 'M0 0H2192V1261H0Z M1062 548L1426 548L1426 779L1062 779Z');
+}
+#station.lite :is(#st-focus, #st-focus-in) {
+  will-change: auto;
+}
+/* BACK, at the page's top left once close, in the site's name's place (which leaves meanwhile): a button of the
+   sections' bar's family (corner marks, khaki capitals), with its key (ESC; none on a touch screen) */
+#station.reading .hud.tl {
+  opacity: 0;
+  visibility: hidden;
+}
+#station.reading #st-replay,
+#station.reduce #st-replay {
+  visibility: hidden;
+} /* (the mockup's REPLAY: out of the page's way; with reduced motion, no arrival to play) */
+/* while a screen is read, over the console: it takes the pointer (a click beside the screen goes back) */
+#station #st-shield {
+  position: absolute;
+  inset: 0;
+  display: none;
+}
+#station.reading #st-shield {
+  display: block;
+}
+#station #st-back {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+#station #st-back[hidden] {
+  display: none;
+}
+#station #st-back::before {
+  content: '◀' / '';
+}
+#station #st-back .key {
+  padding: 1px 5px;
+  border: 1px solid rgba(200, 206, 170, 0.3);
+  font-weight: 400;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+#station #st-back:hover {
+  background: rgba(200, 206, 170, 0.12);
+}
+#station #st-back:not([hidden]) {
+  animation: st-call-join 0.3s ease-out both;
+}
+#station.reduce #st-back:not([hidden]) {
+  animation-duration: 0s;
+} /* (as the call's: its duration) */
+/* the page read on the reading screen: its text laid on the glass (sharp at any size, selectable, read by screen
+   readers), in the screens' own colours: white, the phosphor's mint, amber for what is still to come. The glass covers
+   the window, so the page is the window, its centre the glass's. Its text keeps between the site's lines (pagePlace:
+   BACK and the sections at the top, the legal lines at the bottom, on a phone the sections' bar too), in .view, which
+   scrolls (the wheel, the keys once focused, a finger), its edges fading. Shown once close, swept in by a scan line
+   (pageSweep); leaving, it goes with its tube (pageTube). The canvas under it draws the glass and its lines. */
+#station #st-page {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  will-change: transform;
+} /* (its own layer: the tube's squeeze scales it, never draws it again) */
+#station #st-page .view {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 96px;
+  bottom: 56px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  pointer-events: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(159, 251, 193, 0.32) transparent;
+  -webkit-mask-image: linear-gradient(transparent, #000 18px, #000 calc(100% - 18px), transparent);
+  mask-image: linear-gradient(transparent, #000 18px, #000 calc(100% - 18px), transparent);
+}
+#station #st-page .view:focus {
+  outline: none;
+}
+#station #st-page .view:focus-visible {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: -20px;
+} /* (the other controls' ring, inside the fading edges, 18, and clear of the scrollbar) */
+/* the scan line: a bright edge, the phosphor just written glowing behind it */
+#station #st-page .scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -72px;
+  height: 72px;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  background: linear-gradient(rgba(159, 251, 193, 0), rgba(159, 251, 193, 0.1));
+  border-bottom: 1px solid rgba(228, 255, 238, 0.9);
+  box-shadow: 0 2px 12px rgba(159, 251, 193, 0.4);
+}
+/* the bands: the bar's zone, a shade darker than the glass and closed by a rule, with the page's own header line (as
+   the top screen's MAIN MENU line: where one is, a graduated rule, the page's parts, the link, a clock); the legal
+   lines' zone the same at the foot. The site's chrome in khaki; the page's content, on the glass, in the phosphor's
+   mint. Inside #st-page: swept in with it, gone with its tube. */
+#station #st-page-head,
+#station #st-page-foot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+#station #st-page-head {
+  top: 0;
+  height: 96px;
+  background: linear-gradient(rgba(5, 7, 5, 0.66), rgba(5, 7, 5, 0.5));
+  border-bottom: 1px solid rgba(214, 220, 211, 0.17);
+}
+#station #st-page-foot {
+  bottom: 0;
+  height: 56px;
+  background: rgba(5, 7, 5, 0.5);
+  border-top: 1px solid rgba(214, 220, 211, 0.12);
+}
+#station .ph-line {
+  --gut: max(40px, calc((100% - 1920px) / 2 + 40px));
+  position: absolute;
+  left: var(--gut);
+  right: var(--gut);
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font: 500 11.5px/16px var(--mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+}
+#station .ph-line .sq {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  background: var(--khaki);
+}
+#station .ph-line b {
+  font-weight: 500;
+  color: #e4e6da;
+}
+#station .ph-line .sep {
+  color: var(--khaki);
+}
+#station .ph-line .rule,
+#station .part-head .rule {
+  flex: 1;
+  height: 7px;
+  min-width: 24px;
+  background:
+    repeating-linear-gradient(90deg, rgba(214, 220, 211, 0.26) 0 1px, transparent 1px 12px) 0 100% / 100% 4px
+      no-repeat,
+    linear-gradient(rgba(214, 220, 211, 0.14), rgba(214, 220, 211, 0.14)) 0 100% / 100% 1px no-repeat;
+}
+#station .ph-nav {
+  display: flex;
+  gap: 4px;
+  pointer-events: auto;
+}
+#station .ph-nav:empty {
+  display: none;
+} /* (a page without parts) */
+#station .ph-nav button {
+  appearance: none;
+  margin: 0;
+  padding: 5px 9px;
+  border: 0;
+  background: none;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  color: var(--muted);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+#station .ph-nav button .n {
+  margin-right: 8px;
+  color: var(--khaki);
+  opacity: 0.7;
+}
+#station .ph-nav button:hover {
+  color: #e4e6da;
+}
+#station .ph-nav button[aria-current] {
+  color: var(--khaki);
+  box-shadow: inset 0 -2px var(--khaki);
+}
+#station .ph-nav button[aria-current] .n {
+  opacity: 1;
+}
+#station .ph-nav button:focus-visible {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: 2px;
+}
+@media (max-width: 1250px) {
+  #station .ph-line:has(.ph-nav:not(:empty)) :is(.ph-path, .ph-path + .rule) {
+    display: none;
+  }
+  #station .ph-line:has(.ph-nav:not(:empty)) .sq {
+    margin-right: auto;
+  }
+} /* (the path gives way to the parts' links; a page without parts keeps it) */
+#station.menu-off .ph-line {
+  display: none;
+} /* (on a phone: BACK and the languages fill the band; the parts follow each other) */
+
+/* the page: a grid of modules over the window's width (12 columns, 40 px gutters, 1920 px at most); its opening grid
+   (its hero, its figures, its idea), then its parts, each a heading band and a grid of its own (a part's modules fill
+   its rows, whatever their number) */
+#station .pg {
+  --gut: 40px;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 24px var(--gut) 34px;
+  color: #d3d8cf;
+  font: 400 16.5px/1.6 var(--screen);
+  text-shadow: 0 0 10px rgba(159, 251, 193, 0.08);
+}
+#station .pg :is(h1, h2, h3, h4, p, ul, dl, dd) {
+  margin: 0;
+}
+#station .pg :is(h1, h2):focus {
+  outline: none;
+} /* (focused to be read and scrolled from, not used: no ring) */
+#station .grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+#station .part {
+  margin-top: 44px;
+  scroll-margin-top: 24px;
+}
+#station .part-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+#station .part-head .n {
+  font: 500 13px/16px var(--mono);
+  letter-spacing: 0.14em;
+  color: var(--mint);
+}
+#station .part-head h2 {
+  font: 700 clamp(21px, 1.5vw, 27px)/1.1 var(--screen);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f1f3ec;
+}
+/* a module: a plate a shade darker than the glass, a hair frame, small corner ticks in the phosphor's mint (the
+   screen's own frames: a content's, not a button's), a header strip (its number in its part, its title), its body */
+#station .mod {
+  position: relative;
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: rgba(8, 10, 8, 0.4);
+  border: 1px solid rgba(214, 220, 211, 0.13);
+}
+#station .mod.w3 {
+  grid-column: span 3;
+}
+#station .mod.w6 {
+  grid-column: span 6;
+}
+#station .mod.w8 {
+  grid-column: span 8;
+}
+#station .mod.w12 {
+  grid-column: 1 / -1;
+}
+#station .mod.tall {
+  grid-row: span 2;
+}
+#station .mod > .mc {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border: 0 solid rgba(159, 251, 193, 0.5);
+  pointer-events: none;
+}
+#station .mod > .mc.tl {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+#station .mod > .mc.tr {
+  top: -1px;
+  right: -1px;
+  border-width: 2px 2px 0 0;
+}
+#station .mod > .mc.bl {
+  bottom: -1px;
+  left: -1px;
+  border-width: 0 0 2px 2px;
+}
+#station .mod > .mc.br {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 2px 2px 0;
+}
+#station .mod-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 46px;
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(214, 220, 211, 0.1);
+}
+#station .mod-n {
+  flex: none;
+  font: 500 12px/16px var(--mono);
+  letter-spacing: 0.1em;
+  color: var(--mint);
+}
+#station .mod-head :is(h1, h2, h3) {
+  font: 700 14.5px/1.3 var(--screen);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #eef1e8;
+}
+#station .mod-body {
+  flex: 1;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 18px 22px 22px;
+}
+#station .mod-body p {
+  max-width: 68ch;
+}
+#station .mod h4 {
+  margin-top: 6px;
+  font: 500 12px/16px var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+#station .mod ul {
+  display: grid;
+  gap: 10px;
+  padding: 0;
+  list-style: none;
+}
+#station .mod ul.two {
+  display: block;
+  columns: 2;
+  column-gap: 36px;
+}
+#station .mod ul.two li {
+  break-inside: avoid;
+  margin-bottom: 10px;
+}
+#station .mod li {
+  position: relative;
+  padding-left: 20px;
+}
+#station .mod li::before {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 0.78em;
+  width: 8px;
+  height: 2px;
+  background: var(--mint);
+}
+/* a state still to come (the extension, a tab): amber, as the station's standby */
+#station .pg-state,
+#station .soon .chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 11px;
+  border: 1px solid currentColor;
+  color: var(--standby);
+  background: rgba(214, 171, 60, 0.06);
+  font: 500 11.5px/16px var(--mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+#station :is(.pg-state, .soon .chip)::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+}
+#station .soon {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 4px;
+}
+/* the hero: the kicker and the state in its header strip, the name, the line and the paragraph under it */
+#station .mod.hero .mod-head {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+#station .pg-kicker {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 500 12px/16px var(--mono);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+#station .pg-kicker::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  background: currentColor;
+}
+#station .mod.hero .mod-body {
+  align-content: center;
+  gap: 0;
+  padding: 26px 30px 30px;
+}
+#station .mod.hero h1 {
+  font: 700 clamp(40px, 5vw, 96px)/1 var(--screen);
+  letter-spacing: 0.005em;
+  color: #f4f6f0;
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.1);
+}
+#station .mod.hero .pg-lead {
+  margin-top: 14px;
+  font: 600 clamp(20px, 1.75vw, 32px)/1.2 var(--screen);
+  color: var(--mint);
+}
+#station .mod.hero .pg-text {
+  margin-top: 18px;
+  max-width: 64ch;
+  font-size: 17.5px;
+}
+/* the figures, as a readout: the label, a dotted leader, the value; a line of names under some (mono, small) */
+#station .mod.data dl {
+  display: grid;
+}
+#station .mod.data .mod-body {
+  align-content: center;
+} /* (a readout in the middle of its module, as tall as its row) */
+#station .mod.data .row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 14px;
+  padding: 8px 0;
+}
+#station .mod.data dt {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font: 500 12px/16px var(--mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#station .mod.data dt::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px dotted rgba(214, 220, 211, 0.3);
+}
+#station .mod.data dd {
+  font: 600 21px/1 var(--screen);
+  letter-spacing: 0.04em;
+  color: var(--mint);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+#station .mod.data .names {
+  flex-basis: 100%;
+  margin-top: 5px;
+  font: 400 11px/14px var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8f957f;
+}
+/* a module of side-by-side paragraphs (the idea) */
+#station .mod.cols .mod-body {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  column-gap: 44px;
+}
+/* the catalogue: its paragraphs (a stack) beside its list of families, each with its count and a bar in proportion */
+#station .mod.cat .mod-body {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  column-gap: 48px;
+}
+#station .stack {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+#station .cat {
+  gap: 14px;
+}
+#station .mod .cat li {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) 52px minmax(0, 3fr);
+  column-gap: 18px;
+  align-items: center;
+  align-content: start;
+  min-height: 46px;
+  padding: 0;
+} /* (every family the same height, with or without its detail) */
+#station .mod .cat li::before {
+  content: none;
+}
+#station .cat .f {
+  font: 600 14.5px/1.3 var(--screen);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #eef1e8;
+}
+#station .cat .c {
+  font: 600 21px/1 var(--screen);
+  color: var(--mint);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+#station .cat .bar {
+  grid-column: 3;
+  height: 8px;
+  width: calc(var(--w) * 100%);
+  min-width: 4px;
+  background: linear-gradient(90deg, rgba(159, 251, 193, 0.75), rgba(159, 251, 193, 0.35));
+}
+#station .cat .d {
+  grid-column: 3;
+  margin-top: 4px;
+  font-size: 14.5px;
+  line-height: 1.45;
+  color: #b9bfb3;
+}
+/* a section opened from the page (PIECES.go): the sections' bar's button, its name over its code, at the foot of its
+   module */
+#station .pg .go {
+  justify-self: start;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 46px;
+  margin-top: 6px;
+  padding: 6px 16px;
+  font-size: 12px;
+}
+/* the states' readout (PIECES.status): a state still to come in amber, as the station's standby; one ready in green */
+#station .mod.data dd.st {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font: 500 11.5px/16px var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--standby);
+  white-space: nowrap;
+}
+#station .mod.data dd.st::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: currentColor;
+}
+#station .mod.data dd.st.ready {
+  color: var(--ready);
+}
+#station .mod.data .status .row {
+  padding: 11px 0;
+}
+/* a statement: one sentence, set larger, on the phosphor's rule */
+#station .mod.note .mod-body {
+  align-content: center;
+}
+/* the community page: its state online; the invitation (its mark, a large link of the bar's family, where it leads);
+   the other places, a card each (its mark, its name, its words, ↗) */
+#station .pg-state.ready {
+  color: var(--ready);
+  background: rgba(105, 213, 140, 0.06);
+}
+#station .pg a.go {
+  text-decoration: none;
+  color: var(--khaki);
+}
+#station .mod.join-mod .mod-body {
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+}
+#station .join-box {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+#station .join-signal {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+#station .join-signal .wave {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1.5px solid var(--mint);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+#station .mod.lock .join-signal .wave {
+  animation: st-join-wave 1.5s cubic-bezier(0.2, 0.6, 0.35, 1) backwards;
+  animation-delay: calc(0.55s + var(--k) * 0.32s);
+} /* (an incoming call, once: three waves) */
+@keyframes st-join-wave {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+  8% {
+    opacity: 0.85;
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(2.3);
+  }
+} /* (none before its time: it rises, then spreads and fades) */
+#station .hero-join {
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  padding: 12px 0;
+  border-left: 1px solid rgba(214, 220, 211, 0.1);
+}
+#station .hero-join .join-box {
+  gap: 26px;
+}
+#station .hero-join .join-mark {
+  width: 104px;
+  height: 104px;
+}
+@media (max-width: 1099px) {
+  #station .hero-join {
+    padding: 26px 0 4px;
+    border-left: 0;
+    border-top: 1px solid rgba(214, 220, 211, 0.1);
+  }
+}
+#station .join-mark {
+  width: 64px;
+  height: 64px;
+  fill: none;
+  stroke: var(--mint);
+  stroke-width: 0.7;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px rgba(159, 251, 193, 0.35));
+}
+#station .pg .go.join {
+  justify-self: center;
+  align-items: center;
+  min-height: 56px;
+  margin: 0;
+  padding: 10px 28px;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+}
+#station .pg .go.join small {
+  color: var(--ready);
+}
+#station .mod.links-mod .mod-body {
+  align-content: start;
+}
+#station .mod .links {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#station .mod .links li {
+  padding: 0;
+}
+#station .mod .links li::before {
+  content: none;
+}
+#station .pg .go.link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 58px;
+  margin: 0;
+  padding: 10px 16px;
+  text-align: left;
+}
+#station .link-mark {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  fill: var(--mint);
+}
+#station .link-t {
+  flex: 1;
+  display: grid;
+  gap: 4px;
+}
+#station .link-t b {
+  font: 700 14px/1.2 var(--screen);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #eef1e8;
+}
+#station .pg .go.link .link-t small {
+  display: block;
+  margin: 0;
+  font: 400 11px/14px var(--mono);
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-transform: none;
+}
+#station .link-go {
+  font-size: 16px;
+  color: var(--khaki);
+}
+/* a module with its illustration: wide, the text and the picture side by side (flip: the picture first); narrower
+   (or a narrow window), the picture under the text. Its pictures framed by the buttons' corner ticks, enlarged with a
+   click; as its module locks, each comes in from the top behind a scan line */
+#station .mod.with-fig .mod-body {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+#station .mod.with-fig.w12 .mod-body {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  column-gap: 32px;
+}
+#station .mod.with-fig.w12.flip .mod-body {
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+}
+#station .mod.with-fig.flip .fig {
+  order: -1;
+}
+#station .fig-cap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #b3baae;
+  text-align: center;
+}
+#station .mod.with-fig.fig-below .mod-body {
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 22px;
+} /* (a picture too wide to sit beside the text) */
+#station .mod.with-fig.fig-below .mod-text ul {
+  display: block;
+  columns: 2;
+  column-gap: 40px;
+}
+#station .mod.with-fig.fig-below .mod-text li {
+  break-inside: avoid;
+  margin-bottom: 10px;
+} /* (as ul.two: lines of a readable length) */
+@media (max-width: 1099px) {
+  #station .mod.with-fig.fig-below .mod-text ul {
+    columns: 1;
+  }
+}
+#station .mod-text {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+#station .fig {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  min-width: 0;
+}
+#station .fig-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 100%;
+}
+#station .fig-cell {
+  appearance: none;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  line-height: 0;
+  cursor: zoom-in;
+  -webkit-tap-highlight-color: transparent;
+}
+#station .fig-cell img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+#station .fig-cell .c {
+  opacity: 0.7;
+}
+#station .fig-cell:hover .c {
+  opacity: 1;
+}
+#station .fig-cell:focus-visible {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: 4px;
+}
+#station .fig-cell::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: rgba(228, 255, 238, 0.85);
+  box-shadow: 0 0 8px rgba(159, 251, 193, 0.45);
+  opacity: 0;
+  pointer-events: none;
+}
+#station #st-page.anim .mod:not(.on) .fig-cell img {
+  visibility: hidden;
+}
+#station .mod.lock .fig-cell img {
+  animation: st-fig-in 0.42s cubic-bezier(0.3, 0.6, 0.4, 1) backwards;
+  animation-delay: calc(0.2s + var(--i, 0) * 90ms);
+}
+#station .mod.lock .fig-cell::after {
+  animation: st-fig-scan 0.42s cubic-bezier(0.3, 0.6, 0.4, 1) backwards;
+  animation-delay: calc(0.2s + var(--i, 0) * 90ms);
+}
+@keyframes st-fig-in {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+@keyframes st-fig-scan {
+  from {
+    top: 0;
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  to {
+    top: 100%;
+    opacity: 0;
+  }
+}
+@media (max-width: 1099px) {
+  #station .mod.with-fig.w12 .mod-body,
+  #station .mod.with-fig.w12.flip .mod-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #station .mod.with-fig.flip .fig {
+    order: 0;
+  }
+}
+#station dialog.zoom.one > .shot-btn {
+  display: none;
+} /* (an illustration enlarged: alone) */
+/* a capture explained: the capture (as wide as FIG.k allows: --w) beside its numbered lines (flip: on the right);
+   its marks over it, each a numbered square at its zone's corner, the zone framed while it or its line is pointed at;
+   one under the other when narrower. As its module locks, each mark and its line come in, one after another */
+#station .mod.anno-mod .mod-body {
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: center;
+  column-gap: 44px;
+  padding: 26px 28px;
+}
+#station .mod.anno-mod.flip .mod-body {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+#station .mod.anno-mod.flip .anno-fig {
+  order: 1;
+}
+#station .anno-fig {
+  display: grid;
+  justify-items: center;
+  min-width: 0;
+}
+#station .anno-pic {
+  position: relative;
+  width: min(100%, var(--w));
+}
+#station .anno-pic .fig-cell {
+  display: block;
+  width: 100%;
+}
+#station .anno-pic .fig-cell img {
+  width: 100%;
+}
+#station .anno-marks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+#station .anno-mark {
+  position: absolute;
+}
+#station .anno-zone {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(159, 251, 193, 0.42);
+  transition:
+    border-color 0.15s,
+    background-color 0.15s,
+    box-shadow 0.15s;
+}
+#station .anno-mark.hot .anno-zone {
+  border-color: var(--mint);
+  background: rgba(159, 251, 193, 0.08);
+  box-shadow:
+    0 0 14px rgba(159, 251, 193, 0.35),
+    inset 0 0 0 0.5px var(--mint);
+}
+#station .anno-mark b,
+#station .anno-list .n {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  font: 600 12.5px/1 var(--mono);
+  color: var(--mint);
+  background: rgba(8, 10, 8, 0.92);
+  border: 1.5px solid var(--mint);
+  box-shadow: 0 0 8px rgba(159, 251, 193, 0.35);
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+#station .anno-mark b {
+  position: absolute;
+  border-width: 1px;
+  box-shadow: none;
+  pointer-events: auto;
+  cursor: default;
+} /* (a tab fixed to its frame, outside it: never over what it points at) */
+#station .anno-mark.tl b {
+  left: 0;
+  bottom: calc(100% - 1px);
+}
+#station .anno-mark.tr b {
+  right: 0;
+  bottom: calc(100% - 1px);
+}
+#station .anno-mark.l b {
+  right: calc(100% - 1px);
+  top: 0;
+}
+#station .anno-mark.r b {
+  left: calc(100% - 1px);
+  top: 0;
+}
+#station .anno-mark.ir b {
+  right: 0;
+  top: 0;
+}
+#station :is(.anno-mark, .anno-list li).hot :is(b, .n) {
+  background: var(--mint);
+  color: #0a0c08;
+}
+#station .anno-text {
+  display: grid;
+  align-content: center;
+  gap: 16px;
+  min-width: 0;
+}
+#station .mod .anno-lead {
+  max-width: none;
+  font: 600 clamp(18px, 1.2vw, 21px)/1.4 var(--screen);
+  color: #eef1e8;
+}
+#station .mod .anno-list {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#station .mod .anno-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 0 -10px;
+  padding: 6px 10px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #c9cec3;
+  transition: background-color 0.15s;
+}
+#station .mod .anno-list li::before {
+  content: none;
+}
+#station .anno-list .n {
+  flex: none;
+  transform: translateY(2px);
+}
+#station .anno-list strong {
+  font-weight: 600;
+  color: #f1f3ec;
+}
+#station .mod .anno-list li.hot {
+  background: rgba(159, 251, 193, 0.07);
+}
+#station #st-page.anim .mod:not(.on) :is(.anno-mark, .anno-list li) {
+  opacity: 0;
+}
+#station .mod.lock .anno-mark {
+  animation: st-anno-row-in 0.3s ease-out backwards;
+  animation-delay: calc(0.55s + var(--i) * 80ms);
+}
+#station .mod.lock .anno-mark b {
+  animation: st-anno-pop 0.34s cubic-bezier(0.25, 1.5, 0.55, 1) backwards;
+  animation-delay: calc(0.55s + var(--i) * 80ms);
+}
+#station .mod.lock .anno-list li {
+  animation: st-anno-row 0.3s ease-out backwards;
+  animation-delay: calc(0.55s + var(--i) * 80ms);
+}
+@keyframes st-anno-pop {
+  from {
+    opacity: 0;
+    transform: scale(1.8);
+    border-color: var(--ready);
+  }
+  60% {
+    opacity: 1;
+  }
+}
+@keyframes st-anno-row {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+}
+@keyframes st-anno-row-in {
+  from {
+    opacity: 0;
+  }
+}
+@media (max-width: 1099px) {
+  #station .mod.anno-mod .mod-body,
+  #station .mod.anno-mod.flip .mod-body {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 22px;
+  }
+  #station .mod.anno-mod.flip .anno-fig {
+    order: 0;
+  }
+}
+@media (max-width: 700px) {
+  #station .mod.anno-mod .mod-body {
+    padding: 18px 16px;
+  }
+  #station .anno-mark b {
+    width: 17px;
+    height: 17px;
+    font-size: 10px;
+  }
+}
+#station.reduce :is(.anno-zone, .anno-mark b, .anno-list .n, .anno-list li) {
+  transition: none;
+}
+#station .mod.anno-mod.wide .mod-body {
+  grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+}
+@media (max-width: 1399px) {
+  #station .mod.anno-mod.wide .mod-body {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 26px;
+  }
+  #station .mod.anno-mod.wide .anno-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 48px;
+  }
+} /* (narrower, side by side, the capture fell to a third of the block) */
+@media (max-width: 899px) {
+  #station .mod.anno-mod.wide .anno-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+#station .mod.anno-mod.fit .mod-body {
+  grid-template-columns: minmax(0, 560px) auto;
+  justify-content: center;
+  column-gap: 72px;
+}
+#station .mod.anno-mod.fit .anno-pic {
+  width: var(--w);
+  max-width: 100%;
+} /* (its column as wide as the capture: no gap between them) */
+#station .mod.anno-mod.fit:not(.flip) .mod-body {
+  grid-template-columns: auto minmax(0, 560px);
+}
+@media (max-width: 1099px) {
+  #station .mod.anno-mod.fit .mod-body,
+  #station .mod.anno-mod.fit:not(.flip) .mod-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* the top: its words beside its capture; under its paragraph, the vote's line (its button not working yet:
+   dimmed) and the link to the roadmap; a link to a part of the page: the bar's khaki, an arrow */
+#station .mod.hero.with-pic .mod-body {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  align-items: center;
+  column-gap: 48px;
+}
+#station .hero-words {
+  display: grid;
+  align-content: center;
+  min-width: 0;
+}
+#station .hero-pic {
+  display: grid;
+  gap: 12px;
+  justify-self: center;
+  width: min(100%, var(--w));
+  margin: 0;
+}
+#station .mod.hero .hero-note {
+  margin-top: 12px;
+  font: 400 11.5px/16px var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#station .mod.hero .hero-note + .pg-lead {
+  margin-top: 18px;
+}
+#station .mod.hero .hero-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-top: 20px;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #e2e6dd;
+}
+#station .hero-pic .fig-cell {
+  display: block;
+  width: 100%;
+}
+#station .hero-pic .fig-cell img {
+  width: 100%;
+}
+#station .hero-vote {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(214, 220, 211, 0.1);
+}
+#station .mod .hv-ask {
+  font: 600 18px/1.3 var(--screen);
+  color: #eef1e8;
+}
+#station .pg .go.hv-btn {
+  margin: 0;
+  align-items: center;
+  min-height: 42px;
+  padding: 0 18px;
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+#station .mod .hv-note {
+  flex-basis: 100%;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #b9bfb3;
+}
+#station .mod.hero .hero-states {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, max-content));
+  gap: 14px 48px;
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(214, 220, 211, 0.1);
+}
+#station .hero-states .row {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+#station .hero-states dt {
+  font: 500 11.5px/16px var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#station .mod.hero.w12:not(.with-pic) h1 {
+  font-size: clamp(40px, 4.2vw, 84px);
+}
+@media (max-width: 900px) {
+  #station .mod.hero .hero-states {
+    grid-template-columns: repeat(2, minmax(0, max-content));
+  }
+}
+#station .hero-links:empty {
+  display: none;
+}
+#station .hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 36px;
+  margin-top: 16px;
+}
+#station .mod.hero.with-pic h1 {
+  font-size: clamp(38px, 3.4vw, 66px);
+}
+#station .mod.hero.with-pic .hero-status {
+  margin-top: 18px;
+}
+#station .part-link {
+  appearance: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: start;
+  margin: 0;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--khaki);
+  font: 600 12px/16px var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+#station .part-link:hover {
+  color: #e4e8c4;
+}
+#station .part-link:focus-visible {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: 3px;
+}
+#station .part-link .arrow {
+  font-size: 14px;
+}
+#station .hero-more {
+  margin: 0;
+}
+@media (max-width: 1099px) {
+  #station .mod.hero.with-pic .mod-body {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 26px;
+  }
+}
+/* a strip: a small picture beside a few words, on one band (the icon on the video) */
+#station .mod.with-fig.w12.strip .mod-body,
+#station .mod.with-fig.w12.flip.strip .mod-body {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 26px;
+  padding: 18px 24px;
+}
+#station .mod.with-fig.strip .fig {
+  order: -1;
+}
+#station .mod.strip .mod-text p {
+  max-width: 110ch;
+  font-size: 17px;
+}
+/* the figures on one band: each its number large, its name, the names under it, a hair rule between them */
+#station .mod.stats-mod .mod-body {
+  padding: 24px 28px;
+}
+#station .mod .stats {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+#station .stats .row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 2px 26px;
+  border-left: 1px solid rgba(214, 220, 211, 0.12);
+}
+#station .stats .row:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+#station .stats .v {
+  order: -1;
+  font: 700 clamp(34px, 2.6vw, 46px)/1 var(--screen);
+  color: var(--mint);
+  font-variant-numeric: tabular-nums;
+}
+#station .stats dt {
+  font: 600 12px/16px var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #eef1e8;
+}
+#station .stats .names {
+  font: 400 11px/15px var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+@media (max-width: 1099px) {
+  #station .mod .stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 22px;
+  }
+  #station .stats .row:nth-child(4) {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+@media (max-width: 700px) {
+  #station .mod .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  #station .stats .row {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+/* the game's items: its line, the families in two columns, the rights in a small note under them */
+#station .mod.cat2 .mod-body {
+  gap: 20px;
+  padding: 22px 28px 24px;
+}
+#station .mod.cat2 .mod-body > p:first-child {
+  max-width: 100ch;
+  font-size: 17px;
+  color: #e2e6dd;
+}
+#station .mod.cat2 .cat {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 56px;
+  row-gap: 12px;
+}
+#station .mod .small-note {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+@media (max-width: 1099px) {
+  #station .mod.cat2 .cat {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* ABOUT's pieces: a line each, its name, its words, its section's button at the end; one under the other on a phone */
+#station .mod .trio {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#station .mod .trio li {
+  display: grid;
+  grid-template-columns: minmax(190px, 1fr) minmax(0, 2.6fr) 220px;
+  align-items: center;
+  gap: 10px 32px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(214, 220, 211, 0.1);
+}
+#station .mod .trio li:first-child {
+  padding-top: 2px;
+  border-top: 0;
+}
+#station .mod .trio li::before {
+  content: none;
+}
+#station .trio strong {
+  font: 700 15px/1.3 var(--screen);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f1f3ec;
+}
+#station .trio span {
+  font-size: 16.5px;
+  line-height: 1.5;
+  color: #d3d8cf;
+}
+#station .pg .trio .go {
+  justify-self: stretch;
+  align-items: center;
+  margin: 0;
+  text-align: center;
+} /* (the pieces' buttons all one width, their name and code centred) */
+@media (max-width: 700px) {
+  #station .mod .trio li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #station .pg .trio .go {
+    justify-self: start;
+    width: 220px;
+  }
+}
+/* good to know: three lines side by side, each on the phosphor's rule */
+#station .mod .facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 44px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#station .mod .facts li {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+  padding: 2px 0 2px 18px;
+  border-left: 2px solid var(--mint);
+}
+#station .mod .facts li::before {
+  content: none;
+}
+#station .facts strong {
+  font: 700 15px/1.3 var(--screen);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f1f3ec;
+}
+#station .facts span {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #c9cec3;
+}
+@media (max-width: 1099px) {
+  #station .mod .facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* the principle in steps: numbered, side by side (one under the other when narrow) */
+#station .mod .steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#station .mod .steps li {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 4px 0 0 0;
+}
+#station .mod .steps li::before {
+  content: none;
+}
+#station .mod .steps .n {
+  flex: none;
+  font: 600 30px/1 var(--screen);
+  letter-spacing: 0.02em;
+  color: var(--mint);
+}
+#station .mod .steps .t {
+  display: grid;
+  justify-items: start;
+  gap: 6px;
+  font-size: 16.5px;
+  line-height: 1.5;
+  color: #d3d8cf;
+}
+#station .mod .steps .t strong {
+  font: 700 16px/1.3 var(--screen);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f1f3ec;
+}
+#station .mod .steps .step-go {
+  margin-top: 2px;
+}
+@media (max-width: 1099px) {
+  #station .mod .steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+#station .mod.note .mod-body .go {
+  margin-top: 4px;
+}
+#station .mod.note .links {
+  max-width: 440px;
+}
+/* the roadmap as a mission route. Across the module: its stops side by side (YOU ARE HERE narrower), their
+   waypoints on one dashed course (its track: the khaki course, the mint one plotted over it, its head ahead); down it
+   when narrower, the course on the left. A waypoint: a square on its point (khaki; the next step's amber, the
+   standby's; YOU ARE HERE's mint, filled), its label beside it; under it the stop's name, its items. Before its module
+   locks (#st-page.anim, not .on): the course not plotted, the waypoints not there, the items under their bars */
+#station .mod.route-mod .mod-body {
+  padding: 26px 28px 24px;
+}
+#station .route {
+  display: grid;
+  gap: 30px;
+}
+#station .route-map {
+  position: relative;
+}
+#station .route-track {
+  position: absolute;
+  left: 6px;
+  right: 0;
+  top: 10px;
+  height: 2px;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, #000 88%, transparent);
+}
+#station .route-track,
+#station .route-beam {
+  background: repeating-linear-gradient(90deg, rgba(195, 201, 143, 0.35) 0 10px, transparent 10px 16px);
+}
+#station .route-beam {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(90deg, var(--mint) 0 10px, transparent 10px 16px);
+  opacity: 0.75;
+  filter: drop-shadow(0 0 3px rgba(159, 251, 193, 0.6));
+}
+#station .route-head {
+  position: absolute;
+  left: -4px;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e4ffee;
+  box-shadow: 0 0 10px 3px rgba(159, 251, 193, 0.7);
+  opacity: 0;
+}
+#station .mod .route-stops {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(170px, 0.8fr) repeat(4, minmax(0, 1fr));
+  gap: 0 30px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#station .mod .route-stops > li {
+  padding: 0;
+}
+#station .mod .route-stops > li::before {
+  content: none;
+}
+#station .mod .route-stops {
+  grid-template-rows: repeat(3, auto);
+}
+#station .mod .route-stops > li {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  align-content: start;
+}
+#station .mod .route-stops > li > * {
+  align-self: start;
+} /* (each its own height on its row: a list not spread down to the tallest) */ /* (the steps' names and items on rows of their own: a name on two lines moves none) */
+#station .stop-mark {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+#station .stop-node {
+  position: relative;
+  flex: none;
+  width: 12px;
+  height: 12px;
+  margin-top: 5px;
+  border: 2px solid var(--khaki);
+  background: var(--ground);
+  transform: rotate(45deg);
+}
+#station .stop.next .stop-node {
+  border-color: var(--standby);
+  background: var(--standby);
+  box-shadow: 0 0 8px rgba(214, 171, 60, 0.5);
+}
+#station .stop.here .stop-node {
+  border-color: var(--mint);
+  background: var(--mint);
+  box-shadow: 0 0 10px rgba(159, 251, 193, 0.6);
+}
+#station .stop-ping {
+  position: absolute;
+  left: -3px;
+  top: 2px;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--mint);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+#station .stop-k {
+  font: 600 11.5px/16px var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+#station .stop.next .stop-k {
+  color: var(--standby);
+}
+#station .stop.here .stop-k {
+  color: var(--mint);
+}
+#station .mod .stop-name {
+  margin: 0 0 12px;
+  font: 700 17px/1.25 var(--screen);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #f1f3ec;
+}
+#station .mod .stop-done {
+  gap: 7px;
+  margin-bottom: 18px;
+}
+#station .mod .stop-done li {
+  font-size: 15.5px;
+  line-height: 1.45;
+  color: #dde1d8;
+}
+#station .mod .stop-done li::before {
+  left: 3px;
+  top: 0.32em;
+  width: 5px;
+  height: 9px;
+  border: solid var(--mint);
+  border-width: 0 2px 2px 0;
+  background: none;
+  transform: rotate(45deg);
+}
+#station .stop.here .pg-state {
+  margin: 0;
+}
+#station .mod .stop-items {
+  gap: 9px;
+}
+#station .mod .stop-items li {
+  font-size: 15.5px;
+  line-height: 1.48;
+  color: #dde1d8;
+}
+#station .redact {
+  position: absolute;
+  left: 18px;
+  right: 0;
+  top: 2px;
+  bottom: 2px;
+  background: #2c3022;
+  box-shadow: inset 0 0 0 1px rgba(195, 201, 143, 0.22);
+  transform-origin: 100% 50%;
+  transform: scaleX(0);
+  pointer-events: none;
+}
+#station #st-page.anim .mod:not(.on) .redact,
+#station .stop.wait .redact {
+  transform: none;
+}
+#station .stop.wait .dec {
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+} /* (down the route: a stop not reached yet, its course not plotted to it) */
+#station #st-page.anim .mod:not(.on) :is(.stop-node, .route-beam),
+#station .stop.wait .stop-node {
+  opacity: 0;
+}
+#station .route-toggle {
+  display: flex;
+  justify-content: center;
+}
+#station .pg .go.route-btn {
+  flex: none;
+  align-items: center;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 22px;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+#station .route:not(.open) :is(.stop-items, .stop-body) {
+  display: none;
+} /* (closed: the course, its stops and their names) */
+#station .route:not(.open) .stop-name {
+  margin-bottom: 0;
+}
+#station .route-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 40px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(214, 220, 211, 0.1);
+}
+#station .route-foot p {
+  display: grid;
+  gap: 2px;
+  font-size: 16.5px;
+  line-height: 1.5;
+  color: #d8ddd2;
+}
+#station .route-foot p span:last-child {
+  color: var(--mint);
+}
+#station .route-foot .links {
+  flex: 0 1 400px;
+}
+@media (max-width: 1099px) {
+  #station .mod .route-stops {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px 0;
+  }
+  #station .mod .route-stops {
+    grid-template-rows: none;
+  }
+  #station .mod .route-stops > li {
+    display: block;
+    grid-row: auto;
+    padding-left: 34px;
+  }
+  #station .stop-mark {
+    flex-direction: row;
+    align-items: center;
+    height: 22px;
+    margin-left: -34px;
+    gap: 22px;
+    margin-bottom: 10px;
+  }
+  #station .stop-node {
+    margin-top: 0;
+  }
+  #station .route-track {
+    left: 5px;
+    right: auto;
+    top: 11px;
+    bottom: 0;
+    width: 2px;
+    height: auto;
+    -webkit-mask-image: linear-gradient(180deg, #000 92%, transparent);
+    mask-image: linear-gradient(180deg, #000 92%, transparent);
+  }
+  #station .route-track,
+  #station .route-beam {
+    background-image: repeating-linear-gradient(
+      180deg,
+      rgba(195, 201, 143, 0.35) 0 10px,
+      transparent 10px 16px
+    );
+  }
+  #station .route-beam {
+    background-image: repeating-linear-gradient(180deg, var(--mint) 0 10px, transparent 10px 16px);
+  }
+  #station .route-head {
+    left: -3px;
+    top: -4px;
+  }
+  #station .route-foot .links {
+    flex-basis: 100%;
+  }
+}
+@media (max-width: 700px) {
+  #station .mod.route-mod .mod-body {
+    padding: 20px 16px;
+  }
+  #station .mod .stop-name {
+    font-size: 16px;
+  }
+}
+@media (max-width: 700px) {
+  #station .mod.with-fig.w12.strip .mod-body,
+  #station .mod.with-fig.w12.flip.strip .mod-body {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 14px;
+    padding: 16px 16px 20px;
+  }
+  #station .mod.stats-mod .mod-body,
+  #station .mod.cat2 .mod-body {
+    padding: 16px 16px 20px;
+  }
+  #station .mod.hero .hero-states {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 16px;
+  }
+  #station .hero-states .pg-state {
+    white-space: normal;
+  }
+} /* (a card, not a band across the page) */
+#station .mod.note .mod-body p {
+  padding: 4px 0 4px 18px;
+  border-left: 2px solid var(--mint);
+  font: 500 clamp(19px, 1.3vw, 24px)/1.45 var(--screen);
+  color: #e9ece4;
+}
+#station .mod.note.w12 .mod-body p {
+  max-width: none;
+} /* (across the page: one line where it fits) */
+/* smaller windows: a tablet, two modules a row (a part's rows filled: dense); a phone, one */
+@media (max-width: 1099px) {
+  #station .grid {
+    grid-auto-flow: row dense;
+  }
+  #station .mod.w3,
+  #station .mod.w4,
+  #station .mod.w6 {
+    grid-column: span 6;
+  }
+  #station .mod.w8,
+  #station .mod.hero,
+  #station .mod.data {
+    grid-column: 1 / -1;
+  }
+  #station .mod.tall {
+    grid-row: auto;
+  }
+  #station .mod.data dl {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: 32px;
+  }
+  #station .mod.cat .mod-body {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 700px) {
+  #station .pg {
+    --gut: 16px;
+    padding-top: 18px;
+    font-size: 16px;
+  }
+  #station .grid {
+    gap: 14px;
+  }
+  #station .grid > .mod {
+    grid-column: 1 / -1;
+  }
+  #station .part {
+    margin-top: 34px;
+  }
+  #station .mod-head {
+    padding: 10px 16px;
+  }
+  #station .mod-body,
+  #station .mod.hero .mod-body {
+    padding: 16px 16px 20px;
+  }
+  #station .mod.hero .pg-text {
+    font-size: 16.5px;
+  }
+  #station .mod ul.two {
+    columns: 1;
+  }
+  #station .mod.data dl {
+    grid-template-columns: 1fr;
+  } /* (one column: the names under the teams and maps keep their line) */
+  #station .mod.data dt {
+    gap: 8px;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+  }
+  #station .mod.data dd {
+    font-size: 18px;
+  }
+  #station .mod .cat li {
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: 6px;
+  }
+  #station .cat .bar,
+  #station .cat .d {
+    grid-column: 1 / -1;
+  }
+  #station .mod.note .mod-body p {
+    font-size: 18px;
+  }
+}
+/* the page builds itself as it comes (a target lock, encrypted text, a readout received; its moves: once, short,
+   nothing on hover, nothing looping, the text always there for screen readers). A block of
+   the page (a module, a part's heading band, the header line) locks as the scan line reaches it, or as it scrolls into
+   view after (pageReveal, pageIO): .on, and .lock for its moves. Its corner ticks close in from outside and snap, green
+   as the viewfinder's lock, then the screen's mint; its short labels (.dec: titles, kicker, states, values) decode
+   letter by letter over a copy hidden from screen readers (.dec-ov), the real text under it all along; its readout's
+   leaders and the catalogue's bars draw out, one row after another; a heading's graduated rule draws from the left;
+   an amber state's square blinks a few times (the station's standby), then stays. Without a move (#st-page without
+   .anim: reduced motion, LITE) all of it is there at once, and no unit ever locks (motion reduced while a page
+   shows: pageStill), so none of these moves can run. */
+#station .dec {
+  position: relative;
+  display: inline-block;
+}
+#station .dec-ov {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  white-space: pre;
+  pointer-events: none;
+  -webkit-text-fill-color: currentColor;
+} /* (on the real text's own lines: decStep breaks it where they break) */
+#station .decoding,
+#station #st-page.anim :is(.mod, .part-head, .ph-line):not(.on) .dec {
+  -webkit-text-fill-color: transparent;
+  text-shadow: none;
+}
+#station .mod > .mc.tl {
+  --dx: -1;
+  --dy: -1;
+}
+#station .mod > .mc.tr {
+  --dx: 1;
+  --dy: -1;
+}
+#station .mod > .mc.bl {
+  --dx: -1;
+  --dy: 1;
+}
+#station .mod > .mc.br {
+  --dx: 1;
+  --dy: 1;
+}
+#station #st-page.anim .mod:not(.on) > .mc {
+  opacity: 0;
+}
+#station .mod.lock > .mc {
+  animation:
+    st-mod-in 0.32s cubic-bezier(0.25, 1.5, 0.55, 1) backwards,
+    st-mod-lit 1s ease-out backwards;
+} /* (backwards: ended, no layer kept) */
+@keyframes st-mod-in {
+  from {
+    opacity: 0;
+    transform: translate(calc(var(--dx) * 12px), calc(var(--dy) * 12px));
+  }
+  40% {
+    opacity: 1;
+  }
+}
+@keyframes st-mod-lit {
+  from,
+  35% {
+    border-color: var(--ready);
+  }
+}
+#station .mod.data dt::after,
+#station .cat .bar,
+#station :is(.part-head, .ph-line) .rule {
+  transform-origin: 0 50%;
+}
+#station #st-page.anim .mod.data:not(.on) dt::after,
+#station #st-page.anim .mod:not(.on) .cat .bar,
+#station #st-page.anim :is(.part-head, .ph-line):not(.on) .rule {
+  transform: scaleX(0);
+}
+#station .mod.data.lock dt::after {
+  animation: st-page-draw 0.42s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+  animation-delay: calc(0.1s + var(--i, 0) * 50ms);
+}
+#station .mod.lock .cat .bar {
+  animation: st-page-draw 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+  animation-delay: calc(0.15s + var(--i, 0) * 60ms);
+}
+#station :is(.part-head, .ph-line).lock .rule {
+  animation: st-page-draw 0.45s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
+}
+#station #st-page.anim .mod:not(.on) :is(.shot-index, .shot-group-head)::before {
+  transform: scaleX(0);
+} /* (the screenshots' rules, and its capture, in as its module locks: shotScan) */
+#station .mod.lock :is(.shot-index, .shot-group-head)::before {
+  animation: st-page-draw 0.45s cubic-bezier(0.2, 0.7, 0.3, 1) backwards 0.2s;
+}
+#station #st-page.anim .mod:not(.on) .shot-img {
+  visibility: hidden;
+}
+@keyframes st-page-draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+#station .mod.lock :is(.pg-state:not(.ready), .chip, dd.st:not(.ready))::before {
+  animation: st-page-standby 0.9s steps(1, end) 0.45s 4;
+}
+#station .mod.lock .pg-state.ready::before {
+  animation: st-page-link 1.1s steps(1, end) 0.45s backwards;
+} /* (a link made: amber, blinking, then green) */
+@keyframes st-page-link {
+  0%,
+  50% {
+    background: var(--standby);
+  }
+  25%,
+  75% {
+    background: var(--standby);
+    opacity: 0.25;
+  }
+}
+@keyframes st-page-standby {
+  50% {
+    opacity: 0.2;
+  }
+}
+/* LITE (no graphics card: the processor draws every frame): a page scrolls without what made its frames long, its look
+   kept. No blurred glows (round its letters: its own phosphor glow, faint, .08, and the buttons' dark one, unseen on
+   their plate; round its marks; the drop shadows), each a cost to the processor with every stretch of the page drawn as
+   it comes into view; no mask on the view: its 18 px fading edges made the scrolled view a surface of its own, drawn
+   then masked at every frame (it ends on its bands' rules); a mark pointed at lit at once, as with reduced motion (its
+   fades, .15 s, painted frame by frame). Its moves are off already (#st-page without .anim: all of it there at once) */
+#station.lite :is(.pg, .pg .go, .pg .shot-btn, .mod.hero h1) {
+  text-shadow: none;
+}
+#station.lite :is(.anno-list .n, .stop-node) {
+  box-shadow: none;
+}
+#station.lite :is(.route-beam, .join-mark) {
+  filter: none;
+}
+#station.lite :is(.anno-zone, .anno-mark b, .anno-list .n, .anno-list li) {
+  transition: none;
+}
+#station.lite #st-page .view {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+/* the screenshots (PIECES.shots): a screen showing one capture (◀ ▶ on its sides, its number over it), and beside
+   it its caption and the list of all the captures; a capture changed comes in behind a short scan line (the pages'
+   sweep, in small); ENLARGE, or a click on it, shows it enlarged (zoomOpen). A tablet, a phone: the screen over the
+   caption and the list. */
+#station .shots {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+  gap: 24px;
+  align-items: start;
+}
+#station .shot-view {
+  margin: 0;
+} /* (a figure: none of the browser's own margins) */
+#station .shot-screen {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0 12px; /* (the top bar's room: the count, ENLARGE; a capture never under them) */
+  height: clamp(
+    280px,
+    calc(100vh - 362px),
+    660px
+  ); /* (the page whole in the window: its bands, its module's strip and padding) */
+  overflow: hidden;
+  background: radial-gradient(120% 120% at 50% 40%, #0e110e, #070908);
+  border: 1px solid rgba(214, 220, 211, 0.1);
+  touch-action: pan-y;
+}
+#station .shot-img {
+  display: block;
+  max-width: calc(100% - 120px);
+  max-height: calc(100% - 24px);
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+#station .shot-lang {
+  position: absolute;
+  right: 120px;
+  top: 19px;
+  margin: 0;
+  padding: 3px 8px;
+  background: rgba(8, 10, 8, 0.75);
+  font: 500 11px/16px var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+@media (max-width: 700px) {
+  #station .shot-lang {
+    display: none;
+  }
+} /* (a phone: its screen too small for it) */
+#station .shot-count {
+  position: absolute;
+  left: 24px;
+  top: 19px;
+  margin: 0;
+  padding: 3px 8px;
+  background: rgba(8, 10, 8, 0.75);
+  font: 500 12px/16px var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+#station .shot-screen .shot-btn {
+  position: absolute;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+}
+#station .shot-btn.prev {
+  left: 24px;
+}
+#station .shot-btn.next {
+  right: 24px;
+}
+#station .shot-btn.prev::before {
+  content: '◀' / '';
+}
+#station .shot-btn.next::before {
+  content: '▶' / '';
+}
+/* a capture received as a signal (shotSignal): its blocks over it, the picture under them hidden meanwhile */
+#station .shot-signal {
+  position: absolute;
+  pointer-events: none;
+}
+#station :is(.shot-screen, .zoom-pic).signal > img {
+  opacity: 0;
+}
+/* the capture's ENLARGE button (the buttons' family), at the screen's top right (a phone: between ◀ ▶); none for a
+   capture still to come. A click on the capture enlarges it too */
+#station .shot-screen .shot-btn.zoom {
+  top: 16px;
+  right: 24px;
+  bottom: auto;
+  left: auto;
+  width: auto;
+  height: 28px;
+  padding: 0 12px; /* (24 px in, as ◀ ▶; the count across, on its line) */
+  transform: none;
+  font-size: 11px;
+}
+#station .shot-screen.pending .shot-btn.zoom {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  #station .shot-screen:not(.pending) .shot-img {
+    cursor: zoom-in;
+  }
+}
+/* a capture enlarged (zoomOpen): over the whole site, on the dark; its side and title above it, the capture at its own
+   size (or the window's, if larger) in a holo window's frame (above: the capture itself untouched, nothing over
+   it), ◀ ▶ at the window's sides; a phone: at its own size, slid round in its stage */
+#station dialog.zoom {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #eef1e8;
+  overflow: hidden;
+}
+#station dialog.zoom[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+#station dialog.zoom::backdrop {
+  background: rgba(5, 7, 6, 0.94);
+}
+#station .zoom-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+}
+#station .zoom-titles {
+  flex: 1;
+  min-width: 0;
+}
+#station :is(.zoom-kicker, .zoom-title) {
+  text-transform: uppercase;
+}
+#station .zoom-title {
+  line-height: 1.05;
+} /* (a long title may take two lines) */
+#station .zoom .zoom-close {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+}
+#station .zoom-close::before {
+  content: '✕' / '';
+}
+#station .zoom-stage {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: 0 84px;
+  overflow: auto;
+}
+#station .zoom-frame {
+  position: relative;
+  padding: 8px;
+}
+#station .zoom-pic {
+  position: relative;
+  overflow: hidden;
+  line-height: 0;
+}
+#station .zoom-img {
+  display: block;
+  max-width: calc(100vw - 186px);
+  max-height: calc(100dvh - 150px);
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+} /* (beside it the stage's sides, 2 × 84 px, above and below the head's and the hint's rows and a margin, 132 px, with a title on one line (on two, shotFit takes the stage's own room), and round it the frame, 2 × 9 px: shotFit reads them) */
+#station .zoom-pending {
+  display: none;
+  margin: 0;
+  padding: 140px 180px;
+  font: 500 12px/16px var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#station .zoom-frame.pending .zoom-pic {
+  display: none;
+}
+#station .zoom-frame.pending .zoom-pending {
+  display: block;
+}
+#station dialog.zoom > .shot-btn {
+  position: fixed;
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+}
+#station dialog.zoom > .shot-btn.prev {
+  left: 24px;
+}
+#station dialog.zoom > .shot-btn.next {
+  right: 24px;
+}
+#station .zoom-hint {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 4px 22px;
+  margin: 0;
+  padding: 12px 24px 16px;
+  font: 400 11px/16px var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+@media (max-width: 700px) {
+  #station .shot-screen .shot-btn.zoom {
+    top: auto;
+    bottom: 6px;
+    left: 50%;
+    right: auto;
+    height: 34px;
+    transform: translateX(-50%);
+  }
+  #station .zoom-head {
+    padding: 12px 16px;
+  }
+  #station .zoom-kicker {
+    letter-spacing: 0.1em;
+  } /* (its side and its count on one line, in the phones' monospace too) */
+  #station .zoom-stage {
+    place-items: start;
+    padding: 0 16px 64px;
+  }
+  #station .zoom-img {
+    max-width: none;
+    max-height: none;
+  }
+  #station .zoom-pending {
+    padding: 80px 24px;
+  }
+  #station dialog.zoom > .shot-btn {
+    top: auto;
+    bottom: 52px;
+    transform: none;
+  }
+  #station :where(dialog.zoom > .shot-btn) {
+    background: rgba(18, 21, 15, 0.85);
+  } /* (the capture slides under them: their solid ground back) */
+}
+@media (max-width: 359px) {
+  #station .zoom-kicker {
+    letter-spacing: 0.06em;
+  }
+} /* (the narrowest phones: the longest, RÉGIE DU STREAMER · 06 / 08, still one line, set tighter) */
+/* a capture still to come: its screen says so */
+#station .shot-pending {
+  display: none;
+  margin: 0;
+  font: 500 12px/16px var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#station .shot-screen.pending .shot-img {
+  position: absolute;
+  visibility: hidden;
+}
+#station .shot-screen.pending .shot-pending {
+  display: block;
+}
+#station .shot-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -40px;
+  height: 40px;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(rgba(159, 251, 193, 0), rgba(159, 251, 193, 0.12));
+  border-bottom: 1px solid rgba(228, 255, 238, 0.85);
+  box-shadow: 0 2px 10px rgba(159, 251, 193, 0.35);
+}
+/* the caption and the list */
+#station .shot-side {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+/* the title marked as the list's entry shown is; its caption under it, quieter */
+#station .shot-side h2 {
+  padding-left: 12px;
+  border-left: 3px solid var(--khaki);
+  font: 700 20px/1.2 var(--screen);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f1f3ec;
+}
+#station .shot-desc {
+  margin-top: -6px;
+  color: #b3baae;
+  font-size: 15px;
+  line-height: 1.6;
+}
+/* a capture in the three team colours: a box of their own, three buttons, each with its team's colour (a square
+   before its name; the one shown framed in it and underlined, as the app's tabs) */
+#station .shot-box {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid rgba(214, 220, 211, 0.12);
+  background: rgba(8, 10, 8, 0.45);
+}
+#station .shot-box.off {
+  display: none;
+}
+#station .shot-box :is(.shot-team, .shot-more-btn) {
+  height: 34px;
+} /* (both boxes as tall: the side's height steady) */
+#station .shot-more-btn {
+  appearance: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 0 12px;
+  border: 1px solid rgba(214, 220, 211, 0.16);
+  background: rgba(18, 21, 15, 0.85);
+  cursor: pointer;
+  font: 600 11px/1.2 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c9cec4;
+  -webkit-tap-highlight-color: transparent;
+}
+#station .shot-more-btn .arrow {
+  color: var(--khaki);
+  font-size: 14px;
+}
+#station .shot-more-btn:hover {
+  color: #eef1e8;
+  background: rgba(200, 206, 170, 0.08);
+}
+#station .shot-more-btn:focus-visible {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: 2px;
+}
+#station .shot-teams-k {
+  margin: 0;
+  font: 400 11px/16px var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+#station .shot-teams-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+#station .shot-team {
+  appearance: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin: 0;
+  padding: 9px 4px;
+  border: 1px solid rgba(214, 220, 211, 0.16);
+  background: rgba(18, 21, 15, 0.85);
+  cursor: pointer;
+  font: 600 11px/1.2 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #b9bfb3;
+  -webkit-tap-highlight-color: transparent;
+}
+#station .shot-team[data-team='lonestar'] {
+  --team: #69b8ff;
+}
+#station .shot-team[data-team='valkyra'] {
+  --team: #ff6966;
+}
+#station .shot-team[data-team='manticore'] {
+  --team: #69d58c;
+}
+#station .shot-team::before {
+  content: '';
+  flex: none;
+  width: 8px;
+  height: 8px;
+  background: var(--team);
+}
+#station .shot-team::after {
+  content: '';
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  height: 3px;
+  background: var(--team);
+  opacity: 0;
+}
+#station .shot-team:hover {
+  color: #eef1e8;
+  background: rgba(200, 206, 170, 0.08);
+}
+#station .shot-team[aria-pressed='true'] {
+  color: #f1f3ec;
+  border-color: color-mix(in srgb, var(--team) 55%, transparent);
+  background: color-mix(in srgb, var(--team) 12%, rgba(18, 21, 15, 0.85));
+}
+#station .shot-team[aria-pressed='true']::after {
+  opacity: 1;
+}
+#station .shot-team:focus-visible {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: 2px;
+}
+/* the list, in the extension's two sides (the viewer panel, then the streamer editor), each under its name and what it
+   is, apart from the other under a rule; the side shown, over the capture's title too */
+#station .shot-index {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  margin-top: 4px;
+  padding-top: 14px;
+}
+#station .shot-group-head {
+  position: relative;
+  display: grid;
+  gap: 2px;
+  margin-bottom: 4px;
+}
+#station .shot-group-head:not(:first-child) {
+  margin-top: 8px;
+  padding-top: 12px;
+}
+#station .shot-index::before,
+#station .shot-group-head:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: rgba(214, 220, 211, 0.1);
+  transform-origin: 0 50%;
+}
+#station .shot-group {
+  font: 700 13px/1.3 var(--screen);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+#station .mod .shot-group-sub {
+  margin: 0;
+  font: 400 11px/16px var(--mono);
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+#station .shot-list {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#station .shot-kicker {
+  margin: 0 0 -12px;
+  font: 500 11px/16px var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mint);
+}
+#station .mod .shot-list li {
+  padding: 0;
+}
+#station .mod .shot-list li::before {
+  content: none;
+}
+#station .shot-list button {
+  appearance: none;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 4px 10px;
+  border: 0;
+  border-left: 2px solid transparent;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  font: 500 14px/1.3 var(--screen);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #b9bfb3;
+  -webkit-tap-highlight-color: transparent;
+}
+#station .shot-list button .n {
+  font: 500 12px/1 var(--mono);
+  letter-spacing: 0.1em;
+  color: var(--mint);
+  opacity: 0.75;
+}
+#station .shot-list button:hover {
+  color: #eef1e8;
+  background: rgba(200, 206, 170, 0.06);
+}
+#station .shot-list button[aria-current] {
+  color: #f1f3ec;
+  border-left-color: var(--khaki);
+  background: rgba(200, 206, 170, 0.08);
+}
+#station .shot-list button[aria-current] .n {
+  opacity: 1;
+}
+#station .shot-list button:focus-visible {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: 2px;
+}
+@media (max-width: 1099px) {
+  #station .shots {
+    grid-template-columns: 1fr;
+  }
+}
+/* side by side: the screen as tall as its side, ending with the summary (it takes no height of its own: the side sets
+   the row); the side's height steady from one capture to the next (under the caption, one box always: the team colours
+   or IN DETAIL, as tall; the caption on two lines: all of them, EN and FR, measured), so that the captures keep one
+   scale (shotFit) */
+@media (min-width: 1100px) {
+  #station .shots {
+    align-items: stretch;
+  }
+  #station .shot-side {
+    align-self: start;
+  }
+  #station .shot-view {
+    position: relative;
+    min-height: 280px;
+  }
+  #station .shot-view .shot-screen {
+    position: absolute;
+    inset: 0;
+    height: auto;
+  }
+  #station .shot-desc {
+    min-height: 3.2em;
+  }
+}
+@media (max-width: 700px) {
+  #station .shot-screen {
+    height: auto;
+    min-height: 0;
+    padding: 44px 0;
+  }
+  #station .shot-img {
+    max-width: calc(100% - 16px);
+    max-height: none;
+  } /* (its screen as tall as the largest capture: shotFit) */
+  #station .shot-screen .shot-btn {
+    top: auto;
+    bottom: 6px;
+    width: 40px;
+    height: 34px;
+    transform: none;
+  }
+}
+
+#station.reduce .spot {
+  transition: none;
+}
+#station .post:focus {
+  outline: none;
+}
+#station .post:focus-visible:not(.locked) {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: 3px;
+}
+/* the legends printed on the plates above them, like the console's other markings: light grey, condensed capitals;
+   each placed by its centre on its plate's (buildControls), its box its capitals alone (text-box: from their top to the
+   baseline; where it is not known, the line's, a hair higher) and its spacing evened (the letter-spacing after the
+   last letter, given before the first too): the letters centred in the plate */
+/* marks added on the room's picture (ROOM_MARKS; .room-mark, not .mark, the radar's ring), in its own tones
+   (measured on it) and as soft as it, lit as bay D is (--lit: darker, not see-through, as objects in the dark): the
+   phone's keys' figures (.figure, not .key, the keyboards' keys), printed as the others are (measured: about 6 px high,
+   light gray, thin, centred on their key) */
+#station .room-mark {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  text-box: trim-both cap alphabetic;
+  filter: blur(0.15px) brightness(var(--lit, 1));
+  pointer-events: none;
+  user-select: none;
+}
+#station .room-mark.figure {
+  font:
+    300 8.6px/1 Bahnschrift,
+    'Arial Narrow',
+    sans-serif;
+  color: rgb(176, 184, 190);
+}
+#station .legend {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding-left: 0.14em;
+  white-space: nowrap;
+  font:
+    600 calc(6.6px * var(--sound-s, 1))/1 Bahnschrift,
+    'DIN Alternate',
+    'Arial Narrow',
+    sans-serif;
+  letter-spacing: 0.14em;
+  text-box: trim-both cap alphabetic;
+  color: rgba(224, 226, 214, 0.82);
+  pointer-events: none;
+  user-select: none;
+  will-change: opacity;
+}
+/* ?perf=1: frames per second and the longest frame, to check smoothness on any machine */
+#station #st-perf {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 9;
+  font: 400 11px/16px var(--mono);
+  color: #c3c98f;
+  background: rgba(8, 10, 9, 0.8);
+  padding: 3px 8px;
+}
+#station #st-notice {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: normal;
+  max-width: min(520px, calc(100% - 52px));
+  text-align: center;
+  letter-spacing: 0.08em;
+}
+/* legal lines: the intro's rule, to the pixel, so they do not move at the handover */
+#station .legal {
+  position: absolute;
+  left: 24px;
+  bottom: 14px;
+  max-width: max(46%, calc(100% - 360px));
+  font: 400 10.5px/1.55 var(--mono);
+  letter-spacing: 0.02em;
+  color: var(--legal);
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
+}
+#station .legal p {
+  margin: 0;
+}
+@media (min-width: 601px) and (max-width: 1100px) {
+  #station .legal {
+    font-size: 10px;
+    max-width: calc(100% - 290px);
+  }
+}
+@media (max-width: 700px) {
+  #station .hud {
+    letter-spacing: 0.12em;
+    font-size: 11px;
+  }
+}
+/* on a phone the legal lines wrap to four lines: the status line goes above them */
+@media (max-width: 600px) {
+  #station .legal {
+    left: 16px;
+    right: 16px;
+    bottom: 44px;
+    max-width: none;
+    font-size: 9.5px;
+  }
+}
+/* CAPTURES in a low window (1366 × 768): the page whole, its last captures in view; last, over the rules it tightens */
+@media (min-width: 1100px) and (max-height: 900px) {
+  #station .mod .shot-group-sub {
+    display: none;
+  }
+  #station .shot-list button {
+    padding-block: 2px;
+  }
+  #station .shot-side {
+    gap: 10px;
+  }
+  #station .shot-desc {
+    margin-top: -2px;
+  }
+  #station .pg:has(.shots) {
+    padding-block: 14px;
+  }
+  #station .shots-mod .mod-body {
+    padding-block: 14px;
+  }
+} /* (a low window: the page whole, its last captures in view) */

@@ -21,9 +21,10 @@
   --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
+/* (the console, #station, keeps its pseudo-elements in content-box, as it was drawn) */
 *,
-*::before,
-*::after {
+:where(:not(#station, #station *))::before,
+:where(:not(#station, #station *))::after {
   box-sizing: border-box;
 }
 
@@ -46,24 +47,27 @@ body {
   line-height: 1.5;
 }
 
-img {
+/* (the base rules for elements below stay out of the home page's console, #station, which styles its own: the same
+   weight as before, by :where) */
+img:where(:not(#station *)) {
   max-width: 100%;
   height: auto;
 }
 
-a {
+a:where(:not(#station *)) {
   color: inherit;
 }
 
-:focus-visible {
+:focus-visible:where(:not(#station *)) {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  /* (the console has its own reduced motion, which the visitor can turn back on) */
+  :where(:not(#station, #station *)),
+  :where(:not(#station, #station *))::before,
+  :where(:not(#station, #station *))::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }

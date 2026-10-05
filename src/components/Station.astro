@@ -1,0 +1,162 @@
+---
+// The home page's console (src/scripts/station/station.js), rendered only when the build has its media
+// (src/integrations/game-media.mjs). Its styles: src/styles/station.css.
+import { consoleMedia } from 'virtual:wardogs/game-media';
+import type { Lang } from '../i18n/ui';
+import '../styles/station.css';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<!-- (the first paint's state, before the script runs: the room dark, the HUD hidden) -->
+<div id="station" class="room-dark hud-hidden" data-media={consoleMedia} data-lang={lang}>
+  <div id="st-world">
+    <img id="st-dark" class="room" alt="" />
+    <img id="st-lit" class="room" alt="" />
+    <div id="st-lit-bays"></div>
+    <div id="st-pieces"></div>
+    <div id="st-keys"></div>
+    <div id="st-screens"></div>
+    <div id="st-fx" aria-hidden="true">
+      <div id="st-lamps"></div>
+      <div id="st-needles"></div>
+    </div>
+    <div id="st-posts"></div>
+    <div id="st-controls"></div>
+    <div id="st-focus"></div>
+    <div id="st-focus-in"></div>
+    <div id="st-edge"></div>
+    <div id="st-rim"></div>
+  </div>
+  <div id="st-shield"></div>
+  <div id="st-vignette"></div>
+  <div id="st-curtain"></div>
+  <div id="st-curtain-edge"></div>
+  <div id="st-page" hidden>
+    <div id="st-page-head">
+      <div class="ph-line">
+        <span class="sq" aria-hidden="true"></span>
+        <span class="ph-path" id="st-page-path" aria-hidden="true"></span>
+        <i class="rule" aria-hidden="true"></i>
+        <nav class="ph-nav" id="st-page-nav"></nav>
+      </div>
+    </div>
+    <div id="st-page-foot"></div>
+    <div class="view" id="st-page-view" role="region" tabindex="0">
+      <article class="pg" id="st-page-body"></article>
+    </div>
+    <i class="scan" id="st-page-scan" aria-hidden="true"></i>
+  </div>
+  <div class="hud tl">
+    <span class="sq"></span>Wardogs Companion
+  </div>
+  <button type="button" id="st-back" hidden aria-keyshortcuts="Escape">
+    <i class="c tl"></i>
+    <i class="c tr"></i>
+    <i class="c bl"></i>
+    <i class="c br"></i>
+    <span id="st-back-txt"></span>
+    <span class="key" id="st-back-key"></span>
+  </button>
+  <div id="st-factions" role="group">
+    <p></p>
+    <div class="row"></div>
+  </div>
+  <nav id="st-sections"></nav>
+  <p id="st-pad-status" class="sr" role="status"></p>
+  <p id="st-faction-status" class="sr" role="status"></p>
+  <div class="hud tr">
+    <button type="button" data-l="en" class:list={{ on: lang === 'en' }}>
+      EN
+    </button>{' '}
+    /{' '}
+    <button type="button" data-l="fr" class:list={{ on: lang === 'fr' }}>
+      FR
+    </button>
+  </div>
+  <section id="st-call" hidden>
+    <span class="plate"></span>
+    <i class="c tl"></i>
+    <i class="c tr"></i>
+    <i class="c bl"></i>
+    <i class="c br"></i>
+    <div class="call-head">
+      <canvas class="call-mark"></canvas>
+      <div class="call-titles">
+        <p class="call-kicker">
+          <span id="st-call-name"></span>
+          <span class="time" id="st-call-time" aria-hidden="true"></span>
+        </p>
+        <p class="call-title">
+          <span id="st-call-state"></span>
+          <span class="voice" aria-hidden="true">
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+          </span>
+        </p>
+      </div>
+    </div>
+    <div class="talk" id="st-call-talk" aria-hidden="true"></div>
+    <div class="sr" id="st-call-text"></div>
+    <div class="acts">
+      <a class="join" id="st-call-join" target="_blank" rel="noopener"></a>
+      <button type="button" id="st-call-hang" aria-keyshortcuts="Escape"></button>
+    </div>
+  </section>
+  <div id="st-power">
+    <button type="button" id="st-power-btn"></button>
+    <div class="tg-lock" aria-hidden="true">
+      <i class="tg-corner tl"></i>
+      <i class="tg-corner tr"></i>
+      <i class="tg-corner bl"></i>
+      <i class="tg-corner br"></i>
+    </div>
+    <i class="tg-lead" aria-hidden="true"></i>
+    <i class="tg-end" aria-hidden="true"></i>
+    <div id="st-power-tag" class="tg-tag" aria-hidden="true">
+      <span class="plate"></span>
+      <i class="c tl"></i>
+      <i class="c tr"></i>
+      <i class="c bl"></i>
+      <i class="c br"></i>
+      <p class="l1">
+        <span class="sq"></span>
+        <span id="st-pt-name"></span>
+        <span class="st" id="st-pt-state"></span>
+      </p>
+      <p class="l2" id="st-pt-hint"></p>
+    </div>
+  </div>
+  <div id="st-ctl-targets" aria-hidden="true"></div>
+  <div id="st-power-line" aria-hidden="true">
+    <span class="plate"></span>
+    <span class="scan"></span>
+    <span class="txt" id="st-pl-text"></span>
+    <span class="count" id="st-pl-count"></span>
+  </div>
+  <div id="st-veil"></div>
+  <div class="ctrl">
+    <button type="button" id="st-skip"></button>
+    <button type="button" id="st-motion" aria-pressed="true" hidden></button>
+    <button type="button" id="st-sound" aria-pressed="false" hidden></button>
+  </div>
+  <button type="button" class="hud" id="st-replay" hidden></button>
+  <p class="hud" id="st-notice" role="alert" hidden></p>
+  <div class="legal" id="st-legal">
+    <p id="st-legal1"></p>
+    <p id="st-legal2"></p>
+  </div>
+</div>
+
+<script>
+  import { mountStation } from '../scripts/station/station.js';
+
+  const root = document.getElementById('station');
+  if (root) mountStation(root);
+</script>

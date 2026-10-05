@@ -1,0 +1,2987 @@
+{
+  "screens": [
+    {
+      "id": "haut",
+      "quad": [
+        [286, 187],
+        [1441, 187],
+        [1441, 476],
+        [286, 476]
+      ]
+    },
+    {
+      "id": "carte",
+      "quad": [
+        [304, 548],
+        [607, 548],
+        [596, 779],
+        [285, 779]
+      ]
+    },
+    {
+      "id": "crt-b",
+      "quad": [
+        [771, 561],
+        [899, 561],
+        [899, 645],
+        [769, 645]
+      ]
+    },
+    {
+      "id": "principal",
+      "quad": [
+        [1062, 548],
+        [1422, 548],
+        [1426, 779],
+        [1062, 779]
+      ]
+    },
+    {
+      "id": "code",
+      "quad": [
+        [1500, 585],
+        [1666, 585],
+        [1670, 691],
+        [1502, 691]
+      ]
+    },
+    {
+      "id": "a1",
+      "quad": [
+        [313, 889],
+        [374, 889],
+        [369, 918],
+        [307, 918]
+      ]
+    },
+    {
+      "id": "a2",
+      "quad": [
+        [395, 889],
+        [453, 889],
+        [449, 918],
+        [390, 918]
+      ]
+    },
+    {
+      "id": "a3",
+      "quad": [
+        [474, 889],
+        [534, 889],
+        [530, 918],
+        [469, 918]
+      ]
+    },
+    {
+      "id": "b1",
+      "quad": [
+        [673, 900],
+        [789, 900],
+        [789, 941],
+        [672, 941]
+      ]
+    },
+    {
+      "id": "c1",
+      "quad": [
+        [1062, 889],
+        [1112, 889],
+        [1112, 917],
+        [1062, 917]
+      ]
+    },
+    {
+      "id": "c2",
+      "quad": [
+        [1130, 889],
+        [1175, 889],
+        [1175, 917],
+        [1130, 917]
+      ]
+    },
+    {
+      "id": "c3",
+      "quad": [
+        [1244, 889],
+        [1354, 889],
+        [1354, 917],
+        [1244, 917]
+      ]
+    }
+  ],
+  "gauges": [
+    {
+      "id": "haut-blanc-1",
+      "pivot": [1596.1, 239.7],
+      "radius": 47,
+      "angleMin": -135,
+      "angleMax": 135,
+      "valueMin": 0,
+      "valueMax": 100,
+      "kind": "dial-white"
+    },
+    {
+      "id": "haut-blanc-2",
+      "pivot": [1595.8, 405.2],
+      "radius": 47,
+      "angleMin": -135,
+      "angleMax": 135,
+      "valueMin": 0,
+      "valueMax": 100,
+      "kind": "dial-white"
+    },
+    {
+      "id": "haut-noir-1",
+      "pivot": [1785.4, 239.6],
+      "radius": 49,
+      "angleMin": -135,
+      "angleMax": 135,
+      "valueMin": 0,
+      "valueMax": 100,
+      "kind": "dial-black"
+    },
+    {
+      "id": "haut-noir-2",
+      "pivot": [1784.7, 405.1],
+      "radius": 49,
+      "angleMin": -135,
+      "angleMax": 135,
+      "valueMin": 0,
+      "valueMax": 100,
+      "kind": "dial-black"
+    },
+    {
+      "id": "b-grand-hg",
+      "pivot": [700, 562],
+      "radius": 28,
+      "angleMin": -128,
+      "angleMax": 128,
+      "valueMin": 0,
+      "valueMax": 10,
+      "kind": "pressure"
+    },
+    {
+      "id": "b-grand-hd",
+      "pivot": [971, 562],
+      "radius": 28,
+      "angleMin": -128,
+      "angleMax": 128,
+      "valueMin": 0,
+      "valueMax": 10,
+      "kind": "pressure"
+    },
+    {
+      "id": "b-grand-mg",
+      "pivot": [697, 654.5],
+      "radius": 28,
+      "angleMin": -128,
+      "angleMax": 128,
+      "valueMin": 0,
+      "valueMax": 10,
+      "kind": "pressure"
+    },
+    {
+      "id": "b-grand-md",
+      "pivot": [970, 654.5],
+      "radius": 28,
+      "angleMin": -128,
+      "angleMax": 128,
+      "valueMin": 0,
+      "valueMax": 10,
+      "kind": "pressure"
+    },
+    {
+      "id": "b-petit-g",
+      "pivot": [693.5, 720],
+      "radius": 16,
+      "angleMin": -128,
+      "angleMax": 128,
+      "valueMin": 0,
+      "valueMax": 10,
+      "kind": "pressure"
+    },
+    {
+      "id": "b-petit-d",
+      "pivot": [970, 720],
+      "radius": 16,
+      "angleMin": -128,
+      "angleMax": 128,
+      "valueMin": 0,
+      "valueMax": 10,
+      "kind": "pressure"
+    },
+    {
+      "id": "b-bas-1",
+      "pivot": [784.5, 781],
+      "radius": 16,
+      "angleMin": -128,
+      "angleMax": 128,
+      "valueMin": 0,
+      "valueMax": 10,
+      "kind": "pressure"
+    },
+    {
+      "id": "b-bas-2",
+      "pivot": [832.5, 781],
+      "radius": 16,
+      "angleMin": -128,
+      "angleMax": 128,
+      "valueMin": 0,
+      "valueMax": 10,
+      "kind": "pressure"
+    },
+    {
+      "id": "b-bas-3",
+      "pivot": [880, 781],
+      "radius": 16,
+      "angleMin": -128,
+      "angleMax": 128,
+      "valueMin": 0,
+      "valueMax": 10,
+      "kind": "pressure"
+    },
+    {
+      "id": "b-volt-1",
+      "pivot": [708, 1013],
+      "radius": 39,
+      "angleMin": -57,
+      "angleMax": 6,
+      "valueMin": 0,
+      "valueMax": 300,
+      "kind": "voltmeter"
+    },
+    {
+      "id": "b-volt-2",
+      "pivot": [778, 1013],
+      "radius": 39,
+      "angleMin": -57,
+      "angleMax": 6,
+      "valueMin": 0,
+      "valueMax": 300,
+      "kind": "voltmeter"
+    },
+    {
+      "id": "d-volt-1",
+      "pivot": [1540, 807],
+      "radius": 46,
+      "angleMin": -80,
+      "angleMax": -5,
+      "valueMin": 0,
+      "valueMax": 300,
+      "kind": "voltmeter"
+    },
+    {
+      "id": "d-volt-2",
+      "pivot": [1620, 807],
+      "radius": 46,
+      "angleMin": -80,
+      "angleMax": -5,
+      "valueMin": 0,
+      "valueMax": 300,
+      "kind": "voltmeter"
+    },
+    {
+      "id": "d-volt-3",
+      "pivot": [1700, 807],
+      "radius": 46,
+      "angleMin": -80,
+      "angleMax": -5,
+      "valueMin": 0,
+      "valueMax": 300,
+      "kind": "voltmeter"
+    },
+    {
+      "id": "d-vumetre",
+      "pivot": [1677, 914],
+      "radius": 25,
+      "angleMin": -45,
+      "angleMax": 45,
+      "valueMin": 0,
+      "valueMax": 10,
+      "kind": "vu-meter"
+    }
+  ],
+  "lamps": [
+    {
+      "id": "d-rouge-1",
+      "center": [1726.7, 904],
+      "radius": 8.5,
+      "color": "rouge"
+    },
+    {
+      "id": "d-rouge-2",
+      "center": [1747.8, 904],
+      "radius": 8.5,
+      "color": "rouge"
+    },
+    {
+      "id": "d-rouge-3",
+      "center": [1768.5, 904],
+      "radius": 8.5,
+      "color": "rouge"
+    },
+    {
+      "id": "d-rouge-4",
+      "center": [1789.4, 904],
+      "radius": 8.5,
+      "color": "rouge"
+    },
+    {
+      "id": "d-rouge-5",
+      "center": [1810.5, 904],
+      "radius": 8.5,
+      "color": "rouge"
+    },
+    {
+      "id": "d-rouge-6",
+      "center": [1831.4, 904],
+      "radius": 8.5,
+      "color": "rouge"
+    },
+    {
+      "id": "d-rouge-7",
+      "center": [1853.4, 904],
+      "radius": 8.5,
+      "color": "rouge"
+    },
+    {
+      "id": "d-milieu-1",
+      "center": [1658, 948.3],
+      "radius": 8.5,
+      "color": "vert"
+    },
+    {
+      "id": "d-milieu-2",
+      "center": [1683, 948.3],
+      "radius": 8.5,
+      "color": "rouge"
+    },
+    {
+      "id": "d-milieu-3",
+      "center": [1708, 948.3],
+      "radius": 8.5,
+      "color": "vert"
+    },
+    {
+      "id": "d-milieu-4",
+      "center": [1733.3, 948.3],
+      "radius": 8.5,
+      "color": "ambre"
+    },
+    {
+      "id": "d-milieu-5",
+      "center": [1757, 948.3],
+      "radius": 8.5,
+      "color": "rouge"
+    },
+    {
+      "id": "d-milieu-6",
+      "center": [1782, 948.3],
+      "radius": 8.5,
+      "color": "ambre"
+    },
+    {
+      "id": "d-milieu-7",
+      "center": [1830, 948.3],
+      "radius": 8.5,
+      "color": "vert"
+    },
+    {
+      "id": "d-milieu-8",
+      "center": [1850, 948.3],
+      "radius": 8.5,
+      "color": "vert"
+    },
+    {
+      "id": "d-milieu-9",
+      "center": [1870, 948.3],
+      "radius": 8.5,
+      "color": "vert"
+    },
+    {
+      "id": "d-milieu-10",
+      "center": [1889.3, 948.3],
+      "radius": 8.5,
+      "color": "ambre"
+    },
+    {
+      "id": "d-milieu-11",
+      "center": [1909, 948.3],
+      "radius": 8.5,
+      "color": "rouge"
+    },
+    {
+      "id": "d-jaune-1",
+      "center": [1664.4, 995.6],
+      "radius": 8.5,
+      "color": "jaune"
+    },
+    {
+      "id": "d-jaune-2",
+      "center": [1689.4, 995.6],
+      "radius": 8.5,
+      "color": "jaune"
+    },
+    {
+      "id": "d-jaune-3",
+      "center": [1713.8, 995.6],
+      "radius": 8.5,
+      "color": "jaune"
+    },
+    {
+      "id": "d-jaune-4",
+      "center": [1737.6, 995.6],
+      "radius": 8.5,
+      "color": "jaune"
+    },
+    {
+      "id": "d-jaune-5",
+      "center": [1761.7, 995.6],
+      "radius": 8.5,
+      "color": "jaune"
+    }
+  ],
+  "lenses": [
+    {
+      "id": "code-haut-1",
+      "center": [1503.7, 541],
+      "size": [28, 14],
+      "color": "blanc"
+    },
+    {
+      "id": "code-haut-2",
+      "center": [1535.1, 541],
+      "size": [28, 14],
+      "color": "blanc"
+    },
+    {
+      "id": "code-haut-3",
+      "center": [1564.6, 541],
+      "size": [28, 14],
+      "color": "blanc"
+    },
+    {
+      "id": "code-haut-4",
+      "center": [1595.2, 541],
+      "size": [28, 14],
+      "color": "jaune"
+    },
+    {
+      "id": "code-haut-5",
+      "center": [1625.4, 541],
+      "size": [28, 14],
+      "color": "blanc"
+    },
+    {
+      "id": "code-haut-6",
+      "center": [1656.6, 541],
+      "size": [28, 14],
+      "color": "blanc"
+    },
+    {
+      "id": "code-bas-1",
+      "center": [1506.8, 727.6],
+      "size": [28, 14],
+      "color": "rouge"
+    },
+    {
+      "id": "code-bas-2",
+      "center": [1538.9, 727.6],
+      "size": [28, 14],
+      "color": "rouge"
+    },
+    {
+      "id": "code-bas-3",
+      "center": [1571.5, 727.6],
+      "size": [28, 14],
+      "color": "jaune"
+    },
+    {
+      "id": "code-bas-4",
+      "center": [1603.6, 727.6],
+      "size": [28, 14],
+      "color": "blanc"
+    },
+    {
+      "id": "code-bas-5",
+      "center": [1634.8, 727.6],
+      "size": [28, 14],
+      "color": "blanc"
+    },
+    {
+      "id": "code-bas-6",
+      "center": [1666, 727.6],
+      "size": [28, 14],
+      "color": "blanc"
+    }
+  ],
+  "keys": [
+    {
+      "id": "pave-1",
+      "value": "1",
+      "quad": [
+        [1474.5, 887],
+        [1518.5, 887],
+        [1520, 917],
+        [1476, 917]
+      ]
+    },
+    {
+      "id": "pave-2",
+      "value": "2",
+      "quad": [
+        [1520.7, 887],
+        [1564.7, 887],
+        [1566.2, 917],
+        [1522.2, 917]
+      ]
+    },
+    {
+      "id": "pave-3",
+      "value": "3",
+      "quad": [
+        [1566.8, 887],
+        [1610.8, 887],
+        [1612.3, 917],
+        [1568.3, 917]
+      ]
+    },
+    {
+      "id": "pave-4",
+      "value": "4",
+      "quad": [
+        [1477.2, 921],
+        [1522.4, 921],
+        [1523.9, 952],
+        [1478.7, 952]
+      ]
+    },
+    {
+      "id": "pave-5",
+      "value": "5",
+      "quad": [
+        [1523.7, 921],
+        [1568.9, 921],
+        [1570.4, 952],
+        [1525.2, 952]
+      ]
+    },
+    {
+      "id": "pave-6",
+      "value": "6",
+      "quad": [
+        [1569.9, 921],
+        [1615.1, 921],
+        [1616.6, 952],
+        [1571.4, 952]
+      ]
+    },
+    {
+      "id": "pave-7",
+      "value": "7",
+      "quad": [
+        [1479.7, 956],
+        [1526.1, 956],
+        [1527.6, 990],
+        [1481.2, 990]
+      ]
+    },
+    {
+      "id": "pave-8",
+      "value": "8",
+      "quad": [
+        [1527, 956],
+        [1573.4, 956],
+        [1574.9, 990],
+        [1528.5, 990]
+      ]
+    },
+    {
+      "id": "pave-9",
+      "value": "9",
+      "quad": [
+        [1573.6, 956],
+        [1620, 956],
+        [1621.5, 990],
+        [1575.1, 990]
+      ]
+    },
+    {
+      "id": "pave-effacer",
+      "value": "EFFACER",
+      "quad": [
+        [1482.8, 994],
+        [1530.4, 994],
+        [1531.9, 1034],
+        [1484.3, 1034]
+      ]
+    },
+    {
+      "id": "pave-0",
+      "value": "0",
+      "quad": [
+        [1530.2, 994],
+        [1577.8, 994],
+        [1579.3, 1034],
+        [1531.7, 1034]
+      ]
+    },
+    {
+      "id": "pave-entrer",
+      "value": "ENTRER",
+      "quad": [
+        [1577.2, 994],
+        [1624.8, 994],
+        [1626.3, 1034],
+        [1578.7, 1034]
+      ]
+    }
+  ],
+  "lights": [
+    {
+      "id": "d-rouge-1",
+      "color": "rouge",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-rouge",
+      "rect": [1718.5, 896.7, 16.4, 14.6],
+      "center": [1726.7, 904]
+    },
+    {
+      "id": "d-rouge-2",
+      "color": "rouge",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-rouge",
+      "rect": [1739.6, 896.7, 16.4, 14.6],
+      "center": [1747.8, 904]
+    },
+    {
+      "id": "d-rouge-3",
+      "color": "rouge",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-rouge",
+      "rect": [1760.3, 896.7, 16.4, 14.6],
+      "center": [1768.5, 904]
+    },
+    {
+      "id": "d-rouge-4",
+      "color": "rouge",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-rouge",
+      "rect": [1781.2, 896.7, 16.4, 14.6],
+      "center": [1789.4, 904]
+    },
+    {
+      "id": "d-rouge-5",
+      "color": "rouge",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-rouge",
+      "rect": [1802.3, 896.7, 16.4, 14.6],
+      "center": [1810.5, 904]
+    },
+    {
+      "id": "d-rouge-6",
+      "color": "rouge",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-rouge",
+      "rect": [1823.2, 896.7, 16.4, 14.6],
+      "center": [1831.4, 904]
+    },
+    {
+      "id": "d-rouge-7",
+      "color": "rouge",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-rouge",
+      "rect": [1845.2, 896.7, 16.4, 14.6],
+      "center": [1853.4, 904]
+    },
+    {
+      "id": "d-milieu-1",
+      "color": "vert",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-milieu",
+      "rect": [1649.8, 941, 16.4, 14.6],
+      "center": [1658, 948.3]
+    },
+    {
+      "id": "d-milieu-2",
+      "color": "rouge",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-milieu",
+      "rect": [1674.8, 941, 16.4, 14.6],
+      "center": [1683, 948.3]
+    },
+    {
+      "id": "d-milieu-3",
+      "color": "vert",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-milieu",
+      "rect": [1699.8, 941, 16.4, 14.6],
+      "center": [1708, 948.3]
+    },
+    {
+      "id": "d-milieu-4",
+      "color": "ambre",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-milieu",
+      "rect": [1725.1, 941, 16.4, 14.6],
+      "center": [1733.3, 948.3]
+    },
+    {
+      "id": "d-milieu-5",
+      "color": "rouge",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-milieu",
+      "rect": [1748.8, 941, 16.4, 14.6],
+      "center": [1757, 948.3]
+    },
+    {
+      "id": "d-milieu-6",
+      "color": "ambre",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-milieu",
+      "rect": [1773.8, 941, 16.4, 14.6],
+      "center": [1782, 948.3]
+    },
+    {
+      "id": "d-milieu-7",
+      "color": "vert",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-milieu",
+      "rect": [1821.8, 941, 16.4, 14.6],
+      "center": [1830, 948.3]
+    },
+    {
+      "id": "d-milieu-8",
+      "color": "vert",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-milieu",
+      "rect": [1841.8, 941, 16.4, 14.6],
+      "center": [1850, 948.3]
+    },
+    {
+      "id": "d-milieu-9",
+      "color": "vert",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-milieu",
+      "rect": [1861.8, 941, 16.4, 14.6],
+      "center": [1870, 948.3]
+    },
+    {
+      "id": "d-milieu-10",
+      "color": "ambre",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-milieu",
+      "rect": [1881.1, 941, 16.4, 14.6],
+      "center": [1889.3, 948.3]
+    },
+    {
+      "id": "d-milieu-11",
+      "color": "rouge",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-milieu",
+      "rect": [1900.8, 941, 16.4, 14.6],
+      "center": [1909, 948.3]
+    },
+    {
+      "id": "d-jaune-1",
+      "color": "jaune",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-jaune",
+      "rect": [1656.2, 988.3000000000001, 16.4, 14.6],
+      "center": [1664.4, 995.6]
+    },
+    {
+      "id": "d-jaune-2",
+      "color": "jaune",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-jaune",
+      "rect": [1681.2, 988.3000000000001, 16.4, 14.6],
+      "center": [1689.4, 995.6]
+    },
+    {
+      "id": "d-jaune-3",
+      "color": "jaune",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-jaune",
+      "rect": [1705.6, 988.3000000000001, 16.4, 14.6],
+      "center": [1713.8, 995.6]
+    },
+    {
+      "id": "d-jaune-4",
+      "color": "jaune",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-jaune",
+      "rect": [1729.3999999999999, 988.3000000000001, 16.4, 14.6],
+      "center": [1737.6, 995.6]
+    },
+    {
+      "id": "d-jaune-5",
+      "color": "jaune",
+      "kind": "round",
+      "extra": false,
+      "bay": "D",
+      "group": "d-jaune",
+      "rect": [1753.5, 988.3000000000001, 16.4, 14.6],
+      "center": [1761.7, 995.6]
+    },
+    {
+      "id": "code-haut-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": false,
+      "bay": "D",
+      "group": "code-haut",
+      "rect": [1491.4, 535.8, 24.6, 10.4],
+      "quad": [
+        [1491.4, 535.8],
+        [1516, 535.8],
+        [1516, 546.1999999999999],
+        [1491.4, 546.1999999999999]
+      ]
+    },
+    {
+      "id": "code-haut-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": false,
+      "bay": "D",
+      "group": "code-haut",
+      "rect": [1522.8, 535.8, 24.6, 10.4],
+      "quad": [
+        [1522.8, 535.8],
+        [1547.3999999999999, 535.8],
+        [1547.3999999999999, 546.1999999999999],
+        [1522.8, 546.1999999999999]
+      ]
+    },
+    {
+      "id": "code-haut-3",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": false,
+      "bay": "D",
+      "group": "code-haut",
+      "rect": [1552.3, 535.8, 24.6, 10.4],
+      "quad": [
+        [1552.3, 535.8],
+        [1576.8999999999999, 535.8],
+        [1576.8999999999999, 546.1999999999999],
+        [1552.3, 546.1999999999999]
+      ]
+    },
+    {
+      "id": "code-haut-4",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": false,
+      "bay": "D",
+      "group": "code-haut",
+      "rect": [1582.9, 535.8, 24.6, 10.4],
+      "quad": [
+        [1582.9, 535.8],
+        [1607.5, 535.8],
+        [1607.5, 546.1999999999999],
+        [1582.9, 546.1999999999999]
+      ]
+    },
+    {
+      "id": "code-haut-5",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": false,
+      "bay": "D",
+      "group": "code-haut",
+      "rect": [1613.1000000000001, 535.8, 24.6, 10.4],
+      "quad": [
+        [1613.1000000000001, 535.8],
+        [1637.7, 535.8],
+        [1637.7, 546.1999999999999],
+        [1613.1000000000001, 546.1999999999999]
+      ]
+    },
+    {
+      "id": "code-haut-6",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": false,
+      "bay": "D",
+      "group": "code-haut",
+      "rect": [1644.3, 535.8, 24.6, 10.4],
+      "quad": [
+        [1644.3, 535.8],
+        [1668.8999999999999, 535.8],
+        [1668.8999999999999, 546.1999999999999],
+        [1644.3, 546.1999999999999]
+      ]
+    },
+    {
+      "id": "code-bas-1",
+      "color": "rouge",
+      "kind": "lens",
+      "extra": false,
+      "bay": "D",
+      "group": "code-bas",
+      "rect": [1494.5, 722.4, 24.6, 10.4],
+      "quad": [
+        [1494.5, 722.4],
+        [1519.1, 722.4],
+        [1519.1, 732.8],
+        [1494.5, 732.8]
+      ]
+    },
+    {
+      "id": "code-bas-2",
+      "color": "rouge",
+      "kind": "lens",
+      "extra": false,
+      "bay": "D",
+      "group": "code-bas",
+      "rect": [1526.6000000000001, 722.4, 24.6, 10.4],
+      "quad": [
+        [1526.6000000000001, 722.4],
+        [1551.2, 722.4],
+        [1551.2, 732.8],
+        [1526.6000000000001, 732.8]
+      ]
+    },
+    {
+      "id": "code-bas-3",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": false,
+      "bay": "D",
+      "group": "code-bas",
+      "rect": [1559.2, 722.4, 24.6, 10.4],
+      "quad": [
+        [1559.2, 722.4],
+        [1583.8, 722.4],
+        [1583.8, 732.8],
+        [1559.2, 732.8]
+      ]
+    },
+    {
+      "id": "code-bas-4",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": false,
+      "bay": "D",
+      "group": "code-bas",
+      "rect": [1591.3, 722.4, 24.6, 10.4],
+      "quad": [
+        [1591.3, 722.4],
+        [1615.8999999999999, 722.4],
+        [1615.8999999999999, 732.8],
+        [1591.3, 732.8]
+      ]
+    },
+    {
+      "id": "code-bas-5",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": false,
+      "bay": "D",
+      "group": "code-bas",
+      "rect": [1622.5, 722.4, 24.6, 10.4],
+      "quad": [
+        [1622.5, 722.4],
+        [1647.1, 722.4],
+        [1647.1, 732.8],
+        [1622.5, 732.8]
+      ]
+    },
+    {
+      "id": "code-bas-6",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": false,
+      "bay": "D",
+      "group": "code-bas",
+      "rect": [1653.7, 722.4, 24.6, 10.4],
+      "quad": [
+        [1653.7, 722.4],
+        [1678.3, 722.4],
+        [1678.3, 732.8],
+        [1653.7, 732.8]
+      ]
+    },
+    {
+      "id": "a-bande-rouge-1",
+      "color": "rouge",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-bande-rouge",
+      "rect": [319.5, 853, 20.5, 14],
+      "quad": [
+        [320.5, 853],
+        [340, 853],
+        [339, 867],
+        [319.5, 867]
+      ]
+    },
+    {
+      "id": "a-bande-rouge-2",
+      "color": "rouge",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-bande-rouge",
+      "rect": [339.5, 853, 20.5, 14],
+      "quad": [
+        [340.5, 853],
+        [360, 853],
+        [359, 867],
+        [339.5, 867]
+      ]
+    },
+    {
+      "id": "a-bande-rouge-3",
+      "color": "rouge",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-bande-rouge",
+      "rect": [359.5, 853, 20.5, 14],
+      "quad": [
+        [360.5, 853],
+        [380, 853],
+        [379, 867],
+        [359.5, 867]
+      ]
+    },
+    {
+      "id": "a-bande-rouge-4",
+      "color": "rouge",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-bande-rouge",
+      "rect": [379.5, 853, 20.5, 14],
+      "quad": [
+        [380.5, 853],
+        [400, 853],
+        [399, 867],
+        [379.5, 867]
+      ]
+    },
+    {
+      "id": "a-bande-blanche-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-bande-blanche",
+      "rect": [436, 853.5, 24, 13],
+      "quad": [
+        [437, 853.5],
+        [460, 853.5],
+        [459, 866.5],
+        [436, 866.5]
+      ]
+    },
+    {
+      "id": "a-bande-blanche-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-bande-blanche",
+      "rect": [461.5, 853.5, 24, 13],
+      "quad": [
+        [462.5, 853.5],
+        [485.5, 853.5],
+        [484.5, 866.5],
+        [461.5, 866.5]
+      ]
+    },
+    {
+      "id": "a-bande-blanche-3",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-bande-blanche",
+      "rect": [487, 853.5, 24, 13],
+      "quad": [
+        [488, 853.5],
+        [511, 853.5],
+        [510, 866.5],
+        [487, 866.5]
+      ]
+    },
+    {
+      "id": "a-bande-droite-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-bande-droite",
+      "rect": [557, 853.5, 30, 13],
+      "quad": [
+        [558, 853.5],
+        [587, 853.5],
+        [586, 866.5],
+        [557, 866.5]
+      ]
+    },
+    {
+      "id": "a-bande-droite-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-bande-droite",
+      "rect": [589, 853.5, 30, 13],
+      "quad": [
+        [590, 853.5],
+        [619, 853.5],
+        [618, 866.5],
+        [589, 866.5]
+      ]
+    },
+    {
+      "id": "a-colonne-1-1",
+      "color": "bleu",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-colonne-1",
+      "rect": [552.5, 885, 35.5, 16.5],
+      "quad": [
+        [553.5, 885],
+        [588, 885],
+        [587, 901.5],
+        [552.5, 901.5]
+      ]
+    },
+    {
+      "id": "a-colonne-2-1",
+      "color": "bleu",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-colonne-2",
+      "rect": [590, 885, 39.5, 16.5],
+      "quad": [
+        [591, 885],
+        [629.5, 885],
+        [628.5, 901.5],
+        [590, 901.5]
+      ]
+    },
+    {
+      "id": "a-colonne-1-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-colonne-1",
+      "rect": [550, 903.5, 36.5, 16.5],
+      "quad": [
+        [551, 903.5],
+        [586.5, 903.5],
+        [585.5, 920],
+        [550, 920]
+      ]
+    },
+    {
+      "id": "a-colonne-2-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-colonne-2",
+      "rect": [589, 903.5, 39, 16.5],
+      "quad": [
+        [590, 903.5],
+        [628, 903.5],
+        [627, 920],
+        [589, 920]
+      ]
+    },
+    {
+      "id": "a-colonne-1-3",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-colonne-1",
+      "rect": [547.5, 922.5, 37.5, 16.5],
+      "quad": [
+        [548.5, 922.5],
+        [585, 922.5],
+        [584, 939],
+        [547.5, 939]
+      ]
+    },
+    {
+      "id": "a-colonne-2-3",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-colonne-2",
+      "rect": [587.5, 922.5, 39, 16.5],
+      "quad": [
+        [588.5, 922.5],
+        [626.5, 922.5],
+        [625.5, 939],
+        [587.5, 939]
+      ]
+    },
+    {
+      "id": "a-colonne-1-4",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-colonne-1",
+      "rect": [545, 941.5, 38.5, 16.5],
+      "quad": [
+        [546, 941.5],
+        [583.5, 941.5],
+        [582.5, 958],
+        [545, 958]
+      ]
+    },
+    {
+      "id": "a-colonne-2-4",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-colonne-2",
+      "rect": [585.5, 941.5, 39, 16.5],
+      "quad": [
+        [586.5, 941.5],
+        [624.5, 941.5],
+        [623.5, 958],
+        [585.5, 958]
+      ]
+    },
+    {
+      "id": "a-colonne-1-5",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-colonne-1",
+      "rect": [542, 961, 39.5, 16.5],
+      "quad": [
+        [543, 961],
+        [581.5, 961],
+        [580.5, 977.5],
+        [542, 977.5]
+      ]
+    },
+    {
+      "id": "a-colonne-2-5",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-colonne-2",
+      "rect": [584, 961, 38.5, 16.5],
+      "quad": [
+        [585, 961],
+        [622.5, 961],
+        [621.5, 977.5],
+        [584, 977.5]
+      ]
+    },
+    {
+      "id": "a-colonne-1-6",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-colonne-1",
+      "rect": [539.5, 979.5, 40.5, 16.5],
+      "quad": [
+        [540.5, 979.5],
+        [580, 979.5],
+        [579, 996],
+        [539.5, 996]
+      ]
+    },
+    {
+      "id": "a-colonne-2-6",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "A",
+      "group": "a-colonne-2",
+      "rect": [582, 979.5, 39, 16.5],
+      "quad": [
+        [583, 979.5],
+        [621, 979.5],
+        [620, 996],
+        [582, 996]
+      ]
+    },
+    {
+      "id": "b-bande-gauche-1-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-gauche-1",
+      "rect": [693, 854.5, 20.5, 12],
+      "quad": [
+        [693, 854.5],
+        [713.5, 854.5],
+        [713.5, 866.5],
+        [693, 866.5]
+      ]
+    },
+    {
+      "id": "b-bande-gauche-1-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-gauche-1",
+      "rect": [716.75, 854.5, 20.5, 12],
+      "quad": [
+        [716.75, 854.5],
+        [737.25, 854.5],
+        [737.25, 866.5],
+        [716.75, 866.5]
+      ]
+    },
+    {
+      "id": "b-bande-gauche-1-3",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-gauche-1",
+      "rect": [740.5, 854.5, 20.5, 12],
+      "quad": [
+        [740.5, 854.5],
+        [761, 854.5],
+        [761, 866.5],
+        [740.5, 866.5]
+      ]
+    },
+    {
+      "id": "b-bande-gauche-1-4",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-gauche-1",
+      "rect": [764.25, 854.5, 20.5, 12],
+      "quad": [
+        [764.25, 854.5],
+        [784.75, 854.5],
+        [784.75, 866.5],
+        [764.25, 866.5]
+      ]
+    },
+    {
+      "id": "b-bande-gauche-2-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-gauche-2",
+      "rect": [693, 870.5, 20.5, 12],
+      "quad": [
+        [693, 870.5],
+        [713.5, 870.5],
+        [713.5, 882.5],
+        [693, 882.5]
+      ]
+    },
+    {
+      "id": "b-bande-gauche-2-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-gauche-2",
+      "rect": [716.75, 870.5, 20.5, 12],
+      "quad": [
+        [716.75, 870.5],
+        [737.25, 870.5],
+        [737.25, 882.5],
+        [716.75, 882.5]
+      ]
+    },
+    {
+      "id": "b-bande-gauche-2-3",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-gauche-2",
+      "rect": [740.5, 870.5, 20.5, 12],
+      "quad": [
+        [740.5, 870.5],
+        [761, 870.5],
+        [761, 882.5],
+        [740.5, 882.5]
+      ]
+    },
+    {
+      "id": "b-bande-gauche-2-4",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-gauche-2",
+      "rect": [764.25, 870.5, 20.5, 12],
+      "quad": [
+        [764.25, 870.5],
+        [784.75, 870.5],
+        [784.75, 882.5],
+        [764.25, 882.5]
+      ]
+    },
+    {
+      "id": "b-bande-milieu-1-1",
+      "color": "rouge",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-milieu-1",
+      "rect": [817.5, 854, 18.5, 12],
+      "quad": [
+        [817.5, 854],
+        [836, 854],
+        [836, 866],
+        [817.5, 866]
+      ]
+    },
+    {
+      "id": "b-bande-milieu-1-2",
+      "color": "rouge",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-milieu-1",
+      "rect": [839.25, 854, 18.5, 12],
+      "quad": [
+        [839.25, 854],
+        [857.75, 854],
+        [857.75, 866],
+        [839.25, 866]
+      ]
+    },
+    {
+      "id": "b-bande-milieu-1-3",
+      "color": "rouge",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-milieu-1",
+      "rect": [861, 854, 18.5, 12],
+      "quad": [
+        [861, 854],
+        [879.5, 854],
+        [879.5, 866],
+        [861, 866]
+      ]
+    },
+    {
+      "id": "b-bande-milieu-1-4",
+      "color": "rouge",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-milieu-1",
+      "rect": [882.75, 854, 18.5, 12],
+      "quad": [
+        [882.75, 854],
+        [901.25, 854],
+        [901.25, 866],
+        [882.75, 866]
+      ]
+    },
+    {
+      "id": "b-bande-milieu-2-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-milieu-2",
+      "rect": [817.5, 870.5, 18.5, 12],
+      "quad": [
+        [817.5, 870.5],
+        [836, 870.5],
+        [836, 882.5],
+        [817.5, 882.5]
+      ]
+    },
+    {
+      "id": "b-bande-milieu-2-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-milieu-2",
+      "rect": [839.25, 870.5, 18.5, 12],
+      "quad": [
+        [839.25, 870.5],
+        [857.75, 870.5],
+        [857.75, 882.5],
+        [839.25, 882.5]
+      ]
+    },
+    {
+      "id": "b-bande-milieu-2-3",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-milieu-2",
+      "rect": [861, 870.5, 18.5, 12],
+      "quad": [
+        [861, 870.5],
+        [879.5, 870.5],
+        [879.5, 882.5],
+        [861, 882.5]
+      ]
+    },
+    {
+      "id": "b-bande-milieu-2-4",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-milieu-2",
+      "rect": [882.75, 870.5, 18.5, 12],
+      "quad": [
+        [882.75, 870.5],
+        [901.25, 870.5],
+        [901.25, 882.5],
+        [882.75, 882.5]
+      ]
+    },
+    {
+      "id": "b-bande-droite-1-1",
+      "color": "vert",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-droite-1",
+      "rect": [921, 854, 18.5, 12],
+      "quad": [
+        [921, 854],
+        [939.5, 854],
+        [939.5, 866],
+        [921, 866]
+      ]
+    },
+    {
+      "id": "b-bande-droite-1-2",
+      "color": "vert",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-droite-1",
+      "rect": [942.5, 854, 18.5, 12],
+      "quad": [
+        [942.5, 854],
+        [961, 854],
+        [961, 866],
+        [942.5, 866]
+      ]
+    },
+    {
+      "id": "b-bande-droite-1-3",
+      "color": "vert",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-droite-1",
+      "rect": [964, 854, 18.5, 12],
+      "quad": [
+        [964, 854],
+        [982.5, 854],
+        [982.5, 866],
+        [964, 866]
+      ]
+    },
+    {
+      "id": "b-bande-droite-1-4",
+      "color": "vert",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-droite-1",
+      "rect": [985.5, 854, 18.5, 12],
+      "quad": [
+        [985.5, 854],
+        [1004, 854],
+        [1004, 866],
+        [985.5, 866]
+      ]
+    },
+    {
+      "id": "b-bande-droite-2-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-droite-2",
+      "rect": [921, 870.5, 18.5, 12],
+      "quad": [
+        [921, 870.5],
+        [939.5, 870.5],
+        [939.5, 882.5],
+        [921, 882.5]
+      ]
+    },
+    {
+      "id": "b-bande-droite-2-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-droite-2",
+      "rect": [942.5, 870.5, 18.5, 12],
+      "quad": [
+        [942.5, 870.5],
+        [961, 870.5],
+        [961, 882.5],
+        [942.5, 882.5]
+      ]
+    },
+    {
+      "id": "b-bande-droite-2-3",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-droite-2",
+      "rect": [964, 870.5, 18.5, 12],
+      "quad": [
+        [964, 870.5],
+        [982.5, 870.5],
+        [982.5, 882.5],
+        [964, 882.5]
+      ]
+    },
+    {
+      "id": "b-bande-droite-2-4",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-bande-droite-2",
+      "rect": [985.5, 870.5, 18.5, 12],
+      "quad": [
+        [985.5, 870.5],
+        [1004, 870.5],
+        [1004, 882.5],
+        [985.5, 882.5]
+      ]
+    },
+    {
+      "id": "b-banc-1-1-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-1-1",
+      "rect": [814.6, 898.5, 16.3, 16],
+      "quad": [
+        [815, 898.5],
+        [830.9, 898.5],
+        [830.5, 914.5],
+        [814.6, 914.5]
+      ]
+    },
+    {
+      "id": "b-banc-1-1-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-1-1",
+      "rect": [830.6, 898.5, 16.3, 16],
+      "quad": [
+        [831, 898.5],
+        [846.9, 898.5],
+        [846.5, 914.5],
+        [830.6, 914.5]
+      ]
+    },
+    {
+      "id": "b-banc-1-2-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-1-2",
+      "rect": [813.5, 918, 16.3, 16],
+      "quad": [
+        [813.9, 918],
+        [829.8, 918],
+        [829.4, 934],
+        [813.5, 934]
+      ]
+    },
+    {
+      "id": "b-banc-1-2-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-1-2",
+      "rect": [829.5, 918, 16.3, 16],
+      "quad": [
+        [829.9, 918],
+        [845.8, 918],
+        [845.4, 934],
+        [829.5, 934]
+      ]
+    },
+    {
+      "id": "b-banc-1-3-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-1-3",
+      "rect": [812.4, 938, 16.3, 16],
+      "quad": [
+        [812.8, 938],
+        [828.6999999999999, 938],
+        [828.3, 954],
+        [812.4, 954]
+      ]
+    },
+    {
+      "id": "b-banc-1-3-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-1-3",
+      "rect": [828.4, 938, 16.3, 16],
+      "quad": [
+        [828.8, 938],
+        [844.6999999999999, 938],
+        [844.3, 954],
+        [828.4, 954]
+      ]
+    },
+    {
+      "id": "b-banc-1-4-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-1-4",
+      "rect": [811.3000000000001, 958, 16.3, 16],
+      "quad": [
+        [811.7, 958],
+        [827.6, 958],
+        [827.2, 974],
+        [811.3000000000001, 974]
+      ]
+    },
+    {
+      "id": "b-banc-1-4-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-1-4",
+      "rect": [827.3000000000001, 958, 16.3, 16],
+      "quad": [
+        [827.7, 958],
+        [843.6, 958],
+        [843.2, 974],
+        [827.3000000000001, 974]
+      ]
+    },
+    {
+      "id": "b-banc-1-5-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-1-5",
+      "rect": [810.2, 978, 16.3, 16],
+      "quad": [
+        [810.6, 978],
+        [826.5, 978],
+        [826.1, 994],
+        [810.2, 994]
+      ]
+    },
+    {
+      "id": "b-banc-1-5-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-1-5",
+      "rect": [826.2, 978, 16.3, 16],
+      "quad": [
+        [826.6, 978],
+        [842.5, 978],
+        [842.1, 994],
+        [826.2, 994]
+      ]
+    },
+    {
+      "id": "b-banc-1-6-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-1-6",
+      "rect": [809.1, 999, 16.3, 16],
+      "quad": [
+        [809.5, 999],
+        [825.4, 999],
+        [825, 1015],
+        [809.1, 1015]
+      ]
+    },
+    {
+      "id": "b-banc-1-6-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-1-6",
+      "rect": [825.1, 999, 16.3, 16],
+      "quad": [
+        [825.5, 999],
+        [841.4, 999],
+        [841, 1015],
+        [825.1, 1015]
+      ]
+    },
+    {
+      "id": "b-banc-2-1-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-2-1",
+      "rect": [866.1, 898.5, 16.3, 16],
+      "quad": [
+        [866.5, 898.5],
+        [882.4, 898.5],
+        [882, 914.5],
+        [866.1, 914.5]
+      ]
+    },
+    {
+      "id": "b-banc-2-1-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-2-1",
+      "rect": [882.1, 898.5, 16.3, 16],
+      "quad": [
+        [882.5, 898.5],
+        [898.4, 898.5],
+        [898, 914.5],
+        [882.1, 914.5]
+      ]
+    },
+    {
+      "id": "b-banc-2-2-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-2-2",
+      "rect": [865.3000000000001, 918, 16.3, 16],
+      "quad": [
+        [865.7, 918],
+        [881.6, 918],
+        [881.2, 934],
+        [865.3000000000001, 934]
+      ]
+    },
+    {
+      "id": "b-banc-2-2-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-2-2",
+      "rect": [881.3000000000001, 918, 16.3, 16],
+      "quad": [
+        [881.7, 918],
+        [897.6, 918],
+        [897.2, 934],
+        [881.3000000000001, 934]
+      ]
+    },
+    {
+      "id": "b-banc-2-3-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-2-3",
+      "rect": [864.5, 938, 16.3, 16],
+      "quad": [
+        [864.9, 938],
+        [880.8, 938],
+        [880.4, 954],
+        [864.5, 954]
+      ]
+    },
+    {
+      "id": "b-banc-2-3-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-2-3",
+      "rect": [880.5, 938, 16.3, 16],
+      "quad": [
+        [880.9, 938],
+        [896.8, 938],
+        [896.4, 954],
+        [880.5, 954]
+      ]
+    },
+    {
+      "id": "b-banc-2-4-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-2-4",
+      "rect": [863.7, 958, 16.3, 16],
+      "quad": [
+        [864.1, 958],
+        [880, 958],
+        [879.6, 974],
+        [863.7, 974]
+      ]
+    },
+    {
+      "id": "b-banc-2-4-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-2-4",
+      "rect": [879.7, 958, 16.3, 16],
+      "quad": [
+        [880.1, 958],
+        [896, 958],
+        [895.6, 974],
+        [879.7, 974]
+      ]
+    },
+    {
+      "id": "b-banc-2-5-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-2-5",
+      "rect": [862.9, 978, 16.3, 16],
+      "quad": [
+        [863.3, 978],
+        [879.1999999999999, 978],
+        [878.8, 994],
+        [862.9, 994]
+      ]
+    },
+    {
+      "id": "b-banc-2-5-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-2-5",
+      "rect": [878.9, 978, 16.3, 16],
+      "quad": [
+        [879.3, 978],
+        [895.1999999999999, 978],
+        [894.8, 994],
+        [878.9, 994]
+      ]
+    },
+    {
+      "id": "b-banc-2-6-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-2-6",
+      "rect": [862.1, 999, 16.3, 16],
+      "quad": [
+        [862.5, 999],
+        [878.4, 999],
+        [878, 1015],
+        [862.1, 1015]
+      ]
+    },
+    {
+      "id": "b-banc-2-6-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-2-6",
+      "rect": [878.1, 999, 16.3, 16],
+      "quad": [
+        [878.5, 999],
+        [894.4, 999],
+        [894, 1015],
+        [878.1, 1015]
+      ]
+    },
+    {
+      "id": "b-banc-3-1-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-3-1",
+      "rect": [920.1, 898.5, 16.3, 16],
+      "quad": [
+        [920.5, 898.5],
+        [936.4, 898.5],
+        [936, 914.5],
+        [920.1, 914.5]
+      ]
+    },
+    {
+      "id": "b-banc-3-1-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-3-1",
+      "rect": [936.6, 898.5, 16.3, 16],
+      "quad": [
+        [937, 898.5],
+        [952.9, 898.5],
+        [952.5, 914.5],
+        [936.6, 914.5]
+      ]
+    },
+    {
+      "id": "b-banc-3-2-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-3-2",
+      "rect": [919.5, 918, 16.3, 16],
+      "quad": [
+        [919.9, 918],
+        [935.8, 918],
+        [935.4, 934],
+        [919.5, 934]
+      ]
+    },
+    {
+      "id": "b-banc-3-2-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-3-2",
+      "rect": [936, 918, 16.3, 16],
+      "quad": [
+        [936.4, 918],
+        [952.3, 918],
+        [951.9, 934],
+        [936, 934]
+      ]
+    },
+    {
+      "id": "b-banc-3-3-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-3-3",
+      "rect": [918.9, 938, 16.3, 16],
+      "quad": [
+        [919.3, 938],
+        [935.1999999999999, 938],
+        [934.8, 954],
+        [918.9, 954]
+      ]
+    },
+    {
+      "id": "b-banc-3-3-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-3-3",
+      "rect": [935.4, 938, 16.3, 16],
+      "quad": [
+        [935.8, 938],
+        [951.6999999999999, 938],
+        [951.3, 954],
+        [935.4, 954]
+      ]
+    },
+    {
+      "id": "b-banc-3-4-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-3-4",
+      "rect": [918.3000000000001, 958, 16.3, 16],
+      "quad": [
+        [918.7, 958],
+        [934.6, 958],
+        [934.2, 974],
+        [918.3000000000001, 974]
+      ]
+    },
+    {
+      "id": "b-banc-3-4-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-3-4",
+      "rect": [934.8000000000001, 958, 16.3, 16],
+      "quad": [
+        [935.2, 958],
+        [951.1, 958],
+        [950.7, 974],
+        [934.8000000000001, 974]
+      ]
+    },
+    {
+      "id": "b-banc-3-5-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-3-5",
+      "rect": [917.7, 978, 16.3, 16],
+      "quad": [
+        [918.1, 978],
+        [934, 978],
+        [933.6, 994],
+        [917.7, 994]
+      ]
+    },
+    {
+      "id": "b-banc-3-5-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-3-5",
+      "rect": [934.2, 978, 16.3, 16],
+      "quad": [
+        [934.6, 978],
+        [950.5, 978],
+        [950.1, 994],
+        [934.2, 994]
+      ]
+    },
+    {
+      "id": "b-banc-3-6-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-3-6",
+      "rect": [917.1, 999, 16.3, 16],
+      "quad": [
+        [917.5, 999],
+        [933.4, 999],
+        [933, 1015],
+        [917.1, 1015]
+      ]
+    },
+    {
+      "id": "b-banc-3-6-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-3-6",
+      "rect": [933.6, 999, 16.3, 16],
+      "quad": [
+        [934, 999],
+        [949.9, 999],
+        [949.5, 1015],
+        [933.6, 1015]
+      ]
+    },
+    {
+      "id": "b-banc-4-1-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-4-1",
+      "rect": [973.1, 898.5, 16.3, 16],
+      "quad": [
+        [973.5, 898.5],
+        [989.4, 898.5],
+        [989, 914.5],
+        [973.1, 914.5]
+      ]
+    },
+    {
+      "id": "b-banc-4-1-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-4-1",
+      "rect": [989.1, 898.5, 16.3, 16],
+      "quad": [
+        [989.5, 898.5],
+        [1005.4, 898.5],
+        [1005, 914.5],
+        [989.1, 914.5]
+      ]
+    },
+    {
+      "id": "b-banc-4-2-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-4-2",
+      "rect": [972.7, 918, 16.3, 16],
+      "quad": [
+        [973.1, 918],
+        [989, 918],
+        [988.6, 934],
+        [972.7, 934]
+      ]
+    },
+    {
+      "id": "b-banc-4-2-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-4-2",
+      "rect": [988.7, 918, 16.3, 16],
+      "quad": [
+        [989.1, 918],
+        [1005, 918],
+        [1004.6, 934],
+        [988.7, 934]
+      ]
+    },
+    {
+      "id": "b-banc-4-3-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-4-3",
+      "rect": [972.3000000000001, 938, 16.3, 16],
+      "quad": [
+        [972.7, 938],
+        [988.6, 938],
+        [988.2, 954],
+        [972.3000000000001, 954]
+      ]
+    },
+    {
+      "id": "b-banc-4-3-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-4-3",
+      "rect": [988.3000000000001, 938, 16.3, 16],
+      "quad": [
+        [988.7, 938],
+        [1004.6, 938],
+        [1004.2, 954],
+        [988.3000000000001, 954]
+      ]
+    },
+    {
+      "id": "b-banc-4-4-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-4-4",
+      "rect": [971.9, 958, 16.3, 16],
+      "quad": [
+        [972.3, 958],
+        [988.1999999999999, 958],
+        [987.8, 974],
+        [971.9, 974]
+      ]
+    },
+    {
+      "id": "b-banc-4-4-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-4-4",
+      "rect": [987.9, 958, 16.3, 16],
+      "quad": [
+        [988.3, 958],
+        [1004.1999999999999, 958],
+        [1003.8, 974],
+        [987.9, 974]
+      ]
+    },
+    {
+      "id": "b-banc-4-5-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-4-5",
+      "rect": [971.5, 978, 16.3, 16],
+      "quad": [
+        [971.9, 978],
+        [987.8, 978],
+        [987.4, 994],
+        [971.5, 994]
+      ]
+    },
+    {
+      "id": "b-banc-4-5-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-4-5",
+      "rect": [987.5, 978, 16.3, 16],
+      "quad": [
+        [987.9, 978],
+        [1003.8, 978],
+        [1003.4, 994],
+        [987.5, 994]
+      ]
+    },
+    {
+      "id": "b-banc-4-6-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-4-6",
+      "rect": [971.1, 999, 16.3, 16],
+      "quad": [
+        [971.5, 999],
+        [987.4, 999],
+        [987, 1015],
+        [971.1, 1015]
+      ]
+    },
+    {
+      "id": "b-banc-4-6-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "B",
+      "group": "b-banc-4-6",
+      "rect": [987.1, 999, 16.3, 16],
+      "quad": [
+        [987.5, 999],
+        [1003.4, 999],
+        [1003, 1015],
+        [987.1, 1015]
+      ]
+    },
+    {
+      "id": "c-bande-gauche-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-bande-gauche",
+      "rect": [1067.5, 853.5, 25.5, 12.5],
+      "quad": [
+        [1067.5, 853.5],
+        [1093, 853.5],
+        [1093, 866],
+        [1067.5, 866]
+      ]
+    },
+    {
+      "id": "c-bande-gauche-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-bande-gauche",
+      "rect": [1097, 853.5, 25.5, 12.5],
+      "quad": [
+        [1097, 853.5],
+        [1122.5, 853.5],
+        [1122.5, 866],
+        [1097, 866]
+      ]
+    },
+    {
+      "id": "c-bande-gauche-3",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-bande-gauche",
+      "rect": [1126.5, 853.5, 25.5, 12.5],
+      "quad": [
+        [1126.5, 853.5],
+        [1152, 853.5],
+        [1152, 866],
+        [1126.5, 866]
+      ]
+    },
+    {
+      "id": "c-bande-gauche-4",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-bande-gauche",
+      "rect": [1156, 853.5, 25.5, 12.5],
+      "quad": [
+        [1156, 853.5],
+        [1181.5, 853.5],
+        [1181.5, 866],
+        [1156, 866]
+      ]
+    },
+    {
+      "id": "c-bande-milieu-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-bande-milieu",
+      "rect": [1217, 853.5, 25.5, 12.5],
+      "quad": [
+        [1217, 853.5],
+        [1242.5, 853.5],
+        [1242.5, 866],
+        [1217, 866]
+      ]
+    },
+    {
+      "id": "c-bande-milieu-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-bande-milieu",
+      "rect": [1246.5, 853.5, 25.5, 12.5],
+      "quad": [
+        [1246.5, 853.5],
+        [1272, 853.5],
+        [1272, 866],
+        [1246.5, 866]
+      ]
+    },
+    {
+      "id": "c-bande-milieu-3",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-bande-milieu",
+      "rect": [1276, 853.5, 25.5, 12.5],
+      "quad": [
+        [1276, 853.5],
+        [1301.5, 853.5],
+        [1301.5, 866],
+        [1276, 866]
+      ]
+    },
+    {
+      "id": "c-bande-milieu-4",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-bande-milieu",
+      "rect": [1305.5, 853.5, 25.5, 12.5],
+      "quad": [
+        [1305.5, 853.5],
+        [1331, 853.5],
+        [1331, 866],
+        [1305.5, 866]
+      ]
+    },
+    {
+      "id": "c-bande-rouge-1",
+      "color": "rouge",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-bande-rouge",
+      "rect": [1373, 853.5, 25, 12.5],
+      "quad": [
+        [1373, 853.5],
+        [1398, 853.5],
+        [1398, 866],
+        [1373, 866]
+      ]
+    },
+    {
+      "id": "c-bande-rouge-2",
+      "color": "rouge",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-bande-rouge",
+      "rect": [1403, 853.5, 25, 12.5],
+      "quad": [
+        [1403, 853.5],
+        [1428, 853.5],
+        [1428, 866],
+        [1403, 866]
+      ]
+    },
+    {
+      "id": "c-mini-1-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-mini-1",
+      "rect": [1187.5, 884.5, 21, 15.5],
+      "quad": [
+        [1187.5, 884.5],
+        [1208.5, 884.5],
+        [1208.5, 900],
+        [1187.5, 900]
+      ]
+    },
+    {
+      "id": "c-mini-1-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-mini-1",
+      "rect": [1212.5, 884.5, 21, 15.5],
+      "quad": [
+        [1212.5, 884.5],
+        [1233.5, 884.5],
+        [1233.5, 900],
+        [1212.5, 900]
+      ]
+    },
+    {
+      "id": "c-mini-2-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-mini-2",
+      "rect": [1187.5, 902.5, 21, 21],
+      "quad": [
+        [1187.5, 902.5],
+        [1208.5, 902.5],
+        [1208.5, 923.5],
+        [1187.5, 923.5]
+      ]
+    },
+    {
+      "id": "c-mini-2-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-mini-2",
+      "rect": [1212.5, 902.5, 21, 21],
+      "quad": [
+        [1212.5, 902.5],
+        [1233.5, 902.5],
+        [1233.5, 923.5],
+        [1212.5, 923.5]
+      ]
+    },
+    {
+      "id": "c-colonne-1-1",
+      "color": "bleu",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-colonne-1",
+      "rect": [1374.5, 883, 26.65, 18],
+      "quad": [
+        [1374.5, 883],
+        [1400.5, 883],
+        [1401.15, 901],
+        [1375.15, 901]
+      ]
+    },
+    {
+      "id": "c-colonne-1-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-colonne-1",
+      "rect": [1404.5, 883, 26.65, 18],
+      "quad": [
+        [1404.5, 883],
+        [1430.5, 883],
+        [1431.15, 901],
+        [1405.15, 901]
+      ]
+    },
+    {
+      "id": "c-colonne-2-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-colonne-2",
+      "rect": [1376, 903.5, 26.65, 19],
+      "quad": [
+        [1376, 903.5],
+        [1402, 903.5],
+        [1402.65, 922.5],
+        [1376.65, 922.5]
+      ]
+    },
+    {
+      "id": "c-colonne-2-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-colonne-2",
+      "rect": [1406, 903.5, 26.65, 19],
+      "quad": [
+        [1406, 903.5],
+        [1432, 903.5],
+        [1432.65, 922.5],
+        [1406.65, 922.5]
+      ]
+    },
+    {
+      "id": "c-colonne-3-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-colonne-3",
+      "rect": [1377.5, 925.5, 26.65, 19.5],
+      "quad": [
+        [1377.5, 925.5],
+        [1403.5, 925.5],
+        [1404.15, 945],
+        [1378.15, 945]
+      ]
+    },
+    {
+      "id": "c-colonne-3-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-colonne-3",
+      "rect": [1408, 925.5, 26.65, 19.5],
+      "quad": [
+        [1408, 925.5],
+        [1434, 925.5],
+        [1434.65, 945],
+        [1408.65, 945]
+      ]
+    },
+    {
+      "id": "c-colonne-4-1",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-colonne-4",
+      "rect": [1379, 948, 26.65, 19.5],
+      "quad": [
+        [1379, 948],
+        [1405, 948],
+        [1405.65, 967.5],
+        [1379.65, 967.5]
+      ]
+    },
+    {
+      "id": "c-colonne-4-2",
+      "color": "jaune",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-colonne-4",
+      "rect": [1409.5, 948, 26.65, 19.5],
+      "quad": [
+        [1409.5, 948],
+        [1435.5, 948],
+        [1436.15, 967.5],
+        [1410.15, 967.5]
+      ]
+    },
+    {
+      "id": "c-colonne-5-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-colonne-5",
+      "rect": [1381, 970.5, 26.65, 20],
+      "quad": [
+        [1381, 970.5],
+        [1407, 970.5],
+        [1407.65, 990.5],
+        [1381.65, 990.5]
+      ]
+    },
+    {
+      "id": "c-colonne-5-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-colonne-5",
+      "rect": [1411.5, 970.5, 26.65, 20],
+      "quad": [
+        [1411.5, 970.5],
+        [1437.5, 970.5],
+        [1438.15, 990.5],
+        [1412.15, 990.5]
+      ]
+    },
+    {
+      "id": "c-colonne-6-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-colonne-6",
+      "rect": [1382.5, 993, 26.65, 21.5],
+      "quad": [
+        [1382.5, 993],
+        [1408.5, 993],
+        [1409.15, 1014.5],
+        [1383.15, 1014.5]
+      ]
+    },
+    {
+      "id": "c-colonne-6-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "C",
+      "group": "c-colonne-6",
+      "rect": [1413, 993, 26.65, 21.5],
+      "quad": [
+        [1413, 993],
+        [1439, 993],
+        [1439.65, 1014.5],
+        [1413.65, 1014.5]
+      ]
+    },
+    {
+      "id": "d-bande-gauche-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "D",
+      "group": "d-bande-gauche",
+      "rect": [1487, 854, 24.25, 11.5],
+      "quad": [
+        [1487, 854],
+        [1510.5, 854],
+        [1511.25, 865.5],
+        [1487.75, 865.5]
+      ]
+    },
+    {
+      "id": "d-bande-gauche-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "D",
+      "group": "d-bande-gauche",
+      "rect": [1514, 854, 24.25, 11.5],
+      "quad": [
+        [1514, 854],
+        [1537.5, 854],
+        [1538.25, 865.5],
+        [1514.75, 865.5]
+      ]
+    },
+    {
+      "id": "d-bande-gauche-3",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "D",
+      "group": "d-bande-gauche",
+      "rect": [1541, 854, 24.25, 11.5],
+      "quad": [
+        [1541, 854],
+        [1564.5, 854],
+        [1565.25, 865.5],
+        [1541.75, 865.5]
+      ]
+    },
+    {
+      "id": "d-bande-gauche-4",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "D",
+      "group": "d-bande-gauche",
+      "rect": [1568, 854, 24.25, 11.5],
+      "quad": [
+        [1568, 854],
+        [1591.5, 854],
+        [1592.25, 865.5],
+        [1568.75, 865.5]
+      ]
+    },
+    {
+      "id": "d-bande-milieu-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "D",
+      "group": "d-bande-milieu",
+      "rect": [1631, 854, 24.75, 11.5],
+      "quad": [
+        [1631, 854],
+        [1655, 854],
+        [1655.75, 865.5],
+        [1631.75, 865.5]
+      ]
+    },
+    {
+      "id": "d-bande-milieu-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "D",
+      "group": "d-bande-milieu",
+      "rect": [1659.5, 854, 24.75, 11.5],
+      "quad": [
+        [1659.5, 854],
+        [1683.5, 854],
+        [1684.25, 865.5],
+        [1660.25, 865.5]
+      ]
+    },
+    {
+      "id": "d-bande-milieu-3",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "D",
+      "group": "d-bande-milieu",
+      "rect": [1688, 854, 24.75, 11.5],
+      "quad": [
+        [1688, 854],
+        [1712, 854],
+        [1712.75, 865.5],
+        [1688.75, 865.5]
+      ]
+    },
+    {
+      "id": "d-bande-milieu-4",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "D",
+      "group": "d-bande-milieu",
+      "rect": [1716.5, 854, 24.75, 11.5],
+      "quad": [
+        [1716.5, 854],
+        [1740.5, 854],
+        [1741.25, 865.5],
+        [1717.25, 865.5]
+      ]
+    },
+    {
+      "id": "d-bande-droite-1",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "D",
+      "group": "d-bande-droite",
+      "rect": [1797, 854, 24.25, 11.5],
+      "quad": [
+        [1797, 854],
+        [1820.5, 854],
+        [1821.25, 865.5],
+        [1797.75, 865.5]
+      ]
+    },
+    {
+      "id": "d-bande-droite-2",
+      "color": "blanc",
+      "kind": "lens",
+      "extra": true,
+      "bay": "D",
+      "group": "d-bande-droite",
+      "rect": [1824, 854, 24.25, 11.5],
+      "quad": [
+        [1824, 854],
+        [1847.5, 854],
+        [1848.25, 865.5],
+        [1824.75, 865.5]
+      ]
+    }
+  ]
+}
