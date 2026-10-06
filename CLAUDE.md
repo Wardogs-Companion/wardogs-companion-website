@@ -32,10 +32,10 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 - `feature/<nom>` : un chantier. Il part de `dev`, et y revient une fois terminé et testé.
 - `hotfix/<nom>` : une correction urgente du site en ligne. Elle part de `main` et sort seule, en version corrective (0.1.1…), avec l'accord de l'utilisateur ; `main` est ensuite reversé dans `dev`.
 - **Mise en ligne d'une version :**
-  - `dev` est versé dans `main` en avance rapide ;
-  - le numéro de version monte dans `package.json` (le site l'affiche en bas de la console et des pages : `Station.astro`, `SiteFooter.astro`) ;
-  - la version et sa date entrent dans `CHANGELOG.md` (écrit en anglais, comme le README) ;
-  - une étiquette Git `vX.Y.Z` marque la version.
+  - dans `dev` (ou la branche `hotfix/…`) : le numéro de version monte dans `package.json` (le site l'affiche en bas de la console et des pages : `Station.astro`, `SiteFooter.astro`), la version et sa date entrent dans `CHANGELOG.md` (écrit en anglais, comme le README) ;
+  - **aperçu privé** : la branche est envoyée sur GitHub (avec l'accord de l'utilisateur) et Vercel en fait un aperçu, protégé et non indexé, construit comme la production ; tout y est vérifié (pages, renvois d'adresses, médias du jeu, en-têtes et CSP, téléphone), avec `vercel curl` ;
+  - sur « go » de l'utilisateur : la branche est versée dans `main` en avance rapide, une étiquette Git `vX.Y.Z` marque la version, l'utilisateur envoie `main` et l'étiquette ;
+  - le site en ligne est vérifié, puis l'aperçu supprimé.
 - **Numéros de version** : 0.x tant que le site est en bêta ; la 1.0 sera le lancement officiel. Une correction fait monter le dernier chiffre (0.2.1), une nouveauté celui du milieu (0.3.0).
 - **Rythme** : de petites mises à jour régulières plutôt qu'une grosse. Chaque chantier validé sort seul, ou avec 2 ou 3 autres au plus, sans attendre d'en accumuler ; chaque mise en ligne se fait sur « go » de l'utilisateur. En cas de problème, Vercel remet la version précédente en un clic.
 - **GitHub** : une branche de travail ou une étiquette n'y est envoyée qu'avec l'accord de l'utilisateur.
