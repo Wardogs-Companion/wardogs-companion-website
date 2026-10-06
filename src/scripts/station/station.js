@@ -4247,7 +4247,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // anywhere powers the station on). DISCORD (the phone, the menu's entry) opens the server's invitation in a new tab;
   // the radar's echoes, the factions' and the people's, are posts too (buildEchoes).
   const LINKS = {
-    discord: 'https://discord.gg/bb7hMrw8S9',
+    discord: 'https://discord.gg/THkQU8Nr2Q',
     github: 'https://github.com/Wardogs-Companion/wardogs-companion-website',
   };
   // the networks' names, as they write them (the same in both languages): the project's places and a person's links
