@@ -340,6 +340,32 @@ const en = {
       ],
       ['part', 'streamer', 'Streamer editor', 'Streamer editor'],
       [
+        'mod',
+        {
+          title: 'Installing the extension',
+          w: 12,
+          body: [
+            [
+              'steps',
+              [
+                [
+                  'Install it from Twitch',
+                  'In your Twitch dashboard, go to the Extensions page, find Wardogs Companion and click "Install". You can also use the "Install on Twitch" button at the top of this page.',
+                ],
+                [
+                  'Activate it as your overlay',
+                  'Click "Activate" on Wardogs Companion and choose the overlay slot (a channel has only one). The extension only shows over your video while you are live.',
+                ],
+                [
+                  'Open the editor and publish',
+                  'The editor opens from the extension\'s configuration page ("Configure") or, during your stream, from the Live Config panel of your dashboard. Fill in your loadout, then publish it: until then, viewers see an empty panel.',
+                ],
+              ],
+            ],
+          ],
+        },
+      ],
+      [
         'anno',
         {
           id: 'editor',
@@ -1247,6 +1273,32 @@ const fr: StationTexts = {
         },
       ],
       ['part', 'streamer', 'Régie du streamer', 'Régie du streamer'],
+      [
+        'mod',
+        {
+          title: "Installer l'extension",
+          w: 12,
+          body: [
+            [
+              'steps',
+              [
+                [
+                  'Installe-la depuis Twitch',
+                  'Dans ton tableau de bord Twitch, va sur la page des extensions, trouve Wardogs Companion et installe-la. Tu peux aussi passer par le bouton « Installer sur Twitch » en haut de cette page.',
+                ],
+                [
+                  'Active-la comme overlay',
+                  "Active Wardogs Companion et choisis l'emplacement de l'overlay (une chaîne n'en a qu'un). L'extension n'apparaît sur ta vidéo que lorsque tu es en live.",
+                ],
+                [
+                  'Ouvre la régie et publie',
+                  "La régie s'ouvre depuis la page de configuration de l'extension ou, pendant ton stream, depuis le module Live Config de ton tableau de bord. Remplis ton loadout, puis publie-le : d'ici là, les viewers voient un panneau vide.",
+                ],
+              ],
+            ],
+          ],
+        },
+      ],
       [
         'anno',
         {
