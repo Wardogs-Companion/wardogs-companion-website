@@ -21,9 +21,23 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 - **Hébergement gratuit Vercel (plan Hobby) = usage non commercial** : pas de publicité, de dons, de sponsors ni de liens affiliés.
 - **Deux langues, même contenu.** Chaque texte s'ajoute dans `src/i18n/`, en anglais et en français : `ui.ts` pour les pages, `station.ts` pour la console (le français y a la même forme que l'anglais, vérifiée par le typage). Chaque page anglaise a son équivalent dans `src/pages/fr/`, sauf `404.astro` : elle est unique et bilingue, car Vercel ne sert que `/404.html`.
 - **Rien de chargé depuis ailleurs** : pas de script tiers, de police externe ni de traceur. Tout ajout doit rester compatible avec la CSP (`astro.config.mjs`) et les en-têtes (`vercel.json`).
-- **Un push sur `main` met le site en ligne.** Avant chaque push : `npm run format:check` et `npm run build` doivent passer. Pour un changement visible important, passe par une branche et une pull request pour avoir un aperçu Vercel.
-- **Git.** Messages de commit en français. Pousse après chaque commit sur `main`. Pas de force-push : `main` est protégée.
+- **Un push sur `main` met le site en ligne.** On n'y travaille jamais directement : voir « Branches et versions ». Avant chaque push : `npm run format:check` et `npm run build` doivent passer.
+- **Git.** Messages de commit en français. Pas de force-push : `main` est protégée.
 - **Dépendances.** Versions exactes dans `package.json`. Demande avant d'en ajouter une.
+
+## Branches et versions
+
+- `main` : le site en ligne. Il ne reçoit qu'une version terminée et testée, avec l'accord de l'utilisateur.
+- `dev` : la prochaine version en préparation.
+- `feature/<nom>` : un chantier. Il part de `dev`, et y revient une fois terminé et testé.
+- **Mise en ligne d'une version :**
+  - `dev` est versé dans `main` en avance rapide ;
+  - le numéro de version monte dans `package.json` ;
+  - la version et sa date entrent dans `CHANGELOG.md` (écrit en anglais, comme le README) ;
+  - une étiquette Git `vX.Y.Z` marque la version.
+- **Numéros de version** : 0.x tant que le site est en bêta ; la 1.0 sera le lancement officiel.
+- **GitHub** : une branche de travail ou une étiquette n'y est envoyée qu'avec l'accord de l'utilisateur.
+- **Suivi** : l'état des branches est tenu dans `.claude/maquettes/SUIVI.md` (local).
 
 ## Où sont les choses
 
