@@ -3203,6 +3203,64 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+/* the questions asked most (PIECES.faq): as the facts, a mint rule beside each; the question a button opening its
+   answer (+ closed, − open), two columns on a wide screen, one under the other when narrow */
+#station .mod .faq {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 14px 44px;
+}
+#station .faq .qa {
+  padding: 0 0 0 18px;
+  border-left: 2px solid var(--mint);
+}
+#station .faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 44px;
+  font: 700 15px/1.3 var(--screen);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f1f3ec;
+  list-style: none;
+  cursor: pointer;
+}
+#station .faq summary::-webkit-details-marker {
+  display: none;
+}
+#station .faq summary::after {
+  content: '+';
+  flex: none;
+  font: 400 18px/1 var(--mono);
+  color: var(--mint);
+}
+#station .faq .qa[open] > summary::after {
+  content: '−';
+}
+#station .faq summary:hover::after {
+  color: var(--khaki);
+}
+#station .faq summary:focus-visible {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: 2px;
+}
+#station .faq .qa-a {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  padding: 2px 0 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #c9cec3;
+}
+@media (max-width: 1099px) {
+  #station .mod .faq {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 /* the principle in steps: numbered, side by side (one under the other when narrow) */
 #station .mod .steps {
   display: grid;

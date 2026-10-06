@@ -4865,6 +4865,26 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
         items.map(([t, p], i) => row(i, [node('strong', '', '', [dec(t)]), node('span', '', p)], 'li')),
       ),
     small: (t) => node('p', 'small-note', t),
+    // the questions asked most: each a native disclosure (its summary the question, closed until opened, by a click as
+    // by the keyboard, said as such by screen readers), its answer under it, and the section that tells more
+    faq: (items) =>
+      node(
+        'div',
+        'faq',
+        '',
+        items.map(([q, a, go], i) => {
+          const d = row(
+            i,
+            [
+              node('summary', '', '', [dec(q)]),
+              node('div', 'qa-a', '', [node('p', '', a), ...(go ? [PIECES.go(go)] : [])]),
+            ],
+            'details',
+          );
+          d.className = 'qa';
+          return d;
+        }),
+      ),
     trio: (rows) =>
       node(
         'ul',
