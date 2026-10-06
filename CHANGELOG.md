@@ -14,6 +14,12 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 ### Changed
 
 - One address per page, without a trailing slash: `/fr/`, `/privacy/`, `/terms/`… now redirect to `/fr`, `/privacy`, `/terms`…
+- The Discord server's new permanent invite, https://discord.gg/THkQU8Nr2Q.
+- Typography: curly quotes and apostrophes throughout the console, titles in lines of even length and no word left alone at the end of a paragraph, numbers kept with their unit.
+
+### Fixed
+
+- Found by a review on phones and tablets: the legal lines at the foot of the console no longer break inside the notice; the Discord invite shows in its real case (its code is case-sensitive); the ABOUT page's status badges no longer wrap; the roadmap's next step stays visible while it blinks; the marks of the annotated screenshots no longer hide the extension's logo, its publish button or a label; "In figures" no longer leaves a dot at a line's end, one figure a line on phones; the numbers of the steps line up.
 
 ## [0.1.1] - 2026-10-06
 

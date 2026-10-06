@@ -183,7 +183,7 @@ const codes = Object.keys(languages) as Lang[];
     {/* (in the markup, so the required mention shows from the first paint; line 2 opens on the intro's credit when the
        film is on the page, station.js legalHandover; else on the console's own) */}
     <p id="st-legal1">
-      {t('intro.legal1')}
+      {t('intro.legal1')}{' '}
       <span class="legal-links">
         <a href={getRelativeLocaleUrl(lang, 'privacy')}>{t('footer.privacy')}</a>
         <a href={getRelativeLocaleUrl(lang, 'terms')}>{t('footer.terms')}</a>
