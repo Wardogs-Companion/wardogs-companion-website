@@ -8,6 +8,12 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 
 - The entries of the console's main menu show a label (their name, code and description) when pointed at or reached with the keyboard: unlike the menu drawn on the screen, it grows with the browser's zoom.
 
+## [0.1.1] - 2026-10-06
+
+### Fixed
+
+- On phones, and on screens about 1,100 pixels wide, the "Choose an item" screenshot of the EXTENSION page ran past the edge of the screen and the page scrolled sideways: it now fits the screen.
+
 ## [0.1.0] - 2026-10-05
 
 The beta, online at https://wardogs-companion.vercel.app.
@@ -19,5 +25,6 @@ The beta, online at https://wardogs-companion.vercel.app.
 - The extension's privacy policy and terms of use: `/privacy` and `/terms` (and `/fr/privacy`, `/fr/terms`).
 - English and French throughout.
 
-[Unreleased]: https://github.com/Wardogs-Companion/wardogs-companion-website/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/Wardogs-Companion/wardogs-companion-website/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/Wardogs-Companion/wardogs-companion-website/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/Wardogs-Companion/wardogs-companion-website/releases/tag/v0.1.0

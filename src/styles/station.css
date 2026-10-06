@@ -2649,6 +2649,9 @@
 }
 #station .anno-fig {
   display: grid;
+  /* (its column no wider than itself: its capture's max-width holds, the narrow one given its width, fit, on a phone
+     included) */
+  grid-template-columns: minmax(0, 1fr);
   justify-items: center;
   min-width: 0;
 }
