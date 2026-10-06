@@ -1987,9 +1987,16 @@
   color: #d3d8cf;
   font: 400 16.5px/1.6 var(--screen);
   text-shadow: 0 0 10px rgba(159, 251, 193, 0.08);
+  text-wrap: pretty;
 }
 #station .pg :is(h1, h2, h3, h4, p, ul, dl, dd) {
   margin: 0;
+}
+/* its text set as in print (text-wrap, inherited; a browser without it wraps as before): no word alone on a last line
+   (pretty); its titles, kicker and note in lines of even length (balance). Neither changes a box's width, only where
+   its lines break */
+#station .pg :is(h1, h2, h3, h4, .pg-kicker, .hero-note) {
+  text-wrap: balance;
 }
 #station .pg :is(h1, h2):focus {
   outline: none;
@@ -2433,6 +2440,7 @@
 }
 #station .pg .go.join small {
   color: var(--ready);
+  text-transform: none; /* (the invite's address as it is: its code tells capitals from small letters) */
 }
 #station .mod .links {
   display: grid;
@@ -3051,6 +3059,17 @@
   text-transform: uppercase;
   color: var(--muted);
 }
+#station .stats .names ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 14px;
+}
+#station .stats .names li {
+  padding: 0;
+}
+#station .stats .names li::before {
+  content: none;
+} /* (each name whole, a gap between them: no separator left alone at a line's end) */
 @media (max-width: 1099px) {
   #station .mod .stats {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3063,13 +3082,19 @@
 }
 @media (max-width: 700px) {
   #station .mod .stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
   }
   #station .stats .row {
-    padding-left: 0;
+    flex-flow: row wrap;
+    align-items: baseline;
+    column-gap: 12px;
+    padding: 0;
     border-left: 0;
   }
-}
+  #station .stats .names {
+    flex-basis: 100%;
+  }
+} /* (a phone: a figure a line, its number then its name, its names under them: no cell beside another) */
 /* the game's items: its line, the families in two columns, the rights in a small note under them */
 #station .mod.cat2 .mod-body {
   gap: 20px;
@@ -3198,6 +3223,8 @@
 }
 #station .mod .steps .n {
   flex: none;
+  min-width: 1.05em; /* (as wide as the widest number, so every step's text starts on the same line: 01's 1 is narrower,
+     and the typeface has no figures of one width) */
   font: 600 30px/1 var(--screen);
   letter-spacing: 0.02em;
   color: var(--mint);
@@ -3534,10 +3561,12 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 16px;
   }
-  #station .hero-states .pg-state {
-    white-space: normal;
-  }
 } /* (a card, not a band across the page) */
+@media (max-width: 600px) {
+  #station .mod.hero .hero-states {
+    grid-template-columns: minmax(0, 1fr);
+  }
+} /* (ABOUT's states on a phone: one under another, each badge whole on its line) */
 #station .mod.note .mod-body p {
   padding: 4px 0 4px 18px;
   border-left: 2px solid var(--mint);
@@ -4457,11 +4486,15 @@
 #station .legal p {
   margin: 0;
 }
-/* the legal pages, after the notice (the presentation's footer is out of sight under the console) */
+/* the legal pages, after the notice (the presentation's footer is out of sight under the console): a space before them,
+   so that on a narrow screen they and the version go to the next line together, flush left, the notice whole */
 #station .legal-links a {
   margin-left: 0.9em;
   color: inherit;
   text-underline-offset: 2px;
+}
+#station .legal-links a:first-child {
+  margin-left: 0;
 }
 #station .legal-links a:hover {
   color: var(--khaki);

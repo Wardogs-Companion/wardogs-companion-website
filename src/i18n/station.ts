@@ -240,7 +240,7 @@ const en = {
                 ],
                 [
                   'They publish it',
-                  'One click on "Publish changes": the panel updates for every viewer, live. Those who arrive later see the latest loadout published.',
+                  'One click on “Publish changes”: the panel updates for every viewer, live. Those who arrive later see the latest loadout published.',
                 ],
                 [
                   'Viewers open it',
@@ -318,7 +318,7 @@ const en = {
           items: [
             ['The hovered item', "here the weapon's suppressor.", [582, 523, 96, 130, 'r']],
             ['Name and family', 'here an attachment.', [86, 160, 489, 115, 'ir']],
-            ['Weight and a class level', 'here 0.72 kg and Assault level 21.', [86, 277, 489, 76, 'ir']],
+            ['Weight and a class level', 'here 0.72 kg and Assault level 21.', [86, 277, 489, 76, 'ir']],
             ['Advantages', 'what the item improves.', [86, 357, 489, 255, 'ir']],
             ['Drawbacks', 'what it worsens.', [86, 615, 489, 120, 'ir']],
             ['Characteristics', 'such as the room it takes in the backpack.', [86, 738, 489, 107, 'ir']],
@@ -357,7 +357,7 @@ const en = {
           alt: "The streamer's editor: the display name, the team, the map and the loadout value, the weapons' slots, the backpack, and at the foot the panel's status and the publish button.",
           lead: 'The streamer opens it on Twitch, before or during their live stream. The top band shows what viewers will see: name, team, map and value.',
           items: [
-            ['Display name', 'the one viewers will see.', [112, 128, 462, 78]],
+            ['Display name', 'the one viewers will see.', [112, 128, 462, 78, 'r']],
             ['Team', 'Lonestar, Valkyra or Manticore: the panel takes its color.', [928, 128, 418, 78]],
             ['Map', 'picked from the list.', [1388, 128, 234, 78]],
             [
@@ -366,7 +366,11 @@ const en = {
               [1650, 128, 240, 78],
             ],
             ['Slots', 'click one to choose its item.', [28, 290, 984, 545, 'l']],
-            ['Backpack', 'add an item, drag it into place, turn it, duplicate it.', [1048, 290, 822, 545]],
+            [
+              'Backpack',
+              'add an item, drag it into place, turn it, duplicate it.',
+              [1048, 290, 822, 545, 'ir'],
+            ],
             [
               'Panel status',
               'up to date, or changes not shared yet; and the link to clear the published loadout.',
@@ -374,8 +378,8 @@ const en = {
             ],
             [
               'Publish',
-              'on Twitch, the "Publish changes" button (the capture, taken outside Twitch, shows "Update preview").',
-              [1597, 848, 286, 52, 'l'],
+              'on Twitch, the “Publish changes” button (the capture, taken outside Twitch, shows “Update preview”).',
+              [1597, 848, 286, 52, 'tr'],
             ],
           ],
         },
@@ -391,7 +395,7 @@ const en = {
           file: 'captures/07-item-picker.webp',
           size: [814, 870],
           alt: 'The item picker: a search field, the categories with their number of items, the sub-categories, and the list of items with their weight.',
-          lead: 'Clicking a slot opens this picker with only the items that go in it; in the backpack, "Add item" also lists, greyed out with the reason, those that cannot go in right now.',
+          lead: 'Clicking a slot opens this picker with only the items that go in it; in the backpack, “Add item” also lists, greyed out with the reason, those that cannot go in right now.',
           items: [
             ['Search', 'by name.', [33, 130, 738, 62, 'l']],
             [
@@ -399,7 +403,7 @@ const en = {
               'with their number of items, depending on the slot (here the backpack).',
               [33, 208, 738, 170, 'l'],
             ],
-            ['Sub-categories', 'to narrow down.', [33, 420, 650, 72, 'l']],
+            ['Sub-categories', 'to narrow down.', [33, 450, 650, 42, 'l']],
             ['No item', 'to empty a slot.', [33, 527, 90, 46, 'l']],
             [
               'The list',
@@ -426,7 +430,7 @@ const en = {
             ['Quantities', "with − and +, within the game's limits.", [1594, 442, 112, 30, 'r']],
             [
               'Weight',
-              'calculated automatically: here about 58.3 kg, very heavy (some items have no weight yet).',
+              'calculated automatically: here about 58.3 kg, very heavy (some items have no weight yet).',
               [1052, 772, 812, 58],
             ],
           ],
@@ -466,10 +470,10 @@ const en = {
               'stats',
               [
                 ['273', 'Items'],
-                ['3', 'Teams', 'Lonestar · Valkyra · Manticore'],
-                ['3', 'Maps', 'Bakurani · Ozeti · Zestafona'],
-                ['6', 'Classes', 'Assault · Medic · Recon · Support · Driver · Pilot'],
-                ['2', 'Languages', 'English · French'],
+                ['3', 'Teams', ['Lonestar', 'Valkyra', 'Manticore']],
+                ['3', 'Maps', ['Bakurani', 'Ozeti', 'Zestafona']],
+                ['6', 'Classes', ['Assault', 'Medic', 'Recon', 'Support', 'Driver', 'Pilot']],
+                ['2', 'Languages', ['English', 'French']],
               ],
             ],
           ],
@@ -478,7 +482,7 @@ const en = {
       [
         'mod',
         {
-          title: "The game's 273 items",
+          title: "The game's 273 items",
           w: 12,
           kind: 'cat2',
           body: [
@@ -492,17 +496,17 @@ const en = {
                 [
                   'Weapons',
                   '30',
-                  '25 primary (assault rifles, SMGs, shotguns, machine guns, tactical and precision rifles, bow), 5 sidearms',
+                  '25 primary (assault rifles, SMGs, shotguns, machine guns, tactical and precision rifles, bow), 5 sidearms',
                 ],
                 ['Launchers', '4'],
                 [
                   'Specialist items',
                   '37',
-                  'medical 7, construction and supplies 7, tactical 13, reconnaissance 4, vehicle tools 4, batteries 2',
+                  'medical 7, construction and supplies 7, tactical 13, reconnaissance 4, vehicle tools 4, batteries 2',
                 ],
                 ['Vehicles', '21', 'ground and air'],
-                ['Gear', '25', '6 helmets, 6 body armors, 3 tactical vests, 2 parachutes, 8 backpacks'],
-                ['Attachments', '122', '21 optics, 17 grips and bipods, 44 muzzle devices, 40 magazines'],
+                ['Gear', '25', '6 helmets, 6 body armors, 3 tactical vests, 2 parachutes, 8 backpacks'],
+                ['Attachments', '122', '21 optics, 17 grips and bipods, 44 muzzle devices, 40 magazines'],
                 ['Ammunition', '34'],
               ],
             ],
@@ -553,7 +557,7 @@ const en = {
                 here: [
                   'You are here',
                   'Today',
-                  ['The viewer panel', 'The streamer editor', "The game's 273 items", 'English and French'],
+                  ['The viewer panel', 'The streamer editor', "The game's 273 items", 'English and French'],
                   'Coming soon',
                 ],
                 step: 'Step {n}',
@@ -692,7 +696,7 @@ const en = {
             ],
             [
               'small',
-              'The extension is built with React, TypeScript and Vite; the Barlow typefaces are shipped with it.',
+              'The extension is built with React, TypeScript and Vite, and this site with Astro. Both use the Barlow typefaces (SIL Open Font License).',
             ],
           ],
         },
@@ -725,11 +729,11 @@ const en = {
           body: [
             [
               'p',
-              'This site sets no cookies and no trackers. It only keeps a few display preferences in your browser: the console switched on, the intro already seen, the sound and its volume, the animations and the sections read, all forgotten when the tab is closed; and the faction you join on the radar, forgotten after 13 months. Nothing is sent anywhere.',
+              'This site sets no cookies and no trackers. It only keeps a few display preferences in your browser: the console switched on, the intro already seen, the sound and its volume, the animations and the sections read, all forgotten when the tab is closed; and the faction you join on the radar, forgotten after 13 months. Nothing is sent anywhere.',
             ],
             [
               'p',
-              "The console's sounds are real recordings from Freesound, under Creative Commons 0; their authors are credited in the site's code.",
+              "The console's sounds are real recordings from Freesound, under Creative Commons 0; their authors are credited in the site's code.",
             ],
           ],
         },
@@ -1227,7 +1231,7 @@ const fr: StationTexts = {
             ['Son nom et sa famille', 'ici un accessoire.', [86, 160, 489, 115, 'ir']],
             [
               'Le poids et un niveau de classe',
-              'ici 0,72 kg et niveau 21 en Assaut.',
+              'ici 0,72 kg et niveau 21 en Assaut.',
               [86, 277, 489, 76, 'ir'],
             ],
             ['Les avantages', "ce que l'objet améliore.", [86, 357, 489, 255, 'ir']],
@@ -1268,7 +1272,7 @@ const fr: StationTexts = {
           alt: "La régie du streamer : le nom affiché, l'équipe, la carte et la valeur du loadout, les emplacements des armes, le sac, et au pied l'état du panneau et le bouton de publication.",
           lead: "Le streamer l'ouvre sur Twitch, avant ou pendant son live. La bande du haut montre ce que les viewers verront : nom, équipe, carte et valeur.",
           items: [
-            ['Le nom affiché', 'celui que les viewers verront.', [112, 128, 462, 78]],
+            ['Le nom affiché', 'celui que les viewers verront.', [112, 128, 462, 78, 'r']],
             [
               "L'équipe",
               'Lonestar, Valkyra ou Manticore : le panneau prend sa couleur.',
@@ -1284,7 +1288,7 @@ const fr: StationTexts = {
             [
               'Le sac',
               'ajouter un objet, le glisser pour le ranger, le tourner, le dupliquer.',
-              [1048, 290, 822, 545],
+              [1048, 290, 822, 545, 'ir'],
             ],
             [
               "L'état du panneau",
@@ -1294,7 +1298,7 @@ const fr: StationTexts = {
             [
               'Publier',
               'sur Twitch, le bouton « Publier les modifications » (la capture, prise hors de Twitch, montre « Update preview »).',
-              [1597, 848, 286, 52, 'l'],
+              [1597, 848, 286, 52, 'tr'],
             ],
           ],
         },
@@ -1318,7 +1322,7 @@ const fr: StationTexts = {
               "avec leur nombre d'objets, selon l'emplacement (ici le sac).",
               [33, 208, 738, 170, 'l'],
             ],
-            ['Les sous-catégories', 'pour affiner.', [33, 420, 650, 72, 'l']],
+            ['Les sous-catégories', 'pour affiner.', [33, 450, 650, 42, 'l']],
             ['Aucun objet (No item)', 'pour vider un emplacement.', [33, 527, 90, 46, 'l']],
             [
               'La liste',
@@ -1385,10 +1389,10 @@ const fr: StationTexts = {
               'stats',
               [
                 ['273', 'Objets'],
-                ['3', 'Équipes', 'Lonestar · Valkyra · Manticore'],
-                ['3', 'Cartes', 'Bakurani · Ozeti · Zestafona'],
-                ['6', 'Classes', 'Assaut · Médecin · Reconnaissance · Soutien · Conducteur · Pilote'],
-                ['2', 'Langues', 'Anglais · Français'],
+                ['3', 'Équipes', ['Lonestar', 'Valkyra', 'Manticore']],
+                ['3', 'Cartes', ['Bakurani', 'Ozeti', 'Zestafona']],
+                ['6', 'Classes', ['Assaut', 'Médecin', 'Reconnaissance', 'Soutien', 'Conducteur', 'Pilote']],
+                ['2', 'Langues', ['Anglais', 'Français']],
               ],
             ],
           ],
@@ -1397,7 +1401,7 @@ const fr: StationTexts = {
       [
         'mod',
         {
-          title: 'Les 273 objets du jeu',
+          title: 'Les 273 objets du jeu',
           w: 12,
           kind: 'cat2',
           body: [
@@ -1411,17 +1415,17 @@ const fr: StationTexts = {
                 [
                   'Armes',
                   '30',
-                  "25 principales (fusils d'assaut, pistolets-mitrailleurs, fusils, mitrailleuses, fusils tactiques et de précision, arc), 5 armes secondaires",
+                  "25 principales (fusils d'assaut, pistolets-mitrailleurs, fusils, mitrailleuses, fusils tactiques et de précision, arc), 5 armes secondaires",
                 ],
                 ['Lanceurs', '4'],
                 [
                   'Objets de spécialisation',
                   '37',
-                  'médical 7, construction et fournitures 7, tactique 13, reconnaissance 4, outils pour véhicules 4, batteries 2',
+                  'médical 7, construction et fournitures 7, tactique 13, reconnaissance 4, outils pour véhicules 4, batteries 2',
                 ],
                 ['Véhicules', '21', 'terrestres et aériens'],
-                ['Équipement', '25', '6 casques, 6 pare-balles, 3 gilets tactiques, 2 parachutes, 8 sacs'],
-                ['Accessoires', '122', '21 optiques, 17 poignées et bipieds, 44 bouches, 40 chargeurs'],
+                ['Équipement', '25', '6 casques, 6 pare-balles, 3 gilets tactiques, 2 parachutes, 8 sacs'],
+                ['Accessoires', '122', '21 optiques, 17 poignées et bipieds, 44 bouches, 40 chargeurs'],
                 ['Munitions', '34'],
               ],
             ],
@@ -1475,7 +1479,7 @@ const fr: StationTexts = {
                   [
                     'Le panneau viewer',
                     'La régie du streamer',
-                    'Les 273 objets du jeu',
+                    'Les 273 objets du jeu',
                     'Anglais et français',
                   ],
                   'Bientôt disponible',
@@ -1609,7 +1613,7 @@ const fr: StationTexts = {
             ],
             [
               'small',
-              "L'extension est réalisée avec React, TypeScript et Vite ; les polices Barlow sont fournies avec elle.",
+              "L'extension est réalisée avec React, TypeScript et Vite, et ce site avec Astro. Tous deux utilisent les polices Barlow (SIL Open Font License).",
             ],
           ],
         },
@@ -1642,11 +1646,11 @@ const fr: StationTexts = {
           body: [
             [
               'p',
-              "Ce site ne dépose ni cookie ni traceur. Il garde seulement quelques préférences d'affichage dans ton navigateur : la console allumée, l'intro déjà vue, le son et son volume, les animations et les sections lues, tout cela oublié à la fermeture de l'onglet ; et la faction rejointe sur le radar, oubliée au bout de 13 mois. Rien n'est envoyé.",
+              "Ce site ne dépose ni cookie ni traceur. Il garde seulement quelques préférences d'affichage dans ton navigateur : la console allumée, l'intro déjà vue, le son et son volume, les animations et les sections lues, tout cela oublié à la fermeture de l'onglet ; et la faction rejointe sur le radar, oubliée au bout de 13 mois. Rien n'est envoyé.",
             ],
             [
               'p',
-              'Les sons de la console sont de vrais enregistrements de Freesound, sous licence Creative Commons 0 ; leurs auteurs sont crédités dans le code du site.',
+              'Les sons de la console sont de vrais enregistrements de Freesound, sous licence Creative Commons 0 ; leurs auteurs sont crédités dans le code du site.',
             ],
           ],
         },

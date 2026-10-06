@@ -4840,13 +4840,22 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
         'dl',
         'stats',
         '',
-        items.map(([n, k, names], i) =>
-          row(i, [
+        items.map(([n, k, names], i) => {
+          // (its names a list, each whole on its line: no separator left alone at a line's end)
+          const list =
+            names &&
+            node(
+              'ul',
+              '',
+              '',
+              names.map((t) => node('li', '', t)),
+            );
+          return row(i, [
             node('dt', '', k),
             node('dd', 'v', '', [dec(n)]),
-            ...(names ? [node('dd', 'names', names)] : []),
-          ]),
-        ),
+            ...(list ? [node('dd', 'names', '', [list])] : []),
+          ]);
+        }),
       ),
     facts: (items) =>
       node(
@@ -5809,14 +5818,12 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
         { duration: 1100, delay: ms(t + ROUTE.node), iterations: 3, easing: 'ease-out' },
       );
     if (stop.classList.contains('next'))
-      nodeEl.animate(
-        [
-          { opacity: 1, easing: 'steps(1, end)' },
-          { opacity: 0.15, offset: 0.5, easing: 'steps(1, end)' },
-          { opacity: 1 },
-        ],
-        { duration: 900, delay: ms(t + ROUTE.node), iterations: 4 },
-      );
+      nodeEl.animate([{}, { backgroundColor: 'var(--ground)', boxShadow: 'none' }, {}], {
+        duration: 900,
+        delay: ms(t + ROUTE.node),
+        iterations: 4,
+        easing: 'steps(2, end)',
+      }); // (its light off every other half: emptied, its amber frame kept over the course, never dimmed)
     stop.querySelectorAll('.dec').forEach((d, j) => decStart(d, now + t + ROUTE.after + j * 0.08));
     stop.querySelectorAll('.redact').forEach((bar, j) =>
       bar.animate([{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }], {
