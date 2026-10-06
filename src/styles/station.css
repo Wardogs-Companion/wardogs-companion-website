@@ -4470,6 +4470,11 @@
   outline: 1px solid var(--khaki);
   outline-offset: 2px;
 }
+/* then the site's version (package.json), whole on its line */
+#station .legal-version {
+  margin-left: 0.9em;
+  white-space: nowrap;
+}
 @media (min-width: 601px) and (max-width: 1100px) {
   #station .legal {
     font-size: 10px;

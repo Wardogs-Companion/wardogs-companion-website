@@ -4,6 +4,7 @@
 // intro film's in src/scripts/home.js.
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { consoleMedia } from 'virtual:wardogs/game-media';
+import { version } from '../../package.json';
 import { stationTexts } from '../i18n/station';
 import { sectionPath } from '../scripts/station/sections.js';
 import { languages, useTranslations, type Lang } from '../i18n/ui';
@@ -187,6 +188,7 @@ const codes = Object.keys(languages) as Lang[];
         <a href={getRelativeLocaleUrl(lang, 'privacy')}>{t('footer.privacy')}</a>
         <a href={getRelativeLocaleUrl(lang, 'terms')}>{t('footer.terms')}</a>
       </span>
+      <span class="legal-version">{t('footer.version').replace('{version}', version)}</span>
     </p>
     <p id="st-legal2">{intro ? t('intro.legal2') : stationTexts[lang].legal2}</p>
   </div>

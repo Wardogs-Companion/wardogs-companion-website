@@ -33,7 +33,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 - `hotfix/<nom>` : une correction urgente du site en ligne. Elle part de `main` et sort seule, en version corrective (0.1.1…), avec l'accord de l'utilisateur ; `main` est ensuite reversé dans `dev`.
 - **Mise en ligne d'une version :**
   - `dev` est versé dans `main` en avance rapide ;
-  - le numéro de version monte dans `package.json` ;
+  - le numéro de version monte dans `package.json` (le site l'affiche en bas de la console et des pages : `Station.astro`, `SiteFooter.astro`) ;
   - la version et sa date entrent dans `CHANGELOG.md` (écrit en anglais, comme le README) ;
   - une étiquette Git `vX.Y.Z` marque la version.
 - **Numéros de version** : 0.x tant que le site est en bêta ; la 1.0 sera le lancement officiel.

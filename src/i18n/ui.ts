@@ -42,6 +42,8 @@ const en = {
   'footer.disclaimer':
     'Wardogs Companion is an independent, unofficial community project. It is not affiliated with BULKHEAD, Team17 or Twitch. WARDOGS and its names, logos and visuals belong to their respective rights holders.',
   'footer.copyright': '© 2026 BiggyQLF. All rights reserved.',
+  // the site's version, from package.json (SiteFooter.astro, Station.astro): {version} is replaced there
+  'footer.version': 'Website v{version}',
   'footer.legalLabel': 'Legal',
   'footer.privacy': 'Privacy',
   'footer.terms': 'Terms',
@@ -78,6 +80,7 @@ const fr: Record<keyof typeof en, string> = {
   'footer.disclaimer':
     'Wardogs Companion est un projet communautaire indépendant et non officiel. Il n’est affilié ni à BULKHEAD, ni à Team17, ni à Twitch. WARDOGS, ses noms, logos et visuels appartiennent à leurs ayants droit.',
   'footer.copyright': '© 2026 BiggyQLF. Tous droits réservés.',
+  'footer.version': 'Site v{version}',
   'footer.legalLabel': 'Informations légales',
   'footer.privacy': 'Confidentialité',
   'footer.terms': 'Conditions',

@@ -7,6 +7,7 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 ### Added
 
 - The entries of the console's main menu show a label (their name, code and description) when pointed at or reached with the keyboard: unlike the menu drawn on the screen, it grows with the browser's zoom.
+- The site's version, at the foot of the console and of every page ("Website v0.2.0"), read from `package.json`.
 
 ## [0.1.1] - 2026-10-06
 
