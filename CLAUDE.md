@@ -30,6 +30,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 - `main` : le site en ligne. Il ne reçoit qu'une version terminée et testée, avec l'accord de l'utilisateur.
 - `dev` : la prochaine version en préparation.
 - `feature/<nom>` : un chantier. Il part de `dev`, et y revient une fois terminé et testé.
+- `hotfix/<nom>` : une correction urgente du site en ligne. Elle part de `main` et sort seule, en version corrective (0.1.1…), avec l'accord de l'utilisateur ; `main` est ensuite reversé dans `dev`.
 - **Mise en ligne d'une version :**
   - `dev` est versé dans `main` en avance rapide ;
   - le numéro de version monte dans `package.json` ;
