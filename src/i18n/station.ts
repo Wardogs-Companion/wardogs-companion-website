@@ -604,6 +604,58 @@ const en = {
           ],
         },
       ],
+      // (the questions asked most: the answers the pages give elsewhere, short, and those they do not; help on Discord)
+      ['part', 'faq', 'FAQ', 'Frequently asked questions'],
+      [
+        'mod',
+        {
+          title: 'The usual questions',
+          w: 12,
+          kind: 'faq-mod',
+          body: [
+            [
+              'faq',
+              [
+                [
+                  'What is Wardogs Companion?',
+                  'A Twitch extension for WARDOGS streams. One click on an icon over the video, and viewers see the streamer’s whole loadout, item by item, with the game’s prices and weights. It’s all shown in detail above.',
+                ],
+                [
+                  'Is it free?',
+                  'Yes. The extension is free: no purchases, no subscriptions, no Bits. Joining the Discord server is free too.',
+                ],
+                [
+                  'Is it official?',
+                  'No. It’s a community project, unofficial, not affiliated with BULKHEAD, Team17 or Twitch. The About section tells you who’s behind it.',
+                  'about',
+                ],
+                [
+                  'How do I add it to my channel?',
+                  'You can’t yet: the extension isn’t on Twitch. There will be a beta with a few streamers first, then it opens to all. Follow the release on Discord.',
+                ],
+                [
+                  'Does it work on a phone?',
+                  'Not yet. There’s no phone version for now, so Twitch’s mobile apps don’t show it. A phone version is on the roadmap above.',
+                ],
+                [
+                  'Does it read my game or collect my data?',
+                  'No. Nothing is read from the game: the streamer enters everything by hand. There’s no account to create, and the developer receives no data about viewers. Only the loadout the streamer publishes is public. The privacy policy gives the details.',
+                ],
+                [
+                  'Do I need to install anything to see it?',
+                  'No, nothing to install and nothing to fill in. On a channel that uses it, an icon appears on the video: one click opens the panel. It shows in French if your Twitch is in French, in English otherwise.',
+                ],
+                [
+                  'Are the prices and weights exact?',
+                  'The developer notes them down from the game, for information only: some may be missing, or differ after a game update. The game itself remains the only reference. The loadout value is the total of the items’ in-game prices, not real money.',
+                ],
+              ],
+            ],
+            ['p', 'Another question? Ask it on Discord.'],
+            ['go', 'discord'],
+          ],
+        },
+      ],
     ],
     // the project's page (ABOUT, the bar's last tab; not the reading screen's own page: an overview there
     // could confuse, the screen opens the extension): what the project is, where it stands, its pieces
@@ -1525,6 +1577,57 @@ const fr: StationTexts = {
                 links: ['discord'],
               },
             ],
+          ],
+        },
+      ],
+      ['part', 'faq', 'FAQ', 'Questions fréquentes'],
+      [
+        'mod',
+        {
+          title: 'Les questions qui reviennent',
+          w: 12,
+          kind: 'faq-mod',
+          body: [
+            [
+              'faq',
+              [
+                [
+                  'C’est quoi, Wardogs Companion ?',
+                  'Une extension Twitch pour les lives de WARDOGS. Un clic sur une icône par-dessus la vidéo, et les viewers voient tout le loadout du streamer, objet par objet, avec les prix et les poids du jeu. Tout est montré en détail plus haut.',
+                ],
+                [
+                  'C’est gratuit ?',
+                  'Oui. L’extension est gratuite : ni achat, ni abonnement, ni Bits. Rejoindre le serveur Discord est gratuit aussi.',
+                ],
+                [
+                  'C’est officiel ?',
+                  'Non. C’est un projet communautaire, non officiel, sans lien avec BULKHEAD, Team17 ni Twitch. La section À propos te dit qui est derrière.',
+                  'about',
+                ],
+                [
+                  'Comment l’ajouter à ma chaîne ?',
+                  'Ce n’est pas encore possible : l’extension n’est pas sur Twitch pour l’instant. D’abord une bêta avec quelques streamers, puis l’ouverture à tous. Suis la sortie sur le Discord.',
+                ],
+                [
+                  'Ça marche sur téléphone ?',
+                  'Pas encore. Il n’y a pas de version téléphone pour l’instant, donc les applis Twitch pour mobile ne l’affichent pas. Une version téléphone figure dans la feuille de route, plus haut.',
+                ],
+                [
+                  'Est-ce qu’elle lit mon jeu ou collecte mes données ?',
+                  'Non. Rien n’est lu dans le jeu : le streamer saisit tout à la main. Il n’y a aucun compte à créer, et le développeur ne reçoit aucune donnée sur les viewers. Seul le loadout que publie le streamer est public. La politique de confidentialité donne le détail.',
+                ],
+                [
+                  'Je dois installer quelque chose pour la voir ?',
+                  'Non, rien à installer ni à remplir. Sur une chaîne qui l’utilise, une icône apparaît sur la vidéo : un clic ouvre le panneau. Il s’affiche en français si ton Twitch est en français, en anglais sinon.',
+                ],
+                [
+                  'Les prix et les poids sont-ils exacts ?',
+                  'Le développeur les relève dans le jeu, à titre indicatif : certains peuvent manquer, ou différer après une mise à jour du jeu. Le jeu lui-même reste la seule référence. La valeur du loadout est le total des prix des objets dans le jeu, pas de l’argent réel.',
+                ],
+              ],
+            ],
+            ['p', 'Une autre question ? Pose-la sur le Discord.'],
+            ['go', 'discord'],
           ],
         },
       ],

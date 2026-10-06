@@ -2,6 +2,12 @@
 
 All notable changes to the Wardogs Companion website. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the versions follow [Semantic Versioning](https://semver.org/): 0.x while the site is in beta.
 
+## [Unreleased]
+
+### Added
+
+- A FAQ at the end of the EXTENSION page: the questions visitors ask most, each opening its answer (free? official? on a phone? data?), and help on Discord.
+
 ## [0.2.0] - 2026-10-06
 
 ### Added
@@ -38,6 +44,7 @@ The beta, online at https://wardogs-companion.vercel.app.
 - The extension's privacy policy and terms of use: `/privacy` and `/terms` (and `/fr/privacy`, `/fr/terms`).
 - English and French throughout.
 
+[Unreleased]: https://github.com/Wardogs-Companion/wardogs-companion-website/compare/v0.2.0...HEAD
 [0.2.0]: https://github.com/Wardogs-Companion/wardogs-companion-website/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/Wardogs-Companion/wardogs-companion-website/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/Wardogs-Companion/wardogs-companion-website/releases/tag/v0.1.0
