@@ -18,13 +18,15 @@ const { lang, section } = Astro.props;
 const t = useTranslations(lang);
 const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== lang);
 // (without the console, a section's address is the home page itself)
-const opened = consoleMedia && section ? section : undefined;
-const title = opened
-  ? `${stationTexts[lang].titles[opened as keyof StationTexts['titles']]} · ${t('meta.title')}`
-  : t('meta.title');
+const opened = consoleMedia && section ? (section as keyof StationTexts['titles']) : undefined;
+const title = opened ? `${stationTexts[lang].titles[opened]} · ${t('meta.title')}` : t('meta.title');
+const description = opened ? stationTexts[lang].summaries[opened] : t('meta.description');
+const alternates = Object.fromEntries(
+  (Object.keys(languages) as Lang[]).map((code) => [code, sectionPath(code, section)]),
+) as Record<Lang, string>;
 ---
 
-<BaseLayout lang={lang} {title} description={t('meta.description')} station={!!consoleMedia} section={opened}>
+<BaseLayout lang={lang} {title} {description} station={!!consoleMedia} section={opened} {alternates}>
   {/* The intro film first, over the presentation; only when the build has its media (see IntroFilm.astro). */}
   {introMedia && <IntroFilm lang={lang} media={introMedia} />}
 

@@ -14,6 +14,8 @@ const en = {
   'meta.title': 'Wardogs Companion',
   'meta.description':
     'Wardogs Companion, an unofficial community Twitch extension that shows a streamer’s full WARDOGS loadout live on stream.',
+  // the picture under a shared link (public/images/og-card.png: the logo alone)
+  'meta.imageAlt': 'The Wardogs Companion logo',
   'nav.switchLabel': 'Language',
   'home.status': 'Website in beta',
   'home.tagline': 'Your WARDOGS loadout, live on stream.',
@@ -53,6 +55,7 @@ const fr: Record<keyof typeof en, string> = {
   'meta.title': 'Wardogs Companion',
   'meta.description':
     'Wardogs Companion, une extension Twitch communautaire et non officielle qui affiche tout le loadout WARDOGS du streamer en direct sur le stream.',
+  'meta.imageAlt': 'Le logo de Wardogs Companion',
   'nav.switchLabel': 'Langue',
   'home.status': 'Site en bêta',
   'home.tagline': 'Ton loadout WARDOGS, en direct sur le stream.',

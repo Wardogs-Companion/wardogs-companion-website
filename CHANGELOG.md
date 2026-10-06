@@ -7,6 +7,8 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 ### Added
 
 - The entries of the console's main menu show a label (their name, code and description) when pointed at or reached with the keyboard: unlike the menu drawn on the screen, it grows with the browser's zoom.
+- Link previews: a page shared on Discord, X or elsewhere shows a card with its title, a sentence about it and the project's logo, in the page's language.
+- For search engines: each page gives its canonical address and its version in the other language, and the site has a map (`/sitemap.xml`, named in `/robots.txt`).
 
 ## [0.1.0] - 2026-10-05
 

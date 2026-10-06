@@ -27,10 +27,20 @@ const legal = documents[doc];
 const { Content, getHeadings } = legal[lang];
 // The title comes from the text's own heading, so it stays right when the file is replaced.
 const heading = getHeadings().find((h) => h.depth === 1)?.text ?? t(legal.label);
-const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== lang);
+const codes = Object.keys(languages) as Lang[];
+const otherLangs = codes.filter((code) => code !== lang);
+const alternates = Object.fromEntries(codes.map((code) => [code, getRelativeLocaleUrl(code, doc)])) as Record<
+  Lang,
+  string
+>;
 ---
 
-<BaseLayout lang={lang} title={`${heading} · Wardogs Companion`} description={t(legal.description)}>
+<BaseLayout
+  lang={lang}
+  title={`${heading} · Wardogs Companion`}
+  description={t(legal.description)}
+  {alternates}
+>
   <header class="top">
     <a class="home" href={getRelativeLocaleUrl(lang)}>
       Wardogs Companion

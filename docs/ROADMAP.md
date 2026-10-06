@@ -7,11 +7,11 @@
 - Identité visuelle : Barlow Semi Condensed et Barlow, comme l'appli, hébergées sur le site et déclarées pour tout le site (`src/styles/global.css`) ; la faction choisie par le visiteur sur le radar de la console (Lonestar, Valkyra ou Manticore), gardée dans son navigateur.
 - Une adresse par section de la console : `/extension`, `/screenshots`, `/discord`, `/about` (et `/fr/…`), générées depuis la liste des sections.
 - Pages juridiques de l'extension, dont Twitch demande les adresses : `/privacy`, `/terms`, `/fr/privacy` et `/fr/terms`. Ces adresses ne changent plus. Les textes sont les fichiers Markdown de `src/content/legal/`, affichés tels quels.
+- Partage et référencement : une carte d'aperçu sous un lien partagé (Open Graph : le titre de la page, sa phrase, le logo) ; pour chaque page, son adresse canonique et sa version dans l'autre langue (`hreflang`) ; le plan du site, `/sitemap.xml`, indiqué dans `/robots.txt`. Tout part de l'adresse `site` d'`astro.config.mjs`.
 
 ## Ensuite
 
 - **Lien vers l'extension Twitch**, dès qu'elle sera publique (l'invitation Discord est déjà sur la console).
-- **Référencement.** L'adresse est `https://wardogs-companion.vercel.app` (`site` dans `astro.config.mjs`). Reste à ajouter les balises `hreflang` dans l'en-tête des pages, l'image de partage (Open Graph) et le plan du site.
 
 ## À décider
 
