@@ -164,7 +164,7 @@ const en = {
   // and its sentence, under its link when it is shared (its page's description: BaseLayout)
   summaries: {
     extension:
-      "Wardogs Companion, an unofficial community Twitch extension for WARDOGS: viewers open the streamer's loadout with one click, over the video, item by item.",
+      "Wardogs Companion, an unofficial community Twitch extension for WARDOGS: viewers open the streamer's loadout with one click, over the video.",
     screenshots:
       "Screenshots of Wardogs Companion: the viewer panel in each team's colors, item cards, classes and the streamer editor.",
     discord:
@@ -1065,13 +1065,13 @@ const fr: StationTexts = {
   titles: { extension: 'Extension', screenshots: 'Captures', discord: 'Discord', about: 'À propos' },
   summaries: {
     extension:
-      "Wardogs Companion, une extension Twitch communautaire et non officielle pour WARDOGS : les viewers ouvrent le loadout du streamer d'un clic, par-dessus la vidéo, objet par objet.",
+      "Wardogs Companion, une extension Twitch communautaire et non officielle pour WARDOGS : les viewers ouvrent le loadout du streamer d'un clic, par-dessus la vidéo.",
     screenshots:
-      'Les captures de Wardogs Companion : le panneau viewer aux couleurs de chaque équipe, les fiches des objets, les classes et la régie du streamer.',
+      'Les captures de Wardogs Companion : le panneau viewer aux couleurs de chaque équipe, les fiches des objets, les classes et la régie du streamer.',
     discord:
-      "Le serveur Discord de Wardogs Companion : obtenir de l'aide sur l'extension, partager tes idées et suivre les nouveautés en premier.",
+      "Le serveur Discord de Wardogs Companion : obtenir de l'aide sur l'extension, partager tes idées et suivre les nouveautés en premier.",
     about:
-      'Wardogs Companion, un projet communautaire non officiel autour de WARDOGS, créé par Biggy : une extension Twitch, un serveur Discord et ce site.',
+      'Wardogs Companion, un projet communautaire non officiel autour de WARDOGS, créé par Biggy : une extension Twitch, un serveur Discord et ce site.',
   },
   menu: [
     ['EXTENSION', "L'extension Twitch", '273'],

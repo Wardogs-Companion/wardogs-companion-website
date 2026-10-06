@@ -13,7 +13,7 @@ interface Props {
    *  element, read before anything is drawn (the intro skipped: seen-check.js) and by the console (station.js) */
   section?: string;
   /** this page's address in each language, as the site links to it ('/extension', '/fr/extension'): its canonical
-   *  address, its versions for search engines (hreflang, the same as /sitemap.xml) and its card's when shared;
+   *  address, its versions for search engines (hreflang, the same as /sitemap.xml) and the og:url of its card;
    *  none on the 404 */
   alternates?: Record<Lang, string>;
 }

@@ -61,7 +61,7 @@ npm run dev
 
 ### Inspecting the intro film
 
-The home page's intro film (`/` and `/fr/`) can be inspected with two query parameters, on the live site or on any build that has the intro's media. `npm run dev` and builds without the media (a fork, a local build) have no film, so the parameters do nothing there.
+The home page's intro film (`/` and `/fr`) can be inspected with two query parameters, on the live site or on any build that has the intro's media. `npm run dev` and builds without the media (a fork, a local build) have no film, so the parameters do nothing there.
 
 | Parameter      | Effect                                                                                                                                                                                                                                               |
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

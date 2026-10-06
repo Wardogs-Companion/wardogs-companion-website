@@ -2,12 +2,14 @@
 // the site links to, which is also its canonical address (BaseLayout). A page more: one entry more here.
 import type { APIRoute } from 'astro';
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import { consoleMedia } from 'virtual:wardogs/game-media';
 import { languages, type Lang } from '../i18n/ui';
 import { SECTIONS, sectionPath } from '../scripts/station/sections.js';
 
-// each page, by its address in a language: the home page and the console's sections, then the legal pages
+// each page, by its address in a language: the home page and the console's sections (only with the console: without
+// it, their addresses are the home page, HomePage.astro), then the legal pages
 const pages: ((lang: Lang) => string)[] = [
-  ...[undefined, ...SECTIONS].map((id) => (lang: Lang) => sectionPath(lang, id)),
+  ...[undefined, ...(consoleMedia ? SECTIONS : [])].map((id) => (lang: Lang) => sectionPath(lang, id)),
   ...['privacy', 'terms'].map((doc) => (lang: Lang) => getRelativeLocaleUrl(lang, doc)),
 ];
 

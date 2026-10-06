@@ -6,6 +6,9 @@ export default defineConfig({
   // Adresse de production : les adresses canoniques, les cartes d'aperçu, /sitemap.xml et /robots.txt en partent.
   // À changer si un nom de domaine est ajouté.
   site: 'https://wardogs-companion.vercel.app',
+  // Une seule adresse par page, sans barre finale (/fr, /privacy, /extension) : la forme donnée à Twitch. Vercel
+  // redirige l'autre forme (vercel.json, trailingSlash).
+  trailingSlash: 'never',
   // Médias du jeu de l'accueil (intro, console) : récupérés au build depuis le stockage privé, jamais dans le dépôt.
   integrations: [gameMedia()],
   i18n: {

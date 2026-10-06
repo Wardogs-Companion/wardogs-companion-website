@@ -22,7 +22,7 @@ const opened = consoleMedia && section ? (section as keyof StationTexts['titles'
 const title = opened ? `${stationTexts[lang].titles[opened]} · ${t('meta.title')}` : t('meta.title');
 const description = opened ? stationTexts[lang].summaries[opened] : t('meta.description');
 const alternates = Object.fromEntries(
-  (Object.keys(languages) as Lang[]).map((code) => [code, sectionPath(code, section)]),
+  (Object.keys(languages) as Lang[]).map((code) => [code, sectionPath(code, opened)]),
 ) as Record<Lang, string>;
 ---
 
