@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import type { Lang } from '../i18n/ui';
+import { defaultLang, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
@@ -12,9 +12,18 @@ interface Props {
   /** the console opens on this section (its own address, src/pages/[section].astro): data-section on the root
    *  element, read before anything is drawn (the intro skipped: seen-check.js) and by the console (station.js) */
   section?: string;
+  /** this page's address in each language, as the site links to it ('/extension', '/fr/extension'): its canonical
+   *  address, its versions for search engines (hreflang, the same as /sitemap.xml) and the og:url of its card;
+   *  none on the 404 */
+  alternates?: Record<Lang, string>;
 }
 
-const { lang, title, description, station = false, section } = Astro.props;
+const { lang, title, description, station = false, section, alternates } = Astro.props;
+const t = useTranslations(lang);
+const absolute = (path: string) => new URL(path, Astro.site).href;
+const canonical = alternates && absolute(alternates[lang]);
+// the languages as Open Graph names them
+const locales: Record<Lang, string> = { en: 'en_US', fr: 'fr_FR' };
 ---
 
 <!doctype html>
@@ -30,6 +39,29 @@ const { lang, title, description, station = false, section } = Astro.props;
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {alternates &&
+      (Object.keys(alternates) as Lang[]).map((code) => (
+        <link rel="alternate" hreflang={code} href={absolute(alternates[code])} />
+      ))}
+    {alternates && <link rel="alternate" hreflang="x-default" href={absolute(alternates[defaultLang])} />}
+    {/* (the card under a link shared on Discord, X, WhatsApp…: the page's title and description, and our logo) */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Wardogs Companion" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={absolute('/images/og-card.png')} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t('meta.imageAlt')} />
+    <meta property="og:locale" content={locales[lang]} />
+    {(Object.keys(locales) as Lang[])
+      .filter((code) => code !== lang)
+      .map((code) => (
+        <meta property="og:locale:alternate" content={locales[code]} />
+      ))}
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <slot />

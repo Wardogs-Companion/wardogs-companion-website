@@ -47,6 +47,8 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 | Textes anglais et français               | `src/i18n/ui.ts` ; la console : `src/i18n/station.ts`                            |
 | Textes juridiques, affichés tels quels   | `src/content/legal/`                                                             |
 | Squelette HTML commun (`<head>`, icônes) | `src/layouts/BaseLayout.astro`                                                   |
+| Carte d'aperçu des liens (Open Graph)    | `src/layouts/BaseLayout.astro`, `public/images/og-card.png`                      |
+| Plan du site, robots.txt                 | `src/pages/sitemap.xml.ts`, `src/pages/robots.txt.ts`                            |
 | Contenu des pages, pied de page commun   | `src/components/`                                                                |
 | Intro de l'accueil (le film)             | `src/components/IntroFilm.astro`, `src/scripts/intro/`                           |
 | Console de l'accueil (l'ordinateur)      | `src/components/Station.astro`, `src/scripts/station/`, `src/styles/station.css` |

@@ -161,6 +161,17 @@ const en = {
   socials: { discord: ['The community server', 'Join the Discord'], github: ["The site's source code"] },
   // each section's name in its page's title (its own address: Extension · Wardogs Companion)
   titles: { extension: 'Extension', screenshots: 'Screenshots', discord: 'Discord', about: 'About' },
+  // and its sentence, under its link when it is shared (its page's description: BaseLayout)
+  summaries: {
+    extension:
+      "Wardogs Companion, an unofficial community Twitch extension for WARDOGS: viewers open the streamer's loadout with one click, over the video.",
+    screenshots:
+      "Screenshots of Wardogs Companion: the viewer panel in each team's colors, item cards, classes and the streamer editor.",
+    discord:
+      'The Wardogs Companion Discord server: get help with the extension, share your ideas and hear the news first.',
+    about:
+      'Wardogs Companion, an unofficial community project around WARDOGS, created by Biggy: a Twitch extension, a Discord server and this site.',
+  },
   menu: [
     ['EXTENSION', 'The Twitch extension', '273'],
     ['SCREENSHOTS', '{shots} views', '226'],
@@ -1052,6 +1063,16 @@ const fr: StationTexts = {
     github: ['Le code source du site'],
   },
   titles: { extension: 'Extension', screenshots: 'Captures', discord: 'Discord', about: 'À propos' },
+  summaries: {
+    extension:
+      "Wardogs Companion, une extension Twitch communautaire et non officielle pour WARDOGS : les viewers ouvrent le loadout du streamer d'un clic, par-dessus la vidéo.",
+    screenshots:
+      'Les captures de Wardogs Companion : le panneau viewer aux couleurs de chaque équipe, les fiches des objets, les classes et la régie du streamer.',
+    discord:
+      "Le serveur Discord de Wardogs Companion : obtenir de l'aide sur l'extension, partager tes idées et suivre les nouveautés en premier.",
+    about:
+      'Wardogs Companion, un projet communautaire non officiel autour de WARDOGS, créé par Biggy : une extension Twitch, un serveur Discord et ce site.',
+  },
   menu: [
     ['EXTENSION', "L'extension Twitch", '273'],
     ['CAPTURES', '{shots} vues', '226'],
