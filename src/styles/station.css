@@ -1215,6 +1215,10 @@
 #station.posts-live.menu-off:not(.seeking) #st-sections {
   display: grid;
 }
+/* a page read on a small window: it slides to the window's foot and back (station.js footPlace) */
+#station.foot-in:not(.reduce) #st-sections {
+  transition: bottom 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
 /* while a screen is read, the bar is the page's navigation (NAV_IDS: the menu's sections; the one read in green, as an
    entry matched): on a phone where it is; on a computer at the top of the page once close, between BACK and the
    languages (#station.read-there) */
@@ -4585,6 +4589,46 @@
 #station .legal-version {
   margin-left: 0.9em;
   white-space: nowrap;
+}
+/* a page read on a small window: the legal lines and the controls' row out of the window's foot at once (inert:
+   station.js footPlace; nothing left under a finger, nor over the bar as it slides down), at the page's end once it
+   shows; back in at the framing with a fade, as the site's name */
+#station > :is(#st-legal, .ctrl) {
+  transition: opacity 0.6s;
+}
+#station.foot-in > :is(#st-legal, .ctrl) {
+  opacity: 0;
+  transition: none;
+}
+/* the page's end there: the legal lines and the controls' row as a site's footer, under a rule */
+#station .pg-end {
+  --gut: 40px;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 var(--gut) 24px;
+}
+#station .pg-end:empty {
+  display: none;
+}
+#station .pg-end .legal {
+  position: static;
+  max-width: none;
+  margin-top: 14px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(214, 220, 211, 0.17);
+  font-size: 11px;
+  line-height: 1.6;
+  text-shadow: none;
+}
+#station .pg-end .ctrl {
+  position: static;
+  justify-content: start;
+  margin-top: 12px;
+}
+@media (max-width: 700px) {
+  #station .pg-end {
+    --gut: 16px; /* (the page's own, .pg) */
+  }
 }
 @media (min-width: 601px) and (max-width: 1100px) {
   #station .legal {
