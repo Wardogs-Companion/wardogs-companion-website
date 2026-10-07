@@ -11,6 +11,7 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 
 ### Changed
 
+- The EXTENSION page links to the privacy policy, under "Good to know" and under the FAQ's answer about data, as a button of the console's own kind.
 - The legal pages get a table of contents, beside the text on wide screens and folded above it on phones; the extension's privacy policy and terms say in one line that they cover the extension, with a link to the website's legal notice.
 - The notice says it in full: the project is not endorsed or supported by BULKHEAD, Team17 or Twitch (the footer, the ABOUT page, the FAQ). The extension is said to be free where visitors arrive, "No data collected" reads "No data collected about viewers", and the ABOUT page gives rights holders an address to write to.
 - On phones, a page read takes more of the screen: only the sections' bar stays at the bottom, and the legal notice and the animation and sound buttons move to the end of the page, as a footer.

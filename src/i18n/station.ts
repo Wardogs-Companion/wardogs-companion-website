@@ -118,6 +118,8 @@ const en = {
   postPhoneHint: 'Click to join the server',
   postPhoneHintTouch: 'Tap to join the server',
   newTab: 'opens in a new tab',
+  // the site's legal pages a page of the console links to (PIECES.doc): their title, a few words
+  docs: { privacy: ['Privacy policy', 'Data in detail'] },
   postAudio: 'AUDIO',
   postAudioHint: 'Turn the knob, flip the switch',
   postKeypad: 'KEYPAD',
@@ -540,6 +542,7 @@ const en = {
                 ],
               ],
             ],
+            ['doc', 'privacy'],
           ],
         },
       ],
@@ -640,6 +643,7 @@ const en = {
                 [
                   'Does it read my game or collect my data?',
                   'No. Nothing is read from the game: the streamer enters everything by hand. There’s no account to create, and the developer receives no data about viewers. Only the loadout the streamer publishes is public. The privacy policy gives the details.',
+                  'privacy',
                 ],
                 [
                   'Do I need to install anything to see it?',
@@ -1074,6 +1078,7 @@ const fr: StationTexts = {
   postPhoneHint: 'Clique pour rejoindre le serveur',
   postPhoneHintTouch: 'Touche pour rejoindre le serveur',
   newTab: 's’ouvre dans un nouvel onglet',
+  docs: { privacy: ['Politique de confidentialité', 'Les données en détail'] },
   postAudio: 'AUDIO',
   postAudioHint: 'Tourne la molette, bascule l’interrupteur',
   postKeypad: 'PAVÉ',
@@ -1511,6 +1516,7 @@ const fr: StationTexts = {
                 ],
               ],
             ],
+            ['doc', 'privacy'],
           ],
         },
       ],
@@ -1615,6 +1621,7 @@ const fr: StationTexts = {
                 [
                   'Est-\u2060ce qu’elle lit mon jeu ou collecte mes données ?',
                   'Non. Rien n’est lu dans le jeu : le streamer saisit tout à la main. Il n’y a aucun compte à créer, et le développeur ne reçoit aucune donnée sur les viewers. Seul le loadout que publie le streamer est public. La politique de confidentialité donne le détail.',
+                  'privacy',
                 ],
                 [
                   'Je dois installer quelque chose pour la voir ?',
