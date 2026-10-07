@@ -6,6 +6,7 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 
 ### Added
 
+- A legal notice page (`/legal`, `/fr/legal`): the publisher, the host, intellectual property and the site's own personal data, linked from the foot of every page and from the console's legal lines.
 - A FAQ at the end of the EXTENSION page: the questions visitors ask most, each opening its answer (free? official? on a phone? data?), and help on Discord.
 
 ### Changed

@@ -186,11 +186,14 @@ const codes = Object.keys(languages) as Lang[];
        film is on the page, station.js legalHandover; else on the console's own) */}
     <p id="st-legal1">
       {t('intro.legal1')}{' '}
+      {/* (the legal pages and the version, one block that goes to the next line whole if it does not fit after the
+         notice; wider than a line, it wraps between its parts: station.css .legal-links) */}
       <span class="legal-links">
         <a href={getRelativeLocaleUrl(lang, 'privacy')}>{t('footer.privacy')}</a>
         <a href={getRelativeLocaleUrl(lang, 'terms')}>{t('footer.terms')}</a>
+        <a href={getRelativeLocaleUrl(lang, 'legal')}>{t('footer.legal')}</a>
+        <span class="legal-version">{t('footer.version').replace('{version}', version)}</span>
       </span>
-      <span class="legal-version">{t('footer.version').replace('{version}', version)}</span>
     </p>
     <p id="st-legal2">{intro ? t('intro.legal2') : stationTexts[lang].legal2}</p>
   </div>

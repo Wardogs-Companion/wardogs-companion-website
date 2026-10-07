@@ -10,7 +10,7 @@ import { SECTIONS, sectionPath } from '../scripts/station/sections.js';
 // it, their addresses are the home page, HomePage.astro), then the legal pages
 const pages: ((lang: Lang) => string)[] = [
   ...[undefined, ...(consoleMedia ? SECTIONS : [])].map((id) => (lang: Lang) => sectionPath(lang, id)),
-  ...['privacy', 'terms'].map((doc) => (lang: Lang) => getRelativeLocaleUrl(lang, doc)),
+  ...['privacy', 'terms', 'legal'].map((doc) => (lang: Lang) => getRelativeLocaleUrl(lang, doc)),
 ];
 
 export const GET: APIRoute = ({ site }) => {

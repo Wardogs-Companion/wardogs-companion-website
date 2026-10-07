@@ -4568,15 +4568,18 @@
 #station .legal p {
   margin: 0;
 }
-/* the legal pages, after the notice (the presentation's footer is out of sight under the console): a space before them,
-   so that on a narrow screen they and the version go to the next line together, flush left, the notice whole */
+/* the legal pages and the site's version (package.json), after the notice (the presentation's footer is out of sight
+   under the console): one block, after a space, so that where it does not fit after the notice it goes to the next line
+   whole, flush left, the notice whole; wider than a line (a narrow phone), it wraps between its parts, each part whole */
+#station .legal-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  column-gap: 0.9em;
+}
 #station .legal-links a {
-  margin-left: 0.9em;
   color: inherit;
   text-underline-offset: 2px;
-}
-#station .legal-links a:first-child {
-  margin-left: 0;
+  white-space: nowrap;
 }
 #station .legal-links a:hover {
   color: var(--khaki);
@@ -4585,9 +4588,7 @@
   outline: 1px solid var(--khaki);
   outline-offset: 2px;
 }
-/* then the site's version (package.json), whole on its line */
 #station .legal-version {
-  margin-left: 0.9em;
   white-space: nowrap;
 }
 /* a page read on a small window: the legal lines and the controls' row out of the window's foot at once (inert:

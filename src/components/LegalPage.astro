@@ -1,6 +1,7 @@
 ---
-// Layout shared by the legal pages. Their texts are the Markdown files in src/content/legal,
-// shown exactly as written: to update a text, replace its file.
+// Layout shared by the legal pages, shown exactly as their Markdown files are written: to update a text, replace its
+// file. The extension's privacy policy and terms of use come from the app (src/content/legal); the site's own legal
+// notice is written for the site (src/content/site).
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteFooter from './SiteFooter.astro';
@@ -9,10 +10,13 @@ import * as privacyEn from '../content/legal/privacy-policy.en.md';
 import * as privacyFr from '../content/legal/politique-de-confidentialite.fr.md';
 import * as termsEn from '../content/legal/terms-of-use.en.md';
 import * as termsFr from '../content/legal/conditions-d-utilisation.fr.md';
+import * as legalEn from '../content/site/legal-notice.en.md';
+import * as legalFr from '../content/site/mentions-legales.fr.md';
 
 const documents = {
   privacy: { en: privacyEn, fr: privacyFr, label: 'footer.privacy', description: 'privacy.description' },
   terms: { en: termsEn, fr: termsFr, label: 'footer.terms', description: 'terms.description' },
+  legal: { en: legalEn, fr: legalFr, label: 'footer.legal', description: 'legal.description' },
 } as const;
 
 interface Props {

@@ -781,11 +781,11 @@ const en = {
           body: [
             [
               'p',
-              'This site sets no cookies and no trackers. It only keeps a few display preferences in your browser: the console switched on, the intro already seen, the sound and its volume, the animations and the sections read, all forgotten when the tab is closed; and the faction you join on the radar, forgotten after 13 months. Nothing is sent anywhere.',
+              'This site sets no cookies and does no tracking. It only keeps a few settings in your browser: the console switched on, the intro already seen, the sound and its volume, the animations and the sections read, all forgotten when the tab is closed; and the faction you join on the radar, forgotten after 13 months. They never leave your browser.',
             ],
             [
               'p',
-              'The console’s sounds are real recordings from Freesound, under Creative Commons 0; their authors are credited in the site’s code.',
+              'The console’s sounds are real recordings from Freesound, dedicated to the public domain by their authors (CC0); they are credited in the site’s code.',
             ],
           ],
         },
@@ -1749,11 +1749,11 @@ const fr: StationTexts = {
           body: [
             [
               'p',
-              'Ce site ne dépose ni cookie ni traceur. Il garde seulement quelques préférences d’affichage dans ton navigateur : la console allumée, l’intro déjà vue, le son et son volume, les animations et les sections lues, tout cela oublié à la fermeture de l’onglet ; et la faction rejointe sur le radar, oubliée au bout de 13 mois. Rien n’est envoyé.',
+              'Ce site ne dépose aucun cookie et ne fait aucun pistage. Il garde seulement quelques réglages dans ton navigateur : la console allumée, l’intro déjà vue, le son et son volume, les animations et les sections lues, tout cela oublié à la fermeture de l’onglet ; et la faction rejointe sur le radar, oubliée au bout de 13 mois. Ils ne quittent jamais ton navigateur.',
             ],
             [
               'p',
-              'Les sons de la console sont de vrais enregistrements de Freesound, sous licence Creative Commons 0 ; leurs auteurs sont crédités dans le code du site.',
+              'Les sons de la console sont de vrais enregistrements de Freesound, placés par leurs auteurs dans le domaine public (CC0) ; ils sont crédités dans le code du site.',
             ],
           ],
         },

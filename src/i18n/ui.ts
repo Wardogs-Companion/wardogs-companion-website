@@ -49,8 +49,11 @@ const en = {
   'footer.legalLabel': 'Legal',
   'footer.privacy': 'Privacy',
   'footer.terms': 'Terms',
+  'footer.legal': 'Legal notice',
   'privacy.description': 'Privacy policy of Wardogs Companion, the unofficial community Twitch extension.',
   'terms.description': 'Terms of use of Wardogs Companion, the unofficial community Twitch extension.',
+  'legal.description':
+    'Legal notice of the Wardogs Companion website: its publisher, its host, rights and the site’s own personal data.',
 };
 
 const fr: Record<keyof typeof en, string> = {
@@ -87,10 +90,13 @@ const fr: Record<keyof typeof en, string> = {
   'footer.legalLabel': 'Informations légales',
   'footer.privacy': 'Confidentialité',
   'footer.terms': 'Conditions',
+  'footer.legal': 'Mentions légales',
   'privacy.description':
     'Politique de confidentialité de Wardogs Companion, l’extension Twitch communautaire et non officielle.',
   'terms.description':
     'Conditions d’utilisation de Wardogs Companion, l’extension Twitch communautaire et non officielle.',
+  'legal.description':
+    'Mentions légales du site Wardogs Companion : son éditeur, son hébergeur, les droits et les données personnelles du site.',
 };
 
 export const ui: Record<Lang, typeof en> = { en, fr };
