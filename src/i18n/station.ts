@@ -1613,7 +1613,7 @@ const fr: StationTexts = {
                   'Pas encore. Il n’y a pas de version téléphone pour l’instant, donc les applis Twitch pour mobile ne l’affichent pas. Une version téléphone figure dans la feuille de route, plus haut.',
                 ],
                 [
-                  'Est-ce qu’elle lit mon jeu ou collecte mes données ?',
+                  'Est-\u2060ce qu’elle lit mon jeu ou collecte mes données ?',
                   'Non. Rien n’est lu dans le jeu : le streamer saisit tout à la main. Il n’y a aucun compte à créer, et le développeur ne reçoit aucune donnée sur les viewers. Seul le loadout que publie le streamer est public. La politique de confidentialité donne le détail.',
                 ],
                 [
@@ -1621,7 +1621,7 @@ const fr: StationTexts = {
                   'Non, rien à installer ni à remplir. Sur une chaîne qui l’utilise, une icône apparaît sur la vidéo : un clic ouvre le panneau. Il s’affiche en français si ton Twitch est en français, en anglais sinon.',
                 ],
                 [
-                  'Les prix et les poids sont-ils exacts ?',
+                  'Les prix et les poids sont-\u2060ils exacts ?',
                   'Le développeur les relève dans le jeu, à titre indicatif : certains peuvent manquer, ou différer après une mise à jour du jeu. Le jeu lui-même reste la seule référence. La valeur du loadout est le total des prix des objets dans le jeu, pas de l’argent réel.',
                 ],
               ],

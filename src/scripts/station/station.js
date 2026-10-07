@@ -224,22 +224,26 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   }
   // The bottom band in portrait: the sections' bar (SECTIONS.h high) sits SECTIONS.gap above the legal lines, which
   // wrap with the width and the language: measured as laid out (on a resize, a language, the intro's credit handed over);
-  // the factions' strip SECTIONS.gap above the bar, its height from its CSS (--h: lower in a short window)
-  const SECTIONS = { h: 48, gap: 10 };
+  // the factions' strip SECTIONS.gap above the bar, its height from its CSS (--h: lower in a short window). Measured where
+  // the legal lines lie at rest only, not while a page read on a small window has them at its end (footPlace), where
+  // the bar takes the window's foot (low)
+  const SECTIONS = { h: 48, gap: 10, above: 0, low: false }; // (above: the bar's bottom at rest, from the window's foot)
   function measureBands() {
-    const legalTop = $('legal').getBoundingClientRect().top;
-    const above = innerHeight - legalTop + SECTIONS.gap; // (the bar's bottom, from the window's foot)
-    const strip = parseFloat(getComputedStyle($('factions')).getPropertyValue('--h')) + SECTIONS.gap;
-    BANDS.bar = above + SECTIONS.h + SECTIONS.gap;
-    BANDS.bottom = BANDS.bar + strip;
-    setStyle($('sections'), 'bottom', above + 'px');
-    if (strip) setStyle($('factions'), 'bottom', above + SECTIONS.h + SECTIONS.gap + 'px');
-    // in landscape, the foot the legal lines and the controls' row take ([ animations ] [ sound ]): framing keeps a low
-    // window's room above it, the keypad and the power out from under them
-    BANDS.foot =
-      innerHeight -
-      Math.min(legalTop, ROOT.querySelector('.ctrl').getBoundingClientRect().top) +
-      SECTIONS.gap;
+    if ($('legal').parentElement === ROOT) {
+      const legalTop = $('legal').getBoundingClientRect().top;
+      SECTIONS.above = innerHeight - legalTop + SECTIONS.gap;
+      const strip = parseFloat(getComputedStyle($('factions')).getPropertyValue('--h')) + SECTIONS.gap;
+      BANDS.bar = SECTIONS.above + SECTIONS.h + SECTIONS.gap;
+      BANDS.bottom = BANDS.bar + strip;
+      if (strip) setStyle($('factions'), 'bottom', SECTIONS.above + SECTIONS.h + SECTIONS.gap + 'px');
+      // in landscape, the foot the legal lines and the controls' row take ([ animations ] [ sound ]): framing keeps a
+      // low window's room above it, the keypad and the power out from under them
+      BANDS.foot =
+        innerHeight -
+        Math.min(legalTop, ROOT.querySelector('.ctrl').getBoundingClientRect().top) +
+        SECTIONS.gap;
+    }
+    setStyle($('sections'), 'bottom', (SECTIONS.low ? SECTIONS.gap : SECTIONS.above) + 'px');
   }
   // at rest, the world lands on whole device pixels: at the scale it was rasterised at, the browser then only copies it
   // (no resampling), which keeps a page without a graphics card light
@@ -314,7 +318,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // everything placed from the framing, again: the camera, the power button's target, the other targets. On a resize, a
   // language, the intro's credit handed over: in portrait the framing depends on the legal lines' height.
   function layout() {
-    measureBands();
+    footPlace(); // (the window's foot for a small window or not, then measureBands)
     camera();
     placePowerTarget();
     if (CTT.knob) placeTargets();
@@ -4369,6 +4373,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
         (PAGE.id !== null ? pageTitle() : $('back')).focus({ preventScroll: true });
       else $('pad-status').textContent = T().pageSay.replace('{page}', sectionName(id)); // (the focus kept on the bar's button that changed it: screen readers told the page changed)
     }
+    footPlace();
     drawTower();
     navCurrent();
     wake();
@@ -4385,6 +4390,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       if (snd && soundOn) snd.pageOff();
     } // (its tube's crackle)
     readMove(0, tube ? READ_COLLAPSE.line : 0);
+    footPlace(); // (the sections' bar back in place now if no page shows yet; else once it is gone, pageHide)
     drawTower();
     wake();
   }
@@ -4467,6 +4473,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     navCurrent();
     ROOT.classList.remove('read-there');
     ROOT.classList.remove('reading');
+    footPlace();
     readInert(false);
     screenRes(SCR.principal, CANVAS_SCALE);
     drawTower();
@@ -4477,7 +4484,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       else Object.assign(TOWER, { offAt: null, onAt: performance.now() / 1000 });
       if (snd && soundOn) snd.screenOn();
     } // (switched off on the way: on again now, its switch-on heard; at once if motion was reduced on the way: motionSet)
-    if (CTT.knob) placeTargets();
+    layout(); // (all placed from the framing again: the window may have changed while the bands were not measured, footPlace)
     const o = READ.opener;
     READ.opener = null;
     if (o?.isConnected && unfocused(document.activeElement)) o.focus({ preventScroll: true });
@@ -6167,13 +6174,44 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   const PAGE_HEAD = 96,
     PAGE_GAP = 12;
   function pagePlace() {
-    const phone = ROOT.classList.contains('menu-off');
+    const phone = ROOT.classList.contains('menu-off'),
+      foot = $('legal').parentElement === ROOT; // (the legal lines at the window's foot, not at the page's end: footPlace)
     PAGE.top = phone ? BANDS.top : PAGE_HEAD;
-    PAGE.bottom = phone ? BANDS.bar : innerHeight - $('legal').getBoundingClientRect().top + PAGE_GAP;
+    // its foot: on a phone, the sections' bar, with the legal lines under it unless they are at the page's end; else
+    // the legal lines, or nothing (the page down to the window's foot)
+    if (phone) PAGE.bottom = foot ? BANDS.bar : SECTIONS.h + 2 * SECTIONS.gap;
+    else PAGE.bottom = foot ? innerHeight - $('legal').getBoundingClientRect().top + PAGE_GAP : 0;
     setStyle($('page-view'), 'top', PAGE.top + 'px');
     setStyle($('page-view'), 'bottom', PAGE.bottom + 'px');
     setStyle($('page-head'), 'height', PAGE.top + 'px');
     setStyle($('page-foot'), 'height', PAGE.bottom + 'px');
+    $('page-foot').hidden = !PAGE.bottom; // (no band, nor its rule, where there is no foot)
+  }
+  // On a small window (a phone: SMALL), a page read takes the room of the legal lines and the controls' row
+  // ([ animations ] [ sound ]): from the approach until back at the framing they leave the window's foot (.foot-in:
+  // faded out, and inert), for the page's end while it shows (#st-page-end, as a site's footer, read and reached from the
+  // keyboard after the page); meanwhile the sections' bar, if at the bottom (a phone upright), takes the window's foot,
+  // back in its place as one leaves, once they are back and measured (SECTIONS.low). Called at each of those changes:
+  // read, back, pageShow, pageHide, readEnd, and layout (a resize: a phone turned, a zoom). A link or a button of theirs
+  // that has the focus keeps it as they move (unless they go out of reach).
+  const SMALL = matchMedia('(max-width: 600px), (max-height: 499.98px)'),
+    CTRL = ROOT.querySelector('.ctrl');
+  function footPlace() {
+    const away = ROOT.classList.contains('reading') && SMALL.matches,
+      inPage = away && PAGE.id !== null,
+      legal = $('legal'),
+      at = document.activeElement,
+      had = legal.contains(at) || CTRL.contains(at) ? at : null,
+      kbd = had?.matches(':focus-visible');
+    ROOT.classList.toggle('foot-in', away);
+    if (inPage && legal.parentElement === ROOT) $('page-end').append(legal, CTRL);
+    else if (!inPage && legal.parentElement !== ROOT) $('veil').after(CTRL, legal); // (their place at rest, in order)
+    legal.inert = CTRL.inert = away && !inPage;
+    // (from the keyboard, at the page's end: scrolled into view; after a click, the page read stays where it is)
+    if (had && !legal.inert && document.activeElement !== had)
+      had.focus({ preventScroll: legal.parentElement === ROOT || !kbd });
+    SECTIONS.low = away && (reading() || inPage);
+    measureBands();
   }
   // The page builds itself as it comes (its CSS: .dec, .lock). Its blocks (units: the header line, then each
   // module and part heading band, in order) lock once per showing: as the scan line reaches them (pageReveal, their tops
@@ -6370,6 +6408,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     if (!sweep) unitOn(h, true);
     PAGE.id = id;
     pageBuild(id);
+    footPlace();
     pagePlace();
     $('page').hidden = false;
     if (PAGE.next) {
@@ -6405,6 +6444,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     if ($('page').contains(document.activeElement)) document.activeElement.blur();
     $('page-view').scrollTop = 0;
     $('page').hidden = true; // (while it still shows: hidden, a view keeps its scroll, the next page would open where this one was read)
+    footPlace(); // (the legal lines and the controls back in their place, still out of sight until the framing)
   }
   // motion reduced while a page shows: as if shown without a move (pageShow), at once: its sweep and its labels' decoding
   // over, its units all there and none locked (their moves gone, and not played again once motion is back), the route's
