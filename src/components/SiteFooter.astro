@@ -25,6 +25,7 @@ const { langs } = Astro.props;
         <nav class="legal-links" aria-label={t('footer.legalLabel')}>
           <a href={getRelativeLocaleUrl(lang, 'privacy')}>{t('footer.privacy')}</a>
           <a href={getRelativeLocaleUrl(lang, 'terms')}>{t('footer.terms')}</a>
+          <a href={getRelativeLocaleUrl(lang, 'legal')}>{t('footer.legal')}</a>
         </nav>
       </div>
     );
