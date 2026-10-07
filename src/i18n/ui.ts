@@ -54,6 +54,12 @@ const en = {
   'terms.description': 'Terms of use of Wardogs Companion, the unofficial community Twitch extension.',
   'legal.description':
     'Legal notice of the Wardogs Companion website: its publisher, its host, rights and the site’s own personal data.',
+  // the legal pages: the extension's texts say what they cover ({link}: the site's legal notice); their contents
+  'legal.context':
+    'This text covers the Wardogs Companion extension for Twitch. The website itself has its own {link}.',
+  'legal.contextLink': 'legal notice',
+  'legal.contents': 'Contents',
+  'legal.sections': '{n} sections',
 };
 
 const fr: Record<keyof typeof en, string> = {
@@ -97,6 +103,11 @@ const fr: Record<keyof typeof en, string> = {
     'Conditions d’utilisation de Wardogs Companion, l’extension Twitch communautaire et non officielle.',
   'legal.description':
     'Mentions légales du site Wardogs Companion : son éditeur, son hébergeur, les droits et les données personnelles du site.',
+  'legal.context':
+    'Ce texte concerne l’extension Wardogs Companion pour Twitch. Le site lui-même a ses {link}.',
+  'legal.contextLink': 'mentions légales',
+  'legal.contents': 'Sommaire',
+  'legal.sections': '{n} parties',
 };
 
 export const ui: Record<Lang, typeof en> = { en, fr };
