@@ -4697,6 +4697,19 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       );
       return b;
     },
+    // a legal page of the site (TXT docs: its title, a few words), in the page's language, in this tab: a link of the
+    // bar's family, as a section's
+    doc: (id) => {
+      const [title, sub] = T().docs[id],
+        a = node('a', 'go doc', '', [
+          ...['tl', 'tr', 'bl', 'br'].map((c) => node('i', 'c ' + c)),
+          node('span', '', title),
+          node('small', '', sub),
+        ]);
+      a.href = (LANG === 'fr' ? '/fr/' : '/') + id;
+      a.setAttribute('aria-label', `${title}. ${sub}.`);
+      return a;
+    },
     status: (rows) =>
       node(
         'dl',
@@ -4873,7 +4886,8 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       ),
     small: (t) => node('p', 'small-note', t),
     // the questions asked most: each a native disclosure (its summary the question, closed until opened, by a click as
-    // by the keyboard, said as such by screen readers), its answer under it, and the section that tells more
+    // by the keyboard, said as such by screen readers), its answer under it, and the section or the legal page that
+    // tells more
     faq: (items) =>
       node(
         'div',
@@ -4884,7 +4898,10 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
             i,
             [
               node('summary', '', '', [dec(q)]),
-              node('div', 'qa-a', '', [node('p', '', a), ...(go ? [PIECES.go(go)] : [])]),
+              node('div', 'qa-a', '', [
+                node('p', '', a),
+                ...(go ? [T().docs[go] ? PIECES.doc(go) : PIECES.go(go)] : []),
+              ]),
             ],
             'details',
           );
