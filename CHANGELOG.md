@@ -35,6 +35,12 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 
 - Found by a review on phones and tablets: the legal lines at the foot of the console no longer break inside the notice; the Discord invite shows in its real case (its code is case-sensitive); the ABOUT page's status badges no longer wrap; the roadmap's next step stays visible while it blinks; the marks of the annotated screenshots no longer hide the extension's logo, its publish button or a label; "In figures" no longer leaves a dot at a line's end, one figure a line on phones; the numbers of the steps line up.
 
+## [0.1.2] - 2026-10-07
+
+### Changed
+
+- In the intro film, the game's developer and publisher, BULKHEAD and Team17, are presented as the game's creators ("Game creators identified") rather than as allies, so that nothing suggests a partnership: the project is not affiliated with them.
+
 ## [0.1.1] - 2026-10-06
 
 ### Fixed
@@ -53,6 +59,7 @@ The beta, online at https://wardogs-companion.vercel.app.
 - English and French throughout.
 
 [Unreleased]: https://github.com/Wardogs-Companion/wardogs-companion-website/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/Wardogs-Companion/wardogs-companion-website/compare/v0.1.1...v0.2.0
+[0.2.0]: https://github.com/Wardogs-Companion/wardogs-companion-website/compare/v0.1.2...v0.2.0
+[0.1.2]: https://github.com/Wardogs-Companion/wardogs-companion-website/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/Wardogs-Companion/wardogs-companion-website/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/Wardogs-Companion/wardogs-companion-website/releases/tag/v0.1.0
