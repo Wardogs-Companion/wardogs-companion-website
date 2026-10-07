@@ -8,6 +8,10 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 
 - A FAQ at the end of the EXTENSION page: the questions visitors ask most, each opening its answer (free? official? on a phone? data?), and help on Discord.
 
+### Fixed
+
+- On phones and upright tablets, the site's name and the language switch at the top of the home page no longer sit on the console's bright gauges: a soft shade behind them keeps them readable.
+
 ## [0.2.0] - 2026-10-06
 
 ### Added

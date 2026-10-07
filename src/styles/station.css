@@ -410,6 +410,26 @@
   pointer-events: none;
   background: radial-gradient(120% 100% at 50% 46%, transparent 62%, rgba(3, 4, 2, 0.38) 100%);
 }
+/* in portrait (a phone, a tablet upright: framing), the top of bay D's gauges lies under the site's top line (the name,
+   the languages): a shade over the band the framing leaves to that line (BANDS.top, station.js), never lower, where
+   bay D's lamps answer the keypad. It comes and goes with that line: not over the arrival, nor over a page read (its
+   own band) */
+@media not all and (min-aspect-ratio: 9/10) {
+  #station #st-vignette::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 56px;
+    background: linear-gradient(rgba(8, 10, 9, 0.88), rgba(8, 10, 9, 0.6) 70%, rgba(8, 10, 9, 0));
+    transition: opacity 0.6s; /* (the line's own: .hud) */
+  }
+  #station:is(.hud-hidden, .reading) #st-vignette::before {
+    opacity: 0;
+  }
+  #station.seeking #st-vignette::before {
+    transition: none;
+  }
+}
 /* The dark of the arrival, in two layers whose opacity only changes (compositor work): an even black, and a
    vignette for the edges, which stay darker a little longer. Opaque from the first paint: nothing shows before the
    page is ready. It sits under the site layer, so the legal lines are readable from the first frame. */
