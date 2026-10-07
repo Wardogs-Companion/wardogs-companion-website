@@ -13,14 +13,14 @@ export const defaultLang: Lang = 'en';
 const en = {
   'meta.title': 'Wardogs Companion',
   'meta.description':
-    'Wardogs Companion, an unofficial community Twitch extension that shows a streamer’s full WARDOGS loadout live on stream.',
+    'Wardogs Companion, a free, unofficial community Twitch extension that shows a streamer’s full WARDOGS loadout live on stream.',
   // the picture under a shared link (public/images/og-card.png: the logo alone)
   'meta.imageAlt': 'The Wardogs Companion logo',
   'nav.switchLabel': 'Language',
   'home.status': 'Website in beta',
   'home.tagline': 'Your WARDOGS loadout, live on stream.',
   'home.lead':
-    'An unofficial community Twitch extension that shows a streamer’s full WARDOGS loadout in a panel over the video, item by item, with the prices, sizes and weights the game uses.',
+    'A free, unofficial community Twitch extension that shows a streamer’s full WARDOGS loadout in a panel over the video, item by item, with the prices, sizes and weights the game uses.',
   // The intro film on the home page (IntroFilm.astro). No-break spaces ( ) keep the legal lines from breaking
   // before a dash, after © or around the slash of BULKHEAD / Team17. ariaC, ariaD: what screen readers are told once
   // each target is identified (the cards on screen are hidden from them).
@@ -42,7 +42,7 @@ const en = {
   'intro.replay': 'Replay intro',
   'intro.watch': 'Watch intro',
   'footer.disclaimer':
-    'Wardogs Companion is an independent, unofficial community project. It is not affiliated with BULKHEAD, Team17 or Twitch. WARDOGS and its names, logos and visuals belong to their respective rights holders.',
+    'Wardogs Companion is an independent, unofficial community project. It is not endorsed or supported by BULKHEAD, Team17 or Twitch, and is not affiliated with them. WARDOGS and its names, logos and visuals belong to their respective rights holders.',
   'footer.copyright': '© 2026 BiggyQLF. All rights reserved.',
   // the site's version, from package.json (SiteFooter.astro, Station.astro): {version} is replaced there
   'footer.version': 'Website v{version}',
@@ -56,13 +56,13 @@ const en = {
 const fr: Record<keyof typeof en, string> = {
   'meta.title': 'Wardogs Companion',
   'meta.description':
-    'Wardogs Companion, une extension Twitch communautaire et non officielle qui affiche tout le loadout WARDOGS du streamer en direct sur le stream.',
+    'Wardogs Companion, une extension Twitch gratuite, communautaire et non officielle qui affiche tout le loadout WARDOGS du streamer en direct sur le stream.',
   'meta.imageAlt': 'Le logo de Wardogs Companion',
   'nav.switchLabel': 'Langue',
   'home.status': 'Site en bêta',
   'home.tagline': 'Ton loadout WARDOGS, en direct sur le stream.',
   'home.lead':
-    'Une extension Twitch communautaire et non officielle qui affiche tout le loadout WARDOGS du streamer dans un panneau par-dessus la vidéo, objet par objet, avec les prix, les encombrements et les poids du jeu.',
+    'Une extension Twitch gratuite, communautaire et non officielle qui affiche tout le loadout WARDOGS du streamer dans un panneau par-dessus la vidéo, objet par objet, avec les prix, les encombrements et les poids du jeu.',
   'intro.searching': 'Recherche de la cible…',
   'intro.identified': 'Cible identifiée',
   'intro.allies': 'Créateurs du jeu identifiés',
@@ -81,7 +81,7 @@ const fr: Record<keyof typeof en, string> = {
   'intro.replay': 'Revoir l’intro',
   'intro.watch': 'Voir l’intro',
   'footer.disclaimer':
-    'Wardogs Companion est un projet communautaire indépendant et non officiel. Il n’est affilié ni à BULKHEAD, ni à Team17, ni à Twitch. WARDOGS, ses noms, logos et visuels appartiennent à leurs ayants droit.',
+    'Wardogs Companion est un projet communautaire indépendant et non officiel. Il n’est ni approuvé ni soutenu par BULKHEAD, Team17 ou Twitch, et n’a aucun lien avec eux. WARDOGS, ses noms, logos et visuels appartiennent à leurs ayants droit.',
   'footer.copyright': '© 2026 BiggyQLF. Tous droits réservés.',
   'footer.version': 'Site v{version}',
   'footer.legalLabel': 'Informations légales',
