@@ -164,13 +164,13 @@ const en = {
   // and its sentence, under its link when it is shared (its page's description: BaseLayout)
   summaries: {
     extension:
-      'Wardogs Companion, an unofficial community Twitch extension for WARDOGS: viewers open the streamer’s loadout with one click, over the video.',
+      'Wardogs Companion, a free, unofficial Twitch extension for WARDOGS: viewers open the streamer’s loadout with one click, over the video.',
     screenshots:
       'Screenshots of Wardogs Companion: the viewer panel in each team’s colors, item cards, classes and the streamer editor.',
     discord:
       'The Wardogs Companion Discord server: get help with the extension, share your ideas and hear the news first.',
     about:
-      'Wardogs Companion, an unofficial community project around WARDOGS, created by Biggy: a Twitch extension, a Discord server and this site.',
+      'Wardogs Companion, an unofficial community project around WARDOGS, created by Biggy: a free Twitch extension, a Discord server and this site.',
   },
   menu: [
     ['EXTENSION', 'The Twitch extension', '273'],
@@ -208,7 +208,7 @@ const en = {
       [
         'hero',
         {
-          kicker: 'Twitch extension for WARDOGS',
+          kicker: 'Free Twitch extension for WARDOGS',
           title: 'Wardogs Companion',
           note: 'Community project, unofficial, not affiliated with BULKHEAD, Team17 or Twitch.', // (the negation kept with its verb)
           lead: 'Viewers see the streamer’s loadout, right on the stream.',
@@ -531,7 +531,7 @@ const en = {
                   'The extension has no server of its own: Twitch keeps the loadout and sends it to viewers.',
                 ],
                 [
-                  'No data collected',
+                  'No data collected about viewers',
                   'The extension only keeps, in each viewer’s own browser, where they put the icon and the panel, and its size.',
                 ],
                 [
@@ -626,7 +626,7 @@ const en = {
                 ],
                 [
                   'Is it official?',
-                  'No. It’s a community project, unofficial, not affiliated with BULKHEAD, Team17 or Twitch. The About section tells you who’s behind it.',
+                  'No. It’s an unofficial community project, not endorsed or supported by BULKHEAD, Team17 or Twitch. The About section tells you who’s behind it.',
                   'about',
                 ],
                 [
@@ -713,7 +713,7 @@ const en = {
         {
           kicker: 'Wardogs Companion · Community project',
           title: 'A project made by players, for players.', // (its own title: the extension's page is the one named Wardogs Companion, the app's name)
-          text: 'An unofficial community project around WARDOGS, created by Biggy: a Twitch extension, a Discord server and this site.',
+          text: 'An unofficial community project around WARDOGS, created by Biggy: a free Twitch extension, a Discord server and this site.',
           contact: 'biggy',
           states: [
             ['The extension', 'Coming soon'],
@@ -763,11 +763,11 @@ const en = {
           body: [
             [
               'p',
-              'Wardogs Companion is an independent, unofficial community project. It is not affiliated with BULKHEAD, Team17 or Twitch. WARDOGS and its names, logos and visuals belong to their respective rights holders.',
+              'Wardogs Companion is an independent, unofficial community project. It is not endorsed or supported by BULKHEAD, Team17 or Twitch, and is not affiliated with them. WARDOGS and its names, logos and visuals belong to their respective rights holders.',
             ],
             [
               'p',
-              'The game’s footage and pictures on this site are shown to present this project to BULKHEAD, and removed on request.',
+              'The game’s footage and pictures on this site are shown to present this project to BULKHEAD, and removed on request: rights holders can write to wardogscompanion@gmail.com.',
             ],
           ],
         },
@@ -1121,13 +1121,13 @@ const fr: StationTexts = {
   titles: { extension: 'Extension', screenshots: 'Captures', discord: 'Discord', about: 'À propos' },
   summaries: {
     extension:
-      'Wardogs Companion, une extension Twitch communautaire et non officielle pour WARDOGS : les viewers ouvrent le loadout du streamer d’un clic, par-dessus la vidéo.',
+      'Wardogs Companion, une extension Twitch gratuite et non officielle pour WARDOGS : les viewers ouvrent le loadout du streamer d’un clic, par-dessus la vidéo.',
     screenshots:
       'Les captures de Wardogs Companion : le panneau viewer aux couleurs de chaque équipe, les fiches des objets, les classes et la régie du streamer.',
     discord:
       'Le serveur Discord de Wardogs Companion : obtenir de l’aide sur l’extension, partager tes idées et suivre les nouveautés en premier.',
     about:
-      'Wardogs Companion, un projet communautaire non officiel autour de WARDOGS, créé par Biggy : une extension Twitch, un serveur Discord et ce site.',
+      'Wardogs Companion, un projet communautaire non officiel autour de WARDOGS, créé par Biggy : une extension Twitch gratuite, un serveur Discord et ce site.',
   },
   menu: [
     ['EXTENSION', 'L’extension Twitch', '273'],
@@ -1160,7 +1160,7 @@ const fr: StationTexts = {
       [
         'hero',
         {
-          kicker: 'Extension Twitch pour WARDOGS',
+          kicker: 'Extension Twitch gratuite pour WARDOGS',
           title: 'Wardogs Companion',
           note: 'Projet communautaire, non officiel, sans lien avec BULKHEAD, Team17 ni Twitch.',
           lead: 'Les viewers voient le loadout du streamer, directement sur le stream.',
@@ -1502,7 +1502,7 @@ const fr: StationTexts = {
                   'L’extension n’a aucun serveur à elle : Twitch garde le loadout et l’envoie aux viewers.',
                 ],
                 [
-                  'Aucune donnée collectée',
+                  'Aucune donnée collectée sur les viewers',
                   'L’extension garde seulement, dans le navigateur de chaque viewer, la place de l’icône et celle du panneau, avec sa taille.',
                 ],
                 [
@@ -1601,7 +1601,7 @@ const fr: StationTexts = {
                 ],
                 [
                   'C’est officiel ?',
-                  'Non. C’est un projet communautaire, non officiel, sans lien avec BULKHEAD, Team17 ni Twitch. La section À propos te dit qui est derrière.',
+                  'Non. C’est un projet communautaire non officiel, ni approuvé ni soutenu par BULKHEAD, Team17 ou Twitch. La section À propos te dit qui est derrière.',
                   'about',
                 ],
                 [
@@ -1681,7 +1681,7 @@ const fr: StationTexts = {
         {
           kicker: 'Wardogs Companion · Projet communautaire',
           title: 'Un projet fait par des joueurs, pour les joueurs.',
-          text: 'Un projet communautaire non officiel autour de WARDOGS, créé par Biggy : une extension Twitch, un serveur Discord et ce site.',
+          text: 'Un projet communautaire non officiel autour de WARDOGS, créé par Biggy : une extension Twitch gratuite, un serveur Discord et ce site.',
           contact: 'biggy',
           states: [
             ['L’extension', 'Bientôt disponible'],
@@ -1731,11 +1731,11 @@ const fr: StationTexts = {
           body: [
             [
               'p',
-              'Wardogs Companion est un projet communautaire indépendant et non officiel. Il n’est affilié ni à BULKHEAD, ni à Team17, ni à Twitch. WARDOGS, ses noms, logos et visuels appartiennent à leurs ayants droit.',
+              'Wardogs Companion est un projet communautaire indépendant et non officiel. Il n’est ni approuvé ni soutenu par BULKHEAD, Team17 ou Twitch, et n’a aucun lien avec eux. WARDOGS, ses noms, logos et visuels appartiennent à leurs ayants droit.',
             ],
             [
               'p',
-              'Les images du jeu de ce site sont montrées pour présenter ce projet à BULKHEAD, et retirées sur simple demande.',
+              'Les images du jeu de ce site sont montrées pour présenter ce projet à BULKHEAD, et retirées sur simple demande : un ayant droit peut écrire à wardogscompanion@gmail.com.',
             ],
           ],
         },

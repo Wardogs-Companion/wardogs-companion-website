@@ -10,6 +10,7 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 
 ### Changed
 
+- The notice says it in full: the project is not endorsed or supported by BULKHEAD, Team17 or Twitch (the footer, the ABOUT page, the FAQ). The extension is said to be free where visitors arrive, "No data collected" reads "No data collected about viewers", and the ABOUT page gives rights holders an address to write to.
 - On phones, a page read takes more of the screen: only the sections' bar stays at the bottom, and the legal notice and the animation and sound buttons move to the end of the page, as a footer.
 
 ### Fixed
