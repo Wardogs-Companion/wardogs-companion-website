@@ -5323,7 +5323,8 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   SHOTS.sideOf = new Map();
   const shotSide = (img) =>
     SHOTS.sideOf.get((img.currentSrc || img.src).split('/').pop().replace('.game.webp', '.webp')); // (by its name in the texts)
-  const SHOT_PHONE = matchMedia('(max-width: 700px)');
+  const SHOT_PHONE = matchMedia('(max-width: 700px)'),
+    SHOT_COLUMN = matchMedia('(max-width: 1099px)'); // (the screen above its side, not beside it: station.css .shots)
   const SHOT_RO = new ResizeObserver(() => shotFitAll());
   function shotSeen(img) {
     // (a capture's size known: its side's box grows, the screens fit again)
@@ -5342,8 +5343,11 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     if (!img?.naturalWidth) return;
     const [bw, bh] = SHOTS.boxes.get(shotSide(img)) || [img.naturalWidth, img.naturalHeight];
     const phone = SHOT_PHONE.matches,
+      tablet = !phone && SHOT_COLUMN.matches, // (a tablet, a narrow window: the screen alone on its row)
       zoom = screen === ZOOM.pic;
     if (zoom && !ZOOM.el.open) return; // (closed meanwhile: fitted again as it opens)
+    if (tablet && !zoom) setStyle(screen, 'height', ''); // (its room: the CSS's height; its own set again below)
+    const own = screen.clientHeight;
     const room = zoom && !phone && getComputedStyle(img); // (enlarged: the window less what is round it, as the CSS says: .zoom-img)
     const tall =
       room && Math.min(parseFloat(room.maxHeight), screen.closest('.zoom-stage').clientHeight - 18); // (a title on two lines: the stage's own room, less its frame's 2 × 9 px)
@@ -5351,13 +5355,22 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       ? phone
         ? 1
         : Math.min(1, parseFloat(room.maxWidth) / bw, tall / bh)
-      : Math.min(
-          1,
-          (screen.clientWidth - (phone ? 16 : 152)) / bw,
-          phone ? Infinity : (screen.clientHeight - 60) / bh,
-        ); // (its top bar's room and a margin: 40 + 12 + 8 px; on its sides, ◀ ▶ and 8 px: 2 × (24 + 44 + 8))
+      : Math.min(1, (screen.clientWidth - (phone ? 16 : 152)) / bw, phone ? Infinity : (own - 60) / bh); // (its top bar's room and a margin: 40 + 12 + 8 px; on its sides, ◀ ▶ and 8 px: 2 × (24 + 44 + 8))
     setStyle(img, 'width', (img.naturalWidth * k).toFixed(1) + 'px');
-    if (!zoom) setStyle(screen, 'height', phone ? (bh * k + 88).toFixed(1) + 'px' : ''); // (a phone: as tall as the largest, its 44 px above and below)
+    // as tall as its side's largest capture: on a phone, with its 44 px above and below; on a tablet, where the width
+    // limits it, with its top bar's room and its margins (40 + 12 above, 12 + 12 below: the room .shot-img's max-height
+    // leaves it, whole), not with empty bands above and below it; else (where the height limits it, on a computer) the
+    // CSS's
+    if (!zoom)
+      setStyle(
+        screen,
+        'height',
+        phone
+          ? (bh * k + 88).toFixed(1) + 'px'
+          : tablet && bh * k + 76 < own
+            ? (bh * k + 76).toFixed(1) + 'px'
+            : '',
+      );
   }
   function shotFitAll() {
     shotFit($('page-body').querySelector('.shot-screen'));
