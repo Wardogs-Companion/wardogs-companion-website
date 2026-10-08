@@ -21,6 +21,13 @@ const en = {
   'home.tagline': 'Your WARDOGS loadout, live on stream.',
   'home.lead':
     'A free, unofficial community Twitch extension that shows a streamer’s full WARDOGS loadout in a panel over the video, item by item, with the prices, sizes and weights the game uses.',
+  // the presentation, where the console does not show (HomePage.astro): what it does, when, and where to follow it;
+  // when: the console's EXTENSION page says it with the same words (station.ts, its hero's status)
+  'home.how':
+    'The streamer prepares their loadout in an editor on Twitch, and viewers open it with one click. Nothing is read from the game: the streamer enters everything.',
+  'home.soon': 'Coming soon',
+  'home.soonText': 'Not on Twitch yet: a beta first, then open to all.',
+  'home.join': 'Join the Discord',
   // The intro film on the home page (IntroFilm.astro). No-break spaces ( ) keep the legal lines from breaking
   // before a dash, after © or around the slash of BULKHEAD / Team17. ariaC, ariaD: what screen readers are told once
   // each target is identified (the cards on screen are hidden from them).
@@ -60,6 +67,12 @@ const en = {
   'legal.contextLink': 'legal notice',
   'legal.contents': 'Contents',
   'legal.sections': '{n} sections',
+  // the page not found (404.astro), one page in both languages: where to go back, and where to ask
+  'notFound.title': 'Page not found',
+  'notFound.description': 'This page does not exist.',
+  'notFound.home': 'Back to the home page',
+  'notFound.question': 'Have a question?',
+  'notFound.ask': 'Ask it on Discord',
 };
 
 const fr: Record<keyof typeof en, string> = {
@@ -72,6 +85,11 @@ const fr: Record<keyof typeof en, string> = {
   'home.tagline': 'Ton loadout WARDOGS, en direct sur le stream.',
   'home.lead':
     'Une extension Twitch gratuite, communautaire et non officielle qui affiche tout le loadout WARDOGS du streamer dans un panneau par-dessus la vidéo, objet par objet, avec les prix, les encombrements et les poids du jeu.',
+  'home.how':
+    'Le streamer prépare son loadout dans une régie sur Twitch, et ses viewers l’ouvrent d’un clic. Rien n’est lu dans le jeu : le streamer saisit tout lui-même.',
+  'home.soon': 'Bientôt disponible',
+  'home.soonText': 'Pas encore sur Twitch : une bêta d’abord, puis l’ouverture à tous.',
+  'home.join': 'Rejoindre le Discord',
   'intro.searching': 'Recherche de la cible…',
   'intro.identified': 'Cible identifiée',
   'intro.allies': 'Créateurs du jeu identifiés',
@@ -108,6 +126,11 @@ const fr: Record<keyof typeof en, string> = {
   'legal.contextLink': 'mentions légales',
   'legal.contents': 'Sommaire',
   'legal.sections': '{n} parties',
+  'notFound.title': 'Page introuvable',
+  'notFound.description': 'Cette page n’existe pas.',
+  'notFound.home': 'Retour à l’accueil',
+  'notFound.question': 'Une question ?',
+  'notFound.ask': 'Pose-la sur le Discord',
 };
 
 export const ui: Record<Lang, typeof en> = { en, fr };

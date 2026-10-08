@@ -3,6 +3,7 @@
 // the page needs to share the screen with the intro film (src/scripts/home.js).
 import { stationTexts } from '../../i18n/station';
 import { SECTIONS as SECTION_IDS, sectionPath } from './sections.js';
+import { DISCORD_INVITE, SOURCE_CODE } from './links.js';
 import { createConsoleSounds, fetchConsoleSounds } from './sounds.js';
 import dataZones from './data/zones.json';
 import dataPieces from './data/pieces.json';
@@ -4251,8 +4252,8 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // anywhere powers the station on). DISCORD (the phone, the menu's entry) opens the server's invitation in a new tab;
   // the radar's echoes, the factions' and the people's, are posts too (buildEchoes).
   const LINKS = {
-    discord: 'https://discord.gg/THkQU8Nr2Q',
-    github: 'https://github.com/Wardogs-Companion/wardogs-companion-website',
+    discord: DISCORD_INVITE, // (the project's addresses, shared with the pages without the console: links.js)
+    github: SOURCE_CODE,
   };
   // the networks' names, as they write them (the same in both languages): the project's places and a person's links
   const NETWORKS = { twitch: 'Twitch', discord: 'Discord', github: 'GitHub' };
