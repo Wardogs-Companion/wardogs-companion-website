@@ -16,10 +16,12 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 - The legal pages get a table of contents, beside the text on wide screens and folded above it on phones; the extension's privacy policy and terms say in one line that they cover the extension, with a link to the website's legal notice.
 - The notice says it in full: the project is not endorsed or supported by BULKHEAD, Team17 or Twitch (the footer, the ABOUT page, the FAQ). The extension is said to be free where visitors arrive, "No data collected" reads "No data collected about viewers", and the ABOUT page gives rights holders an address to write to.
 - Where the console cannot show (without JavaScript, or if it fails to load), the home page says what the extension does and that it is coming soon, with a link to the Discord server; the "page not found" page links to it too.
+- On phones lying down up to 700 px wide (an iPhone SE, a small Android), the legal lines of the intro and of the console run across the whole width above their buttons, as on a phone held upright: about four lines instead of up to eight, and more room for the console. On phones, the console's buttons now sit where the intro's do, so that nothing moves when the film gives way to the console. The intro's legal lines no longer leave a word alone on their last line either.
 - On phones, a page read takes more of the screen: only the sections' bar stays at the bottom, and the legal notice and the animation and sound buttons move to the end of the page, as a footer.
 
 ### Fixed
 
+- On a computer at 100%, the console's [ skip ], [ sound ] and [ animations ] buttons read right: at 13 px their i looked like a capital I ("skIp"); they are 14 px, as the intro's.
 - In low windows (a phone lying down with its browser's bar showing), the call's box (112 dialled on the keypad) is set a little tighter where it would not fit, so that it stays whole above the legal lines; in the very lowest, only its top line may still be cut, its buttons always in reach.
 - On phones lying down and on tablets, the console's legal lines no longer run under its sound and animation buttons (in French, with the sound on, they could); and wherever they wrap, they no longer leave a word alone on their last line.
 - On tablets, the SCREENSHOTS viewer's screen is as tall as its captures and their margins, without the large empty bands above and below them; phones and computers unchanged.
