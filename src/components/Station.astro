@@ -4,17 +4,11 @@
 // intro film's in src/scripts/home.js.
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { consoleMedia } from 'virtual:wardogs/game-media';
+import { version } from '../../package.json';
 import { stationTexts } from '../i18n/station';
 import { sectionPath } from '../scripts/station/sections.js';
-import { TWITCH_EXTENSION } from '../scripts/station/links.js';
 import { languages, useTranslations, type Lang } from '../i18n/ui';
 import '../styles/station.css';
-
-// The EXTENSION page offers to install the extension from its page on Twitch: no console built without that address.
-if (!/^https:\/\/([a-z]+\.)?twitch\.tv\/\S+$/.test(TWITCH_EXTENSION))
-  throw new Error(
-    "src/scripts/station/links.js: TWITCH_EXTENSION, the extension's page on Twitch, is not set",
-  );
 
 interface Props {
   lang: Lang;
@@ -72,6 +66,8 @@ const codes = Object.keys(languages) as Lang[];
     <div id="st-page-foot"></div>
     <div class="view" id="st-page-view" role="region" tabindex="0">
       <article class="pg" id="st-page-body"></article>
+      {/* (a small window's: the legal lines and the controls' row while the page shows, station.js footPlace) */}
+      <div class="pg-end" id="st-page-end"></div>
     </div>
     <i class="scan" id="st-page-scan" aria-hidden="true"></i>
   </div>
@@ -189,10 +185,14 @@ const codes = Object.keys(languages) as Lang[];
     {/* (in the markup, so the required mention shows from the first paint; line 2 opens on the intro's credit when the
        film is on the page, station.js legalHandover; else on the console's own) */}
     <p id="st-legal1">
-      {t('intro.legal1')}
+      {t('intro.legal1')}{' '}
+      {/* (the legal pages and the version, one block that goes to the next line whole if it does not fit after the
+         notice; wider than a line, it wraps between its parts: station.css .legal-links) */}
       <span class="legal-links">
         <a href={getRelativeLocaleUrl(lang, 'privacy')}>{t('footer.privacy')}</a>
         <a href={getRelativeLocaleUrl(lang, 'terms')}>{t('footer.terms')}</a>
+        <a href={getRelativeLocaleUrl(lang, 'legal')}>{t('footer.legal')}</a>
+        <span class="legal-version">{t('footer.version').replace('{version}', version)}</span>
       </span>
     </p>
     <p id="st-legal2">{intro ? t('intro.legal2') : stationTexts[lang].legal2}</p>

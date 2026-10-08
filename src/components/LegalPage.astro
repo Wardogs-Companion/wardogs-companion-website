@@ -1,6 +1,7 @@
 ---
-// Layout shared by the legal pages. Their texts are the Markdown files in src/content/legal,
-// shown exactly as written: to update a text, replace its file.
+// Layout shared by the legal pages, shown exactly as their Markdown files are written: to update a text, replace its
+// file. The extension's privacy policy and terms of use come from the app (src/content/legal); the site's own legal
+// notice is written for the site (src/content/site).
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteFooter from './SiteFooter.astro';
@@ -9,10 +10,13 @@ import * as privacyEn from '../content/legal/privacy-policy.en.md';
 import * as privacyFr from '../content/legal/politique-de-confidentialite.fr.md';
 import * as termsEn from '../content/legal/terms-of-use.en.md';
 import * as termsFr from '../content/legal/conditions-d-utilisation.fr.md';
+import * as legalEn from '../content/site/legal-notice.en.md';
+import * as legalFr from '../content/site/mentions-legales.fr.md';
 
 const documents = {
   privacy: { en: privacyEn, fr: privacyFr, label: 'footer.privacy', description: 'privacy.description' },
   terms: { en: termsEn, fr: termsFr, label: 'footer.terms', description: 'terms.description' },
+  legal: { en: legalEn, fr: legalFr, label: 'footer.legal', description: 'legal.description' },
 } as const;
 
 interface Props {
@@ -27,10 +31,25 @@ const legal = documents[doc];
 const { Content, getHeadings } = legal[lang];
 // The title comes from the text's own heading, so it stays right when the file is replaced.
 const heading = getHeadings().find((h) => h.depth === 1)?.text ?? t(legal.label);
-const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== lang);
+// Its table of contents, from its own sections (## headings) too: beside the text on a wide screen, folded above it
+// on a narrower one (the two are never shown together)
+const sections = getHeadings().filter((h) => h.depth === 2);
+// The extension's texts say in one line what they cover, with a link to the site's own legal notice
+const [contextBefore, contextAfter] = t('legal.context').split('{link}');
+const codes = Object.keys(languages) as Lang[];
+const otherLangs = codes.filter((code) => code !== lang);
+const alternates = Object.fromEntries(codes.map((code) => [code, getRelativeLocaleUrl(code, doc)])) as Record<
+  Lang,
+  string
+>;
 ---
 
-<BaseLayout lang={lang} title={`${heading} · Wardogs Companion`} description={t(legal.description)}>
+<BaseLayout
+  lang={lang}
+  title={`${heading} · Wardogs Companion`}
+  description={t(legal.description)}
+  {alternates}
+>
   <header class="top">
     <a class="home" href={getRelativeLocaleUrl(lang)}>
       Wardogs Companion
@@ -44,8 +63,57 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== 
     </nav>
   </header>
 
-  <main class="legal">
-    <Content />
+  {/* One main region: what the text covers, its contents and the text. The contents come before the text in the order
+     of reading and of the keyboard: folded above it, or beside it on a wide screen (never both at once). */}
+  <main>
+    {doc !== 'legal' && (
+      <p class="context">
+        {contextBefore}
+        <a href={getRelativeLocaleUrl(lang, 'legal')}>{t('legal.contextLink')}</a>
+        {contextAfter}
+      </p>
+    )}
+
+    {sections.length > 1 && (
+      <div class="toc-fold">
+        <details>
+          <summary>
+            {t('legal.contents')} · {t('legal.sections').replace('{n}', String(sections.length))}
+          </summary>
+          <nav class="toc" aria-label={t('legal.contents')}>
+            <ol>
+              {sections.map((s) => (
+                <li>
+                  <a href={`#${s.slug}`}>{s.text}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </details>
+      </div>
+    )}
+
+    <div class="doc">
+      {sections.length > 1 && (
+        <div class="toc-side">
+          <nav class="toc" aria-labelledby="toc-title">
+            <p class="toc-title" id="toc-title">
+              {t('legal.contents')}
+            </p>
+            <ol>
+              {sections.map((s) => (
+                <li>
+                  <a href={`#${s.slug}`}>{s.text}</a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </div>
+      )}
+      <div class="legal">
+        <Content />
+      </div>
+    </div>
   </main>
 
   <SiteFooter langs={[lang]} />
@@ -82,6 +150,114 @@ const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== 
   .lang:hover {
     border-color: var(--color-text);
     color: var(--color-text);
+  }
+
+  .context {
+    max-width: 44rem;
+    margin: 1.5rem auto 0;
+    padding: 0 1rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+
+  .context a {
+    color: inherit;
+    text-underline-offset: 0.15em;
+  }
+
+  .toc ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .toc a {
+    display: block;
+    padding: 0.2rem 0;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    text-decoration: none;
+    overflow-wrap: anywhere; /* (a heading with a long address or link) */
+  }
+
+  .toc a:hover,
+  .toc a:focus-visible {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+  }
+
+  /* Folded above the text, on a phone, a tablet, a narrow window */
+  .toc-fold {
+    max-width: 44rem;
+    margin: 1rem auto 0;
+    padding: 0 1rem;
+  }
+
+  .toc-fold details {
+    padding: 0.55rem 0.9rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: var(--color-panel);
+  }
+
+  .toc-fold summary {
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .toc-fold .toc {
+    margin-top: 0.6rem;
+  }
+
+  .toc-side {
+    display: none;
+  }
+
+  /* Beside the text on a wide screen, where there is room for it (its column, 15rem, on either side of the text, 44rem,
+     and a scrollbar): it stays in view while the text scrolls, and scrolls itself if the window is lower than it */
+  @media (min-width: 76rem) {
+    .doc {
+      display: grid;
+      grid-template-columns: 1fr minmax(0, 44rem) 1fr;
+    }
+
+    .doc .legal {
+      grid-column: 2;
+      grid-row: 1;
+      margin: 0;
+    }
+
+    .toc-side {
+      display: block;
+      grid-column: 1;
+      grid-row: 1;
+      justify-self: end;
+      width: 15rem;
+      padding: 2.3rem 1.7rem 0 0.7rem;
+    }
+
+    .toc-side .toc {
+      position: sticky;
+      top: 1.5rem;
+      max-height: calc(100vh - 3rem);
+      overflow-y: auto;
+      padding: 0.3rem; /* (room for the focus ring inside the scrolling box) */
+    }
+
+    .toc-title {
+      margin: 0 0 0.5rem;
+      color: var(--color-muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .toc-fold {
+      display: none;
+    }
   }
 
   /* The Markdown is rendered outside this component's scope, hence :global() inside .legal. */

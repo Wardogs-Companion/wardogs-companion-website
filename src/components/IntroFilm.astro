@@ -910,7 +910,8 @@ const codes = Object.keys(languages) as Lang[];
     white-space: nowrap;
     text-transform: none;
   }
-  /* The legal lines, shown from the first paint. */
+  /* The legal lines, shown from the first paint; on a phone (lying down too, below), across the whole width above the
+     controls. The console's are in the same corner, so that nothing moves at the handover (station.css). */
   #intro .legal {
     position: absolute;
     left: 24px;
@@ -924,6 +925,7 @@ const codes = Object.keys(languages) as Lang[];
   }
   #intro .legal p {
     margin: 0;
+    text-wrap: pretty; /* (no word alone on a last line, as the console's; a browser without it wraps as before) */
   }
 
   /* Controls: always on top, even over the dips to black, from the first paint. (14 px: at 13 px, on a screen at
@@ -1021,6 +1023,23 @@ const codes = Object.keys(languages) as Lang[];
       max-width: calc(100% - 290px);
     }
   }
+  /* (a phone, held upright or lying down up to 700 px wide and under 500 px high, as the console's: the legal lines
+     across the whole width, the controls' row under them) */
+  @media (max-width: 600px), (max-width: 700px) and (max-height: 499.98px) {
+    #intro .legal {
+      left: 16px;
+      right: 16px;
+      bottom: 44px;
+      max-width: none;
+      font-size: 9.5px;
+    }
+    #intro .ctrl {
+      left: 16px;
+      right: 16px;
+      bottom: 9px;
+      justify-content: space-between;
+    }
+  }
   @media (max-width: 600px) {
     /* (phones: the heading strip takes the top; the magnification is read on the reticle's line) */
     #intro .hud,
@@ -1043,19 +1062,6 @@ const codes = Object.keys(languages) as Lang[];
     }
     #intro .status .sq {
       margin-right: 7px;
-    }
-    #intro .legal {
-      left: 16px;
-      right: 16px;
-      bottom: 44px;
-      max-width: none;
-      font-size: 9.5px;
-    }
-    #intro .ctrl {
-      left: 16px;
-      right: 16px;
-      bottom: 9px;
-      justify-content: space-between;
     }
     #intro .tag {
       padding: 8px 13px 9px 12px;

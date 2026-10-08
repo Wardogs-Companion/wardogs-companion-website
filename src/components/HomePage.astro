@@ -6,6 +6,7 @@ import SiteFooter from './SiteFooter.astro';
 import Station from './Station.astro';
 import { stationTexts, type StationTexts } from '../i18n/station';
 import { sectionPath } from '../scripts/station/sections.js';
+import { DISCORD_INVITE, TWITCH_EXTENSION } from '../scripts/station/links.js';
 import { languages, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -14,17 +15,26 @@ interface Props {
   section?: string;
 }
 
+// The presentation and the console's EXTENSION page offer to install the extension from its page on Twitch: no home
+// page built without that address (links.js), so that no page ever offers a button to nowhere.
+if (!/^https:\/\/([a-z]+\.)?twitch\.tv\/\S+$/.test(TWITCH_EXTENSION))
+  throw new Error(
+    "src/scripts/station/links.js: TWITCH_EXTENSION, the extension's page on Twitch, is not set",
+  );
+
 const { lang, section } = Astro.props;
 const t = useTranslations(lang);
 const otherLangs = (Object.keys(languages) as Lang[]).filter((code) => code !== lang);
 // (without the console, a section's address is the home page itself)
-const opened = consoleMedia && section ? section : undefined;
-const title = opened
-  ? `${stationTexts[lang].titles[opened as keyof StationTexts['titles']]} · ${t('meta.title')}`
-  : t('meta.title');
+const opened = consoleMedia && section ? (section as keyof StationTexts['titles']) : undefined;
+const title = opened ? `${stationTexts[lang].titles[opened]} · ${t('meta.title')}` : t('meta.title');
+const description = opened ? stationTexts[lang].summaries[opened] : t('meta.description');
+const alternates = Object.fromEntries(
+  (Object.keys(languages) as Lang[]).map((code) => [code, sectionPath(code, opened)]),
+) as Record<Lang, string>;
 ---
 
-<BaseLayout lang={lang} {title} description={t('meta.description')} station={!!consoleMedia} section={opened}>
+<BaseLayout lang={lang} {title} {description} station={!!consoleMedia} section={opened} {alternates}>
   {/* The intro film first, over the presentation; only when the build has its media (see IntroFilm.astro). */}
   {introMedia && <IntroFilm lang={lang} media={introMedia} />}
 
@@ -56,6 +66,18 @@ const title = opened
       <p class="status">{t('home.status')}</p>
       <p class="tagline">{t('home.tagline')}</p>
       <p class="lead">{t('home.lead')}</p>
+      <p class="how">{t('home.how')}</p>
+      <p class="state">
+        <strong>{t('ext.state')}</strong> · {t('ext.stateText')}
+      </p>
+      <div class="actions">
+        <a class="go install" href={TWITCH_EXTENSION}>
+          {t('home.install')}
+        </a>
+        <a class="go" href={DISCORD_INVITE}>
+          {t('home.join')}
+        </a>
+      </div>
     </main>
 
     <SiteFooter langs={[lang]} />
@@ -169,5 +191,62 @@ const title = opened
     margin: 0;
     color: var(--color-muted);
     font-size: 1.05rem;
+  }
+
+  .how {
+    max-width: 36rem;
+    margin: 0;
+    color: var(--color-muted);
+  }
+
+  /* The extension's state (available: green, as the console says it), then where to install it and where to talk
+     about it: the extension's page on Twitch first, the Discord server beside it */
+  .state {
+    margin: 0.75rem 0 0;
+    font-size: 0.95rem;
+  }
+
+  .state strong {
+    color: color-mix(in srgb, var(--team-manticore) 70%, white);
+    font-weight: 600;
+  }
+
+  .state strong::before {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: 0.45rem;
+    border-radius: 50%;
+    background: var(--team-manticore);
+    vertical-align: 0.08em;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+  }
+
+  .go {
+    padding: 0.6rem 1.3rem;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .go:hover {
+    background: rgb(255 255 255 / 0.06);
+  }
+
+  .go.install {
+    border-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
+  }
+
+  .go.install:hover {
+    background: color-mix(in srgb, var(--color-accent) 14%, transparent);
   }
 </style>

@@ -14,7 +14,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
   - N'annonce que ce qui existe sur master. Ce qui est « À venir » reste « coming soon », et ne promets aucune date.
   - Les chiffres (273 objets, familles, équipes, cartes, classes) viennent du `README.md` de l'appli.
   - Le nom s'écrit « Wardogs Companion » (décision de l'utilisateur du 02/10/2026). Le site est aligné ; seuls ses textes juridiques, repris tels quels de l'appli, gardent « WARDOGS Companion ». L'appli l'écrit encore ainsi : c'est à l'utilisateur de décider quand l'aligner. Le jeu, lui, reste WARDOGS.
-  - Chaque page porte la mention : projet communautaire, non officiel, sans lien avec BULKHEAD, Team17 ni Twitch. Elle est dans le pied de page commun, `src/components/SiteFooter.astro` ; sur l'accueil, la console la porte dans ses lignes légales, avec les liens vers la confidentialité et les conditions (`src/components/Station.astro`).
+  - Chaque page porte la mention : projet communautaire, non officiel, sans lien avec BULKHEAD, Team17 ni Twitch. Elle est dans le pied de page commun, `src/components/SiteFooter.astro` ; sur l'accueil, la console la porte dans ses lignes légales, avec les liens vers la confidentialité, les conditions et les mentions légales (`src/components/Station.astro`).
 - **Médias du jeu : jamais dans le dépôt**, car ils appartiennent à leurs ayants droit (BULKHEAD, Team17). Les logos de Wardogs Companion sont à nous.
   - Seul l'accueil en montre, pour présenter le projet à BULKHEAD, et ils sont retirés sur simple demande de leur part : l'intro (l'ouverture de la bande-annonce, vidéo et dernière image, et deux photos du dossier de presse) et la console (l'ordinateur de la tour recréé à partir d'images du jeu, les emblèmes des factions, des captures de l'extension). Ces fichiers sont dans le stockage privé Vercel Blob `wardogs-companion-intro-media` : le build les récupère et le site les sert sous `/media/` (`src/integrations/game-media.mjs`, voir `docs/ARCHITECTURE.md`). Tout ce qui pourrait les mettre dans le dépôt est interdit : copie dans `public/` ou `src/`, capture d'écran de l'intro ou de la console, fichier de test qui les contient. Aucun autre média du jeu sans leur accord.
   - Les captures du jeu qui servent de modèle sont dans `reference-ordinateur/` (l'ordinateur des tours : tirées de vidéos, découpées par partie, avec des fiches) et `reference-intro/` (les lunettes du jeu). Ces dossiers sont ignorés par Git : ils ne doivent jamais être commités ni copiés dans `public/` ou `src/`.
@@ -30,38 +30,43 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 - `main` : le site en ligne. Il ne reçoit qu'une version terminée et testée, avec l'accord de l'utilisateur.
 - `dev` : la prochaine version en préparation.
 - `feature/<nom>` : un chantier. Il part de `dev`, et y revient une fois terminé et testé.
+- `hotfix/<nom>` : une correction urgente du site en ligne. Elle part de `main` et sort seule, en version corrective (0.1.1…), avec l'accord de l'utilisateur ; `main` est ensuite reversé dans `dev`.
 - **Mise en ligne d'une version :**
-  - `dev` est versé dans `main` en avance rapide ;
-  - le numéro de version monte dans `package.json` ;
-  - la version et sa date entrent dans `CHANGELOG.md` (écrit en anglais, comme le README) ;
-  - une étiquette Git `vX.Y.Z` marque la version.
-- **Numéros de version** : 0.x tant que le site est en bêta ; la 1.0 sera le lancement officiel.
+  - dans `dev` (ou la branche `hotfix/…`) : le numéro de version monte dans `package.json` (le site l'affiche en bas de la console et des pages : `Station.astro`, `SiteFooter.astro`), la version et sa date entrent dans `CHANGELOG.md` (écrit en anglais, comme le README) ;
+  - **aperçu privé** : la branche est envoyée sur GitHub (avec l'accord de l'utilisateur) et Vercel en fait un aperçu, protégé et non indexé, construit comme la production ; tout y est vérifié (pages, renvois d'adresses, médias du jeu, en-têtes et CSP, téléphone), avec `vercel curl` ;
+  - sur « go » de l'utilisateur : la branche est versée dans `main` en avance rapide, une étiquette Git `vX.Y.Z` marque la version, l'utilisateur envoie `main` et l'étiquette ;
+  - le site en ligne est vérifié, puis l'aperçu supprimé.
+- **Numéros de version** : 0.x tant que le site est en bêta ; la 1.0 sera le lancement officiel. Une correction fait monter le dernier chiffre (0.2.1), une nouveauté celui du milieu (0.3.0).
+- **Rythme** : de petites mises à jour régulières plutôt qu'une grosse. Chaque chantier validé sort seul, ou avec 2 ou 3 autres au plus, sans attendre d'en accumuler ; chaque mise en ligne se fait sur « go » de l'utilisateur. En cas de problème, Vercel remet la version précédente en un clic.
 - **GitHub** : une branche de travail ou une étiquette n'y est envoyée qu'avec l'accord de l'utilisateur.
 - **Suivi** : l'état des branches est tenu dans `.claude/maquettes/SUIVI.md` (local).
 
 ## Où sont les choses
 
-| Quoi                                                 | Fichier                                                                          |
-| ---------------------------------------------------- | -------------------------------------------------------------------------------- |
-| Textes anglais et français                           | `src/i18n/ui.ts` ; la console : `src/i18n/station.ts`                            |
-| Textes juridiques, affichés tels quels               | `src/content/legal/`                                                             |
-| Squelette HTML commun (`<head>`, icônes)             | `src/layouts/BaseLayout.astro`                                                   |
-| Contenu des pages, pied de page commun               | `src/components/`                                                                |
-| Intro de l'accueil (le film)                         | `src/components/IntroFilm.astro`, `src/scripts/intro/`                           |
-| Console de l'accueil (l'ordinateur)                  | `src/components/Station.astro`, `src/scripts/station/`, `src/styles/station.css` |
-| Script de l'accueil (intro puis console)             | `src/scripts/home.js`                                                            |
-| Médias du jeu de l'accueil (au build)                | `src/integrations/game-media.mjs`, liste `game-media.json`                       |
-| Routes (le français sous `fr/`)                      | `src/pages/`                                                                     |
-| Une adresse par section de la console                | `src/scripts/station/sections.js` (la liste), `src/pages/[section].astro`        |
-| La page de l'extension sur Twitch (bouton Installer) | `src/scripts/station/links.js` : sans elle, le site ne se construit pas          |
-| Couleurs, fond quadrillé, styles communs             | `src/styles/global.css`                                                          |
-| Langues, CSP                                         | `astro.config.mjs`                                                               |
-| En-têtes HTTP de sécurité                            | `vercel.json`                                                                    |
-| Logos, icônes, polices (Barlow)                      | `public/`                                                                        |
-| Architecture, backend possible plus tard             | `docs/ARCHITECTURE.md`                                                           |
-| Feuille de route                                     | `docs/ROADMAP.md`                                                                |
-| Modèles de l'ordinateur (jamais commit)              | `reference-ordinateur/`                                                          |
-| Modèles de l'intro (jamais commit)                   | `reference-intro/`                                                               |
+| Quoi                                     | Fichier                                                                          |
+| ---------------------------------------- | -------------------------------------------------------------------------------- |
+| Textes anglais et français               | `src/i18n/ui.ts` ; la console : `src/i18n/station.ts`                            |
+| Textes juridiques de l'extension (appli) | `src/content/legal/`, affichés tels quels                                        |
+| Mentions légales du site (son texte)     | `src/content/site/`                                                              |
+| Squelette HTML commun (`<head>`, icônes) | `src/layouts/BaseLayout.astro`                                                   |
+| Carte d'aperçu des liens (Open Graph)    | `src/layouts/BaseLayout.astro`, `public/images/og-card.png`                      |
+| Plan du site, robots.txt                 | `src/pages/sitemap.xml.ts`, `src/pages/robots.txt.ts`                            |
+| Contenu des pages, pied de page commun   | `src/components/`                                                                |
+| Intro de l'accueil (le film)             | `src/components/IntroFilm.astro`, `src/scripts/intro/`                           |
+| Console de l'accueil (l'ordinateur)      | `src/components/Station.astro`, `src/scripts/station/`, `src/styles/station.css` |
+| Script de l'accueil (intro puis console) | `src/scripts/home.js`                                                            |
+| Médias du jeu de l'accueil (au build)    | `src/integrations/game-media.mjs`, liste `game-media.json`                       |
+| Routes (le français sous `fr/`)          | `src/pages/`                                                                     |
+| Une adresse par section de la console    | `src/scripts/station/sections.js` (la liste), `src/pages/[section].astro`        |
+| Adresses : Twitch, Discord, code source  | `src/scripts/station/links.js` ; à la main : `README.md`, `src/content/site/`    |
+| Couleurs, fond quadrillé, styles communs | `src/styles/global.css`                                                          |
+| Langues, CSP                             | `astro.config.mjs`                                                               |
+| En-têtes HTTP de sécurité                | `vercel.json`                                                                    |
+| Logos, icônes, polices (Barlow)          | `public/`                                                                        |
+| Architecture, backend possible plus tard | `docs/ARCHITECTURE.md`                                                           |
+| Feuille de route                         | `docs/ROADMAP.md`                                                                |
+| Modèles de l'ordinateur (jamais commit)  | `reference-ordinateur/`                                                          |
+| Modèles de l'intro (jamais commit)       | `reference-intro/`                                                               |
 
 ## Commandes
 

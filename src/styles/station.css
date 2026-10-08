@@ -410,6 +410,26 @@
   pointer-events: none;
   background: radial-gradient(120% 100% at 50% 46%, transparent 62%, rgba(3, 4, 2, 0.38) 100%);
 }
+/* in portrait (a phone, a tablet upright: framing), the top of bay D's gauges lies under the site's top line (the name,
+   the languages): a shade over the band the framing leaves to that line (BANDS.top, station.js), never lower, where
+   bay D's lamps answer the keypad. It comes and goes with that line: not over the arrival, nor over a page read (its
+   own band) */
+@media not all and (min-aspect-ratio: 9/10) {
+  #station #st-vignette::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 56px;
+    background: linear-gradient(rgba(8, 10, 9, 0.88), rgba(8, 10, 9, 0.6) 70%, rgba(8, 10, 9, 0));
+    transition: opacity 0.6s; /* (the line's own: .hud) */
+  }
+  #station:is(.hud-hidden, .reading) #st-vignette::before {
+    opacity: 0;
+  }
+  #station.seeking #st-vignette::before {
+    transition: none;
+  }
+}
 /* The dark of the arrival, in two layers whose opacity only changes (compositor work): an even black, and a
    vignette for the edges, which stay darker a little longer. Opaque from the first paint: nothing shows before the
    page is ready. It sits under the site layer, so the legal lines are readable from the first frame. */
@@ -950,10 +970,10 @@
   background: none;
   color: var(--muted);
   font:
-    500 13px/16px 'Barlow Semi Condensed',
+    500 14px/16px 'Barlow Semi Condensed',
     Bahnschrift,
     'Arial Narrow',
-    sans-serif;
+    sans-serif; /* (14 px, as the intro's: at 13 px, on a screen at 100 %, Edge runs the i's dot into its stem) */
   letter-spacing: 0.1em;
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
   cursor: pointer;
@@ -981,8 +1001,9 @@
 /* the sound, off by default; on, the button takes the accent. [ animations ] the same way: on unless motion is
    reduced (the system's setting, or the visitor's choice for the visit: motionSet); in [ skip ]'s place once the
    arrival is over, after it has gone ([ skip ] and Escape are the way out of the arrival's motion while it plays), so
-   that the row keeps to two buttons, in the room the legal lines leave it (the intro's rule: from 601 to 1100 px wide,
-   242 px beside them) */
+   that the row keeps to two buttons, in the room the legal lines leave it (from 601 to 1100 px wide, 304 px beside
+   them: its widest, [ animations activées ] [ son activé ], 277 px, its focus ring's 3 px and 24 px of air; on a
+   phone, the legal lines go above it: .legal) */
 #station #st-sound {
   opacity: 1;
   visibility: visible;
@@ -1194,6 +1215,10 @@
 }
 #station.posts-live.menu-off:not(.seeking) #st-sections {
   display: grid;
+}
+/* a page read on a small window: it slides to the window's foot and back (station.js footPlace) */
+#station.foot-in:not(.reduce) #st-sections {
+  transition: bottom 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 /* while a screen is read, the bar is the page's navigation (NAV_IDS: the menu's sections; the one read in green, as an
    entry matched): on a phone where it is; on a computer at the top of the page once close, between BACK and the
@@ -1686,6 +1711,18 @@
 #station #st-call .join:hover {
   background: rgba(105, 213, 140, 0.24);
 }
+/* a window too low for the box (a phone lying down under its browser's bars: placeCall): its margins and lines
+   tighter, so that it stays whole between the window's top and the legal lines; its buttons as they are */
+#station #st-call.compact {
+  padding-block: 10px;
+}
+#station #st-call.compact .talk {
+  margin-top: 8px;
+  line-height: 1.35;
+}
+#station #st-call.compact .acts {
+  margin-top: 10px;
+}
 @media (max-width: 600px) {
   #station #st-call {
     padding-left: 14px;
@@ -1987,9 +2024,16 @@
   color: #d3d8cf;
   font: 400 16.5px/1.6 var(--screen);
   text-shadow: 0 0 10px rgba(159, 251, 193, 0.08);
+  text-wrap: pretty;
 }
 #station .pg :is(h1, h2, h3, h4, p, ul, dl, dd) {
   margin: 0;
+}
+/* its text set as in print (text-wrap, inherited; a browser without it wraps as before): no word alone on a last line
+   (pretty); its titles, kicker and note in lines of even length (balance). Neither changes a box's width, only where
+   its lines break */
+#station .pg :is(h1, h2, h3, h4, .pg-kicker, .hero-note) {
+  text-wrap: balance;
 }
 #station .pg :is(h1, h2):focus {
   outline: none;
@@ -2433,6 +2477,7 @@
 }
 #station .pg .go.join small {
   color: var(--ready);
+  text-transform: none; /* (the invite's address as it is: its code tells capitals from small letters) */
 }
 #station .mod .links {
   display: grid;
@@ -2649,6 +2694,9 @@
 }
 #station .anno-fig {
   display: grid;
+  /* (its column no wider than itself: its capture's max-width holds, the narrow one given its width, fit, on a phone
+     included) */
+  grid-template-columns: minmax(0, 1fr);
   justify-items: center;
   min-width: 0;
 }
@@ -3048,6 +3096,17 @@
   text-transform: uppercase;
   color: var(--muted);
 }
+#station .stats .names ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 14px;
+}
+#station .stats .names li {
+  padding: 0;
+}
+#station .stats .names li::before {
+  content: none;
+} /* (each name whole, a gap between them: no separator left alone at a line's end) */
 @media (max-width: 1099px) {
   #station .mod .stats {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -3060,13 +3119,19 @@
 }
 @media (max-width: 700px) {
   #station .mod .stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
   }
   #station .stats .row {
-    padding-left: 0;
+    flex-flow: row wrap;
+    align-items: baseline;
+    column-gap: 12px;
+    padding: 0;
     border-left: 0;
   }
-}
+  #station .stats .names {
+    flex-basis: 100%;
+  }
+} /* (a phone: a figure a line, its number then its name, its names under them: no cell beside another) */
 /* the game's items: its line, the families in two columns, the rights in a small note under them */
 #station .mod.cat2 .mod-body {
   gap: 20px;
@@ -3175,6 +3240,64 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+/* the questions asked most (PIECES.faq): as the facts, a mint rule beside each; the question a button opening its
+   answer (+ closed, − open), two columns on a wide screen, one under the other when narrow */
+#station .mod .faq {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 14px 44px;
+}
+#station .faq .qa {
+  padding: 0 0 0 18px;
+  border-left: 2px solid var(--mint);
+}
+#station .faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 44px;
+  font: 700 15px/1.3 var(--screen);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f1f3ec;
+  list-style: none;
+  cursor: pointer;
+}
+#station .faq summary::-webkit-details-marker {
+  display: none;
+}
+#station .faq summary::after {
+  content: '+' / '';
+  flex: none;
+  font: 400 18px/1 var(--mono);
+  color: var(--mint);
+}
+#station .faq .qa[open] > summary::after {
+  content: '−' / '';
+}
+#station .faq summary:hover::after {
+  color: var(--khaki);
+}
+#station .faq summary:focus-visible {
+  outline: 1.5px solid var(--khaki);
+  outline-offset: 2px;
+}
+#station .faq .qa-a {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  padding: 2px 0 10px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #c9cec3;
+}
+@media (max-width: 1099px) {
+  #station .mod .faq {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 /* the principle in steps: numbered, side by side (one under the other when narrow) */
 #station .mod .steps {
   display: grid;
@@ -3195,6 +3318,8 @@
 }
 #station .mod .steps .n {
   flex: none;
+  min-width: 1.05em; /* (as wide as the widest number, so every step's text starts on the same line: 01's 1 is narrower,
+     and the typeface has no figures of one width) */
   font: 600 30px/1 var(--screen);
   letter-spacing: 0.02em;
   color: var(--mint);
@@ -3531,10 +3656,12 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 16px;
   }
-  #station .hero-states .pg-state {
-    white-space: normal;
-  }
 } /* (a card, not a band across the page) */
+@media (max-width: 600px) {
+  #station .mod.hero .hero-states {
+    grid-template-columns: minmax(0, 1fr);
+  }
+} /* (ABOUT's states on a phone: one under another, each badge whole on its line) */
 #station .mod.note .mod-body p {
   padding: 4px 0 4px 18px;
   border-left: 2px solid var(--mint);
@@ -4440,7 +4567,10 @@
   background: rgba(8, 10, 9, 0.8);
   padding: 3px 8px;
 }
-/* legal lines: the intro's rule, to the pixel, so they do not move at the handover */
+/* legal lines: in the intro's corner, to the pixel (left 24 px, foot 14 px; on a phone, across the whole width above
+   the controls' row, as the intro's), so they do not move at the handover; from 601 to 1100 px wide they stop earlier
+   than the intro's, whose row ([EN / FR] [ skip intro ]) is narrower, to leave room for the console's [ animations ]
+   [ sound ] (the media queries below) */
 #station .legal {
   position: absolute;
   left: 24px;
@@ -4453,12 +4583,20 @@
 }
 #station .legal p {
   margin: 0;
+  text-wrap: pretty; /* (no word alone on a last line, as the pages: .pg; a browser without it wraps as before) */
 }
-/* the legal pages, after the notice (the presentation's footer is out of sight under the console) */
+/* the legal pages and the site's version (package.json), after the notice (the presentation's footer is out of sight
+   under the console): one block, after a space, so that where it does not fit after the notice it goes to the next line
+   whole, flush left, the notice whole; wider than a line (a narrow phone), it wraps between its parts, each part whole */
+#station .legal-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  column-gap: 0.9em;
+}
 #station .legal-links a {
-  margin-left: 0.9em;
   color: inherit;
   text-underline-offset: 2px;
+  white-space: nowrap;
 }
 #station .legal-links a:hover {
   color: var(--khaki);
@@ -4467,10 +4605,54 @@
   outline: 1px solid var(--khaki);
   outline-offset: 2px;
 }
+#station .legal-version {
+  white-space: nowrap;
+}
+/* a page read on a small window: the legal lines and the controls' row out of the window's foot at once (inert:
+   station.js footPlace; nothing left under a finger, nor over the bar as it slides down), at the page's end once it
+   shows; back in at the framing with a fade, as the site's name */
+#station > :is(#st-legal, .ctrl) {
+  transition: opacity 0.6s;
+}
+#station.foot-in > :is(#st-legal, .ctrl) {
+  opacity: 0;
+  transition: none;
+}
+/* the page's end there: the legal lines and the controls' row as a site's footer, under a rule */
+#station .pg-end {
+  --gut: 40px;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 0 var(--gut) 24px;
+}
+#station .pg-end:empty {
+  display: none;
+}
+#station .pg-end .legal {
+  position: static;
+  max-width: none;
+  margin-top: 14px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(214, 220, 211, 0.17);
+  font-size: 11px;
+  line-height: 1.6;
+  text-shadow: none;
+}
+#station .pg-end .ctrl {
+  position: static;
+  justify-content: start;
+  margin-top: 12px;
+}
+@media (max-width: 700px) {
+  #station .pg-end {
+    --gut: 16px; /* (the page's own, .pg) */
+  }
+}
 @media (min-width: 601px) and (max-width: 1100px) {
   #station .legal {
     font-size: 10px;
-    max-width: calc(100% - 290px);
+    /* (the controls' row and its air beside them, 304 px: #st-sound; and the two sides, 24 px each) */
+    max-width: calc(100% - 352px);
   }
 }
 @media (max-width: 700px) {
@@ -4479,14 +4661,21 @@
     font-size: 11px;
   }
 }
-/* on a phone the legal lines wrap to four lines: the status line goes above them */
-@media (max-width: 600px) {
+/* on a phone, held upright (up to 600 px wide) or lying down up to 700 px wide (under 500 px high: the height of
+   station.js SMALL; beside the controls' row, the legal lines would wrap to up to eight lines), the legal lines go
+   across the whole width, above the row, and the row 16 px from the edge: the intro's rule, so that nothing moves at
+   the handover */
+@media (max-width: 600px), (max-width: 700px) and (max-height: 499.98px) {
   #station .legal {
     left: 16px;
     right: 16px;
     bottom: 44px;
     max-width: none;
     font-size: 9.5px;
+  }
+  #station .ctrl {
+    right: 16px;
+    bottom: 9px;
   }
 }
 /* CAPTURES in a low window (1366 × 768): the page whole, its last captures in view; last, over the rules it tightens */

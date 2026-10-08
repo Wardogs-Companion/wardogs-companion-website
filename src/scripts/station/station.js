@@ -3,7 +3,7 @@
 // the page needs to share the screen with the intro film (src/scripts/home.js).
 import { stationTexts } from '../../i18n/station';
 import { SECTIONS as SECTION_IDS, sectionPath } from './sections.js';
-import { TWITCH_EXTENSION } from './links.js';
+import { DISCORD_INVITE, SOURCE_CODE, TWITCH_EXTENSION } from './links.js';
 import { createConsoleSounds, fetchConsoleSounds } from './sounds.js';
 import dataZones from './data/zones.json';
 import dataPieces from './data/pieces.json';
@@ -225,22 +225,26 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   }
   // The bottom band in portrait: the sections' bar (SECTIONS.h high) sits SECTIONS.gap above the legal lines, which
   // wrap with the width and the language: measured as laid out (on a resize, a language, the intro's credit handed over);
-  // the factions' strip SECTIONS.gap above the bar, its height from its CSS (--h: lower in a short window)
-  const SECTIONS = { h: 48, gap: 10 };
+  // the factions' strip SECTIONS.gap above the bar, its height from its CSS (--h: lower in a short window). Measured where
+  // the legal lines lie at rest only, not while a page read on a small window has them at its end (footPlace), where
+  // the bar takes the window's foot (low)
+  const SECTIONS = { h: 48, gap: 10, above: 0, low: false }; // (above: the bar's bottom at rest, from the window's foot)
   function measureBands() {
-    const legalTop = $('legal').getBoundingClientRect().top;
-    const above = innerHeight - legalTop + SECTIONS.gap; // (the bar's bottom, from the window's foot)
-    const strip = parseFloat(getComputedStyle($('factions')).getPropertyValue('--h')) + SECTIONS.gap;
-    BANDS.bar = above + SECTIONS.h + SECTIONS.gap;
-    BANDS.bottom = BANDS.bar + strip;
-    setStyle($('sections'), 'bottom', above + 'px');
-    if (strip) setStyle($('factions'), 'bottom', above + SECTIONS.h + SECTIONS.gap + 'px');
-    // in landscape, the foot the legal lines and the controls' row take ([ animations ] [ sound ]): framing keeps a low
-    // window's room above it, the keypad and the power out from under them
-    BANDS.foot =
-      innerHeight -
-      Math.min(legalTop, ROOT.querySelector('.ctrl').getBoundingClientRect().top) +
-      SECTIONS.gap;
+    if ($('legal').parentElement === ROOT) {
+      const legalTop = $('legal').getBoundingClientRect().top;
+      SECTIONS.above = innerHeight - legalTop + SECTIONS.gap;
+      const strip = parseFloat(getComputedStyle($('factions')).getPropertyValue('--h')) + SECTIONS.gap;
+      BANDS.bar = SECTIONS.above + SECTIONS.h + SECTIONS.gap;
+      BANDS.bottom = BANDS.bar + strip;
+      if (strip) setStyle($('factions'), 'bottom', SECTIONS.above + SECTIONS.h + SECTIONS.gap + 'px');
+      // in landscape, the foot the legal lines and the controls' row take ([ animations ] [ sound ]): framing keeps a
+      // low window's room above it, the keypad and the power out from under them
+      BANDS.foot =
+        innerHeight -
+        Math.min(legalTop, ROOT.querySelector('.ctrl').getBoundingClientRect().top) +
+        SECTIONS.gap;
+    }
+    setStyle($('sections'), 'bottom', (SECTIONS.low ? SECTIONS.gap : SECTIONS.above) + 'px');
   }
   // at rest, the world lands on whole device pixels: at the scale it was rasterised at, the browser then only copies it
   // (no resampling), which keeps a page without a graphics card light
@@ -315,7 +319,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // everything placed from the framing, again: the camera, the power button's target, the other targets. On a resize, a
   // language, the intro's credit handed over: in portrait the framing depends on the legal lines' height.
   function layout() {
-    measureBands();
+    footPlace(); // (the window's foot for a small window or not, then measureBands)
     camera();
     placePowerTarget();
     if (CTT.knob) placeTargets();
@@ -4109,7 +4113,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   };
   const CTT = {};
   // The targets' markup: corners (the power button, the posts) or curved arrows (the sound's controls), then a leader
-  // and a tag (none for the menu's entries: their tiles show their name and code already)
+  // and a tag (the menu's entries too: their words on the screen do not grow with the browser's zoom, a tag's do)
   const TG = {
     lock: '<div class="tg-lock"><i class="tg-corner tl"></i><i class="tg-corner tr"></i><i class="tg-corner bl"></i><i class="tg-corner br"></i></div>',
     arcs:
@@ -4230,7 +4234,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // The posts, in the same language. Pointed at or focused, a post is locked by four corners, each on its own corner
   // of the post, the outer edge of its frame, its arms along the post's two sides (seen in perspective, a post is not
   // quite a rectangle: it leans, and straight corners would look off on an askew post), with a tag on its side: its
-  // name, its state, what to do (the menu's entries: corners only, their tile selected on the screen itself).
+  // name, its state, what to do (the menu's entries the same: their name, their code, their description).
   // - The reading screen: the outer edge of its bezel, measured on the lit room (its right side 9 px further right at
   //   its foot than at its top).
   // - ENTER CODE and the keypad, two posts (one zone over the screen, the lamps, the voltmeters and the keypad would
@@ -4248,9 +4252,9 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // anywhere powers the station on). DISCORD (the phone, the menu's entry) opens the server's invitation in a new tab;
   // the radar's echoes, the factions' and the people's, are posts too (buildEchoes).
   const LINKS = {
-    discord: 'https://discord.gg/bb7hMrw8S9',
-    github: 'https://github.com/Wardogs-Companion/wardogs-companion-website',
-    twitch: TWITCH_EXTENSION, // (the extension's page on Twitch, to install it: links.js)
+    discord: DISCORD_INVITE, // (the project's addresses, shared with the pages without the console: links.js)
+    github: SOURCE_CODE,
+    twitch: TWITCH_EXTENSION, // (the extension's page on Twitch, to install it)
   };
   // the networks' names, as they write them (the same in both languages): the project's places and a person's links
   const NETWORKS = { twitch: 'Twitch', discord: 'Discord', github: 'GitHub' };
@@ -4371,6 +4375,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
         (PAGE.id !== null ? pageTitle() : $('back')).focus({ preventScroll: true });
       else $('pad-status').textContent = T().pageSay.replace('{page}', sectionName(id)); // (the focus kept on the bar's button that changed it: screen readers told the page changed)
     }
+    footPlace();
     drawTower();
     navCurrent();
     wake();
@@ -4387,6 +4392,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       if (snd && soundOn) snd.pageOff();
     } // (its tube's crackle)
     readMove(0, tube ? READ_COLLAPSE.line : 0);
+    footPlace(); // (the sections' bar back in place now if no page shows yet; else once it is gone, pageHide)
     drawTower();
     wake();
   }
@@ -4469,6 +4475,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     navCurrent();
     ROOT.classList.remove('read-there');
     ROOT.classList.remove('reading');
+    footPlace();
     readInert(false);
     screenRes(SCR.principal, CANVAS_SCALE);
     drawTower();
@@ -4479,7 +4486,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       else Object.assign(TOWER, { offAt: null, onAt: performance.now() / 1000 });
       if (snd && soundOn) snd.screenOn();
     } // (switched off on the way: on again now, its switch-on heard; at once if motion was reduced on the way: motionSet)
-    if (CTT.knob) placeTargets();
+    layout(); // (all placed from the framing again: the window may have changed while the bands were not measured, footPlace)
     const o = READ.opener;
     READ.opener = null;
     if (o?.isConnected && unfocused(document.activeElement)) o.focus({ preventScroll: true });
@@ -4692,6 +4699,19 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       );
       return b;
     },
+    // a legal page of the site (TXT docs: its title, a few words), in the page's language, in this tab: a link of the
+    // bar's family, as a section's
+    doc: (id) => {
+      const [title, sub] = T().docs[id],
+        a = node('a', 'go doc', '', [
+          ...['tl', 'tr', 'bl', 'br'].map((c) => node('i', 'c ' + c)),
+          node('span', '', title),
+          node('small', '', sub),
+        ]);
+      a.href = (LANG === 'fr' ? '/fr/' : '/') + id;
+      a.setAttribute('aria-label', `${title}. ${sub}.`);
+      return a;
+    },
     status: (rows) =>
       node(
         'dl',
@@ -4842,13 +4862,22 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
         'dl',
         'stats',
         '',
-        items.map(([n, k, names], i) =>
-          row(i, [
+        items.map(([n, k, names], i) => {
+          // (its names a list, each whole on its line: no separator left alone at a line's end)
+          const list =
+            names &&
+            node(
+              'ul',
+              '',
+              '',
+              names.map((t) => node('li', '', t)),
+            );
+          return row(i, [
             node('dt', '', k),
             node('dd', 'v', '', [dec(n)]),
-            ...(names ? [node('dd', 'names', names)] : []),
-          ]),
-        ),
+            ...(list ? [node('dd', 'names', '', [list])] : []),
+          ]);
+        }),
       ),
     facts: (items) =>
       node(
@@ -4858,6 +4887,30 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
         items.map(([t, p], i) => row(i, [node('strong', '', '', [dec(t)]), node('span', '', p)], 'li')),
       ),
     small: (t) => node('p', 'small-note', t),
+    // the questions asked most: each a native disclosure (its summary the question, closed until opened, by a click as
+    // by the keyboard, said as such by screen readers), its answer under it, and the section or the legal page that
+    // tells more
+    faq: (items) =>
+      node(
+        'div',
+        'faq',
+        '',
+        items.map(([q, a, go], i) => {
+          const d = row(
+            i,
+            [
+              node('summary', '', '', [dec(q)]),
+              node('div', 'qa-a', '', [
+                node('p', '', a),
+                ...(go ? [T().docs[go] ? PIECES.doc(go) : PIECES.go(go)] : []),
+              ]),
+            ],
+            'details',
+          );
+          d.className = 'qa';
+          return d;
+        }),
+      ),
     trio: (rows) =>
       node(
         'ul',
@@ -5272,7 +5325,8 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   SHOTS.sideOf = new Map();
   const shotSide = (img) =>
     SHOTS.sideOf.get((img.currentSrc || img.src).split('/').pop().replace('.game.webp', '.webp')); // (by its name in the texts)
-  const SHOT_PHONE = matchMedia('(max-width: 700px)');
+  const SHOT_PHONE = matchMedia('(max-width: 700px)'),
+    SHOT_COLUMN = matchMedia('(max-width: 1099px)'); // (the screen above its side, not beside it: station.css .shots)
   const SHOT_RO = new ResizeObserver(() => shotFitAll());
   function shotSeen(img) {
     // (a capture's size known: its side's box grows, the screens fit again)
@@ -5291,8 +5345,11 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     if (!img?.naturalWidth) return;
     const [bw, bh] = SHOTS.boxes.get(shotSide(img)) || [img.naturalWidth, img.naturalHeight];
     const phone = SHOT_PHONE.matches,
+      tablet = !phone && SHOT_COLUMN.matches, // (a tablet, a narrow window: the screen alone on its row)
       zoom = screen === ZOOM.pic;
     if (zoom && !ZOOM.el.open) return; // (closed meanwhile: fitted again as it opens)
+    if (tablet && !zoom) setStyle(screen, 'height', ''); // (its room: the CSS's height; its own set again below)
+    const own = screen.clientHeight;
     const room = zoom && !phone && getComputedStyle(img); // (enlarged: the window less what is round it, as the CSS says: .zoom-img)
     const tall =
       room && Math.min(parseFloat(room.maxHeight), screen.closest('.zoom-stage').clientHeight - 18); // (a title on two lines: the stage's own room, less its frame's 2 × 9 px)
@@ -5300,13 +5357,22 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
       ? phone
         ? 1
         : Math.min(1, parseFloat(room.maxWidth) / bw, tall / bh)
-      : Math.min(
-          1,
-          (screen.clientWidth - (phone ? 16 : 152)) / bw,
-          phone ? Infinity : (screen.clientHeight - 60) / bh,
-        ); // (its top bar's room and a margin: 40 + 12 + 8 px; on its sides, ◀ ▶ and 8 px: 2 × (24 + 44 + 8))
+      : Math.min(1, (screen.clientWidth - (phone ? 16 : 152)) / bw, phone ? Infinity : (own - 60) / bh); // (its top bar's room and a margin: 40 + 12 + 8 px; on its sides, ◀ ▶ and 8 px: 2 × (24 + 44 + 8))
     setStyle(img, 'width', (img.naturalWidth * k).toFixed(1) + 'px');
-    if (!zoom) setStyle(screen, 'height', phone ? (bh * k + 88).toFixed(1) + 'px' : ''); // (a phone: as tall as the largest, its 44 px above and below)
+    // as tall as its side's largest capture: on a phone, with its 44 px above and below; on a tablet, where the width
+    // limits it, with its top bar's room and its margins (40 + 12 above, 12 + 12 below: the room .shot-img's max-height
+    // leaves it, whole), not with empty bands above and below it; else (where the height limits it, on a computer) the
+    // CSS's
+    if (!zoom)
+      setStyle(
+        screen,
+        'height',
+        phone
+          ? (bh * k + 88).toFixed(1) + 'px'
+          : tablet && bh * k + 76 < own
+            ? (bh * k + 76).toFixed(1) + 'px'
+            : '',
+      );
   }
   function shotFitAll() {
     shotFit($('page-body').querySelector('.shot-screen'));
@@ -5811,14 +5877,12 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
         { duration: 1100, delay: ms(t + ROUTE.node), iterations: 3, easing: 'ease-out' },
       );
     if (stop.classList.contains('next'))
-      nodeEl.animate(
-        [
-          { opacity: 1, easing: 'steps(1, end)' },
-          { opacity: 0.15, offset: 0.5, easing: 'steps(1, end)' },
-          { opacity: 1 },
-        ],
-        { duration: 900, delay: ms(t + ROUTE.node), iterations: 4 },
-      );
+      nodeEl.animate([{}, { backgroundColor: 'var(--ground)', boxShadow: 'none' }, {}], {
+        duration: 900,
+        delay: ms(t + ROUTE.node),
+        iterations: 4,
+        easing: 'steps(2, end)',
+      }); // (its light off every other half: emptied, its amber frame kept over the course, never dimmed)
     stop.querySelectorAll('.dec').forEach((d, j) => decStart(d, now + t + ROUTE.after + j * 0.08));
     stop.querySelectorAll('.redact').forEach((bar, j) =>
       bar.animate([{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }], {
@@ -6142,13 +6206,44 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   const PAGE_HEAD = 96,
     PAGE_GAP = 12;
   function pagePlace() {
-    const phone = ROOT.classList.contains('menu-off');
+    const phone = ROOT.classList.contains('menu-off'),
+      foot = $('legal').parentElement === ROOT; // (the legal lines at the window's foot, not at the page's end: footPlace)
     PAGE.top = phone ? BANDS.top : PAGE_HEAD;
-    PAGE.bottom = phone ? BANDS.bar : innerHeight - $('legal').getBoundingClientRect().top + PAGE_GAP;
+    // its foot: on a phone, the sections' bar, with the legal lines under it unless they are at the page's end; else
+    // the legal lines, or nothing (the page down to the window's foot)
+    if (phone) PAGE.bottom = foot ? BANDS.bar : SECTIONS.h + 2 * SECTIONS.gap;
+    else PAGE.bottom = foot ? innerHeight - $('legal').getBoundingClientRect().top + PAGE_GAP : 0;
     setStyle($('page-view'), 'top', PAGE.top + 'px');
     setStyle($('page-view'), 'bottom', PAGE.bottom + 'px');
     setStyle($('page-head'), 'height', PAGE.top + 'px');
     setStyle($('page-foot'), 'height', PAGE.bottom + 'px');
+    $('page-foot').hidden = !PAGE.bottom; // (no band, nor its rule, where there is no foot)
+  }
+  // On a small window (a phone: SMALL), a page read takes the room of the legal lines and the controls' row
+  // ([ animations ] [ sound ]): from the approach until back at the framing they leave the window's foot (.foot-in:
+  // faded out, and inert), for the page's end while it shows (#st-page-end, as a site's footer, read and reached from the
+  // keyboard after the page); meanwhile the sections' bar, if at the bottom (a phone upright), takes the window's foot,
+  // back in its place as one leaves, once they are back and measured (SECTIONS.low). Called at each of those changes:
+  // read, back, pageShow, pageHide, readEnd, and layout (a resize: a phone turned, a zoom). A link or a button of theirs
+  // that has the focus keeps it as they move (unless they go out of reach).
+  const SMALL = matchMedia('(max-width: 600px), (max-height: 499.98px)'),
+    CTRL = ROOT.querySelector('.ctrl');
+  function footPlace() {
+    const away = ROOT.classList.contains('reading') && SMALL.matches,
+      inPage = away && PAGE.id !== null,
+      legal = $('legal'),
+      at = document.activeElement,
+      had = legal.contains(at) || CTRL.contains(at) ? at : null,
+      kbd = had?.matches(':focus-visible');
+    ROOT.classList.toggle('foot-in', away);
+    if (inPage && legal.parentElement === ROOT) $('page-end').append(legal, CTRL);
+    else if (!inPage && legal.parentElement !== ROOT) $('veil').after(CTRL, legal); // (their place at rest, in order)
+    legal.inert = CTRL.inert = away && !inPage;
+    // (from the keyboard, at the page's end: scrolled into view; after a click, the page read stays where it is)
+    if (had && !legal.inert && document.activeElement !== had)
+      had.focus({ preventScroll: legal.parentElement === ROOT || !kbd });
+    SECTIONS.low = away && (reading() || inPage);
+    measureBands();
   }
   // The page builds itself as it comes (its CSS: .dec, .lock). Its blocks (units: the header line, then each
   // module and part heading band, in order) lock once per showing: as the scan line reaches them (pageReveal, their tops
@@ -6345,6 +6440,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     if (!sweep) unitOn(h, true);
     PAGE.id = id;
     pageBuild(id);
+    footPlace();
     pagePlace();
     $('page').hidden = false;
     if (PAGE.next) {
@@ -6380,6 +6476,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     if ($('page').contains(document.activeElement)) document.activeElement.blur();
     $('page-view').scrollTop = 0;
     $('page').hidden = true; // (while it still shows: hidden, a view keeps its scroll, the next page would open where this one was read)
+    footPlace(); // (the legal lines and the controls back in their place, still out of sight until the framing)
   }
   // motion reduced while a page shows: as if shown without a move (pageShow), at once: its sweep and its labels' decoding
   // over, its units all there and none locked (their moves gone, and not played again once motion is back), the route's
@@ -7904,12 +8001,16 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     callShow();
   }
   // at the bottom, in the middle: SECTIONS.gap above the sections' bar when it shows (portrait), else above the legal
-  // lines
+  // lines; in a window too low for it there (a phone lying down under its browser's bars), tighter (.compact,
+  // station.css). Its foot stays there whatever the window's height: its buttons always in reach, never under the
+  // legal lines (painted after it)
   function placeCall() {
     const box = $('call');
     if (box.hidden) return;
     const bar = $('sections'),
       top = (bar.offsetHeight ? bar : $('legal')).getBoundingClientRect().top;
+    box.classList.remove('compact'); // (its own height first, then tighter only where it does not fit)
+    box.classList.toggle('compact', box.offsetHeight > top - 2 * SECTIONS.gap);
     setStyle(box, 'bottom', innerHeight - top + SECTIONS.gap + 'px');
   }
   $('call-join').href = LINKS.discord;

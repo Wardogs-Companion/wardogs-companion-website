@@ -13,7 +13,7 @@
 
 ## Status
 
-The website is in beta, in English and in French, at **https://wardogs-companion.vercel.app**: the home page opens on a short intro film, then on the console, the WARDOGS tower's computer recreated, whose screens lead to the site's sections (the extension, its screenshots, the Discord server, the project); the extension's privacy policy and terms of use have their own pages.
+The website is in beta, in English and in French, at **https://wardogs-companion.vercel.app**: the home page opens on a short intro film, then on the console, the WARDOGS tower's computer recreated, whose screens lead to the site's sections (the extension, its screenshots, the Discord server, the project); the extension's privacy policy and terms of use, and the site's legal notice, have their own pages.
 
 ## Stack
 
@@ -61,7 +61,7 @@ npm run dev
 
 ### Inspecting the intro film
 
-The home page's intro film (`/` and `/fr/`) can be inspected with two query parameters, on the live site or on any build that has the intro's media. `npm run dev` and builds without the media (a fork, a local build) have no film, so the parameters do nothing there.
+The home page's intro film (`/` and `/fr`) can be inspected with two query parameters, on the live site or on any build that has the intro's media. `npm run dev` and builds without the media (a fork, a local build) have no film, so the parameters do nothing there.
 
 | Parameter      | Effect                                                                                                                                                                                                                                               |
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -92,8 +92,10 @@ This repository is public and holds no secrets. Please report security issues pr
 
 ## License and credits
 
-Copyright © 2026 BiggyQLF. All rights reserved. The code is public so that it can be read, but no license is granted beyond the rights GitHub's Terms of Service give its users (viewing and forking on GitHub): see [LICENSE](LICENSE).
+Copyright © 2026 BiggyQLF. All rights reserved.
 
-WARDOGS, its names, logos, visuals and game elements belong to their rights holders (BULKHEAD, Team17). This project is independent and is not affiliated with BULKHEAD, Team17 or Twitch.
+The code is public so that it can be read, but this project is not open source and no license is granted. Without the author's prior written permission, you may not copy, modify, distribute, publish, sublicense, sell or otherwise use all or part of this website: its source code, style sheets, texts and the Wardogs Companion logos. The only exception is what GitHub's Terms of Service allow: viewing this repository and forking it on GitHub. To ask for permission, use the project's [Discord server](https://discord.gg/THkQU8Nr2Q). The full notice, in English and French, is in [LICENSE](LICENSE).
+
+WARDOGS, its names, logos, visuals and game elements belong to their rights holders (BULKHEAD, Team17) and are not covered by this notice. This project is independent and is not affiliated with BULKHEAD, Team17 or Twitch.
 
 The Barlow and Barlow Semi Condensed typefaces are under the SIL Open Font License 1.1 ([public/fonts/OFL.txt](public/fonts/OFL.txt)). The console's sounds are real recordings from Freesound, under Creative Commons 0, their authors credited in [public/sounds/CREDITS.txt](public/sounds/CREDITS.txt).

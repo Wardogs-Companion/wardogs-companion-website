@@ -98,6 +98,17 @@ a:where(:not(#station *)) {
   color: inherit;
 }
 
+/* headings in lines of even length, running text without a word alone on its last line (a browser without text-wrap
+   wraps as before); not in the console nor the intro, which set their own (the console: its pages and its legal lines,
+   station.css; the intro: its legal lines, IntroFilm.astro) */
+:where(h1, h2, h3, h4, h5, h6):where(:not(#station *, #intro *)) {
+  text-wrap: balance;
+}
+
+:where(p, li):where(:not(#station *, #intro *)) {
+  text-wrap: pretty;
+}
+
 :focus-visible:where(:not(#station *)) {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
