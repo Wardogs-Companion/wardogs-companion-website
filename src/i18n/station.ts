@@ -1,6 +1,7 @@
 // Texts of the home page's console (src/scripts/station/station.js). English is the reference; French says the same
 // thing, in the same shape (its type is the English one's). Facts about the extension must match the app's README on
-// master. The legal lines the console shares with the intro come from ui.ts.
+// master. The legal lines the console shares with the intro, and the extension's status it shares with the home page's
+// presentation, come from ui.ts.
 import { ui, type Lang } from './ui';
 
 const en = {
@@ -215,7 +216,7 @@ const en = {
           note: 'Community project, unofficial, not affiliated with BULKHEAD, Team17 or Twitch.', // (the negation kept with its verb)
           lead: 'Viewers see the streamer’s loadout, right on the stream.',
           text: 'In WARDOGS, the loadout is everything a player takes into battle: weapons, attachments, gear, backpack. The streamer prepares theirs in an editor on Twitch, and viewers open it with one click, over the video. Nothing is read from the game: the streamer enters everything.',
-          status: ['Coming soon', 'Not on Twitch yet: a beta first, then open to all.'],
+          status: [ui.en['home.soon'], ui.en['home.soonText']], // (the home page's presentation says it too: one text)
           pic: [
             'captures/01-viewer-panel-valkyra.webp',
             [1308, 799],
@@ -1170,10 +1171,7 @@ const fr: StationTexts = {
           note: 'Projet communautaire, non officiel, sans lien avec BULKHEAD, Team17 ni Twitch.',
           lead: 'Les viewers voient le loadout du streamer, directement sur le stream.',
           text: 'Dans WARDOGS, le loadout, c’est tout ce qu’un joueur emporte au combat : armes, accessoires, équipement, sac. Le streamer prépare le sien dans une régie sur Twitch, et ses viewers l’ouvrent d’un clic par-dessus la vidéo. Rien n’est lu dans le jeu : le streamer saisit tout lui-même.',
-          status: [
-            'Bientôt disponible',
-            'Pas encore sur Twitch : une bêta d’abord, puis l’ouverture à tous.',
-          ],
+          status: [ui.fr['home.soon'], ui.fr['home.soonText']],
           pic: [
             'captures/01-viewer-panel-valkyra.webp',
             [1308, 799],

@@ -6,6 +6,7 @@ import SiteFooter from './SiteFooter.astro';
 import Station from './Station.astro';
 import { stationTexts, type StationTexts } from '../i18n/station';
 import { sectionPath } from '../scripts/station/sections.js';
+import { DISCORD_INVITE } from '../scripts/station/links.js';
 import { languages, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -58,6 +59,13 @@ const alternates = Object.fromEntries(
       <p class="status">{t('home.status')}</p>
       <p class="tagline">{t('home.tagline')}</p>
       <p class="lead">{t('home.lead')}</p>
+      <p class="how">{t('home.how')}</p>
+      <p class="soon">
+        <strong>{t('home.soon')}</strong> · {t('home.soonText')}
+      </p>
+      <a class="join" href={DISCORD_INVITE}>
+        {t('home.join')}
+      </a>
     </main>
 
     <SiteFooter langs={[lang]} />
@@ -171,5 +179,46 @@ const alternates = Object.fromEntries(
     margin: 0;
     color: var(--color-muted);
     font-size: 1.05rem;
+  }
+
+  .how {
+    max-width: 36rem;
+    margin: 0;
+    color: var(--color-muted);
+  }
+
+  /* When the extension comes, and where to follow it: the Discord server */
+  .soon {
+    margin: 0.75rem 0 0;
+    font-size: 0.95rem;
+  }
+
+  .soon strong {
+    color: color-mix(in srgb, var(--color-accent) 70%, white);
+    font-weight: 600;
+  }
+
+  .soon strong::before {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right: 0.45rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    vertical-align: 0.08em;
+  }
+
+  .join {
+    margin-top: 0.25rem;
+    padding: 0.6rem 1.3rem;
+    border: 1px solid color-mix(in srgb, var(--color-accent) 60%, transparent);
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .join:hover {
+    background: color-mix(in srgb, var(--color-accent) 14%, transparent);
   }
 </style>
