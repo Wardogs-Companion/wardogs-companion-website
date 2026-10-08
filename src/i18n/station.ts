@@ -176,7 +176,7 @@ const en = {
   },
   menu: [
     ['EXTENSION', 'The Twitch extension', '273'],
-    ['SCREENSHOTS', '{shots} views', '226'],
+    ['SCREENSHOTS', '{shots} images', '226'],
     ['DISCORD', 'Join the server', '112'],
     ['ABOUT', 'The project', '008'],
   ],
@@ -676,7 +676,7 @@ const en = {
           title: 'Join the community.',
           join: 'discord',
           text: 'The project’s Discord server: the place to get help with the extension, share your ideas and hear the news first.',
-          status: ['Online', 'Free access · permanent invitation', 'ready'],
+          status: ['Online', 'Free · open to all', 'ready'],
         },
       ],
       [
@@ -933,7 +933,7 @@ const en = {
         'NETWORK',
         [
           ['LANGUAGES', 'EN/FR'],
-          ['SERVER', 'NONE'],
+          ['HOSTING', 'TWITCH'],
           ['DISCORD', 'ONLINE'],
         ],
       ],
@@ -1136,7 +1136,7 @@ const fr: StationTexts = {
   },
   menu: [
     ['EXTENSION', 'L’extension Twitch', '273'],
-    ['CAPTURES', '{shots} vues', '226'],
+    ['CAPTURES', '{shots} images', '226'],
     ['DISCORD', 'Rejoindre le serveur', '112'],
     ['À PROPOS', 'Le projet', '008'],
   ],
@@ -1249,7 +1249,7 @@ const fr: StationTexts = {
             ['La carte', 'choisie par le streamer.', [797, 132, 253, 100]],
             [
               'La valeur du loadout',
-              '« Valeur du paquetage » dans l’appli : le total des prix des objets dans le jeu, pas de l’argent réel.',
+              '« Valeur du paquetage » dans l’extension : le total des prix des objets dans le jeu, pas de l’argent réel.',
               [1052, 132, 252, 100],
             ],
             [
@@ -1338,7 +1338,7 @@ const fr: StationTexts = {
             ['La carte', 'choisie dans la liste.', [1388, 128, 234, 78]],
             [
               'La valeur du loadout',
-              '« Valeur du paquetage » dans l’appli, calculée toute seule avec les prix des objets dans le jeu.',
+              '« Valeur du paquetage » dans l’extension, calculée toute seule avec les prix des objets dans le jeu.',
               [1650, 128, 240, 78],
             ],
             ['Les emplacements', 'un clic sur une case pour choisir son objet.', [28, 290, 984, 545, 'l']],
@@ -1647,7 +1647,7 @@ const fr: StationTexts = {
           title: 'Rejoins la communauté.',
           join: 'discord',
           text: 'Le serveur Discord du projet : pour obtenir de l’aide sur l’extension, partager tes idées et suivre les nouveautés en premier.',
-          status: ['En ligne', 'Accès gratuit · invitation permanente', 'ready'],
+          status: ['En ligne', 'Gratuit · ouvert à tous', 'ready'],
         },
       ],
       [
@@ -1896,7 +1896,7 @@ const fr: StationTexts = {
         'RÉSEAU',
         [
           ['LANGUES', 'EN/FR'],
-          ['SERVEUR', 'AUCUN'],
+          ['HÉBERGEMENT', 'TWITCH'],
           ['DISCORD', 'EN LIGNE'],
         ],
       ],
