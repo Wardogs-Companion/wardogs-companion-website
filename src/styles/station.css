@@ -1001,8 +1001,8 @@
 /* the sound, off by default; on, the button takes the accent. [ animations ] the same way: on unless motion is
    reduced (the system's setting, or the visitor's choice for the visit: motionSet); in [ skip ]'s place once the
    arrival is over, after it has gone ([ skip ] and Escape are the way out of the arrival's motion while it plays), so
-   that the row keeps to two buttons, in the room the legal lines leave it (the intro's rule: from 601 to 1100 px wide,
-   242 px beside them) */
+   that the row keeps to two buttons, in the room the legal lines leave it (from 601 to 1100 px wide, 284 px beside
+   them: its widest, [ animations activées ] [ son activé ], 260 px, and 24 px of air: .legal) */
 #station #st-sound {
   opacity: 1;
   visibility: visible;
@@ -4554,7 +4554,9 @@
   background: rgba(8, 10, 9, 0.8);
   padding: 3px 8px;
 }
-/* legal lines: the intro's rule, to the pixel, so they do not move at the handover */
+/* legal lines: in the intro's corner, to the pixel (left 24 px, foot 14 px), so they do not move at the handover; from
+   601 to 1100 px wide they stop earlier than the intro's, whose row ([EN / FR] [ skip intro ]) is narrower, to leave
+   room for the console's [ animations ] [ sound ] (the media query below) */
 #station .legal {
   position: absolute;
   left: 24px;
@@ -4567,6 +4569,7 @@
 }
 #station .legal p {
   margin: 0;
+  text-wrap: pretty; /* (no word alone on a last line, as the pages: .pg; a browser without it wraps as before) */
 }
 /* the legal pages and the site's version (package.json), after the notice (the presentation's footer is out of sight
    under the console): one block, after a space, so that where it does not fit after the notice it goes to the next line
@@ -4634,7 +4637,8 @@
 @media (min-width: 601px) and (max-width: 1100px) {
   #station .legal {
     font-size: 10px;
-    max-width: calc(100% - 290px);
+    /* (the controls' row and its air beside them, 284 px, and the two sides, 24 px each) */
+    max-width: calc(100% - 332px);
   }
 }
 @media (max-width: 700px) {
