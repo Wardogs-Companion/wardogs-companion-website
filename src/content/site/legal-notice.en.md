@@ -1,14 +1,12 @@
 # Legal notice
 
-Legal notice of the Wardogs Companion website, last updated on 7 October 2026.
+Legal notice of the Wardogs Companion website, last updated on 8 October 2026.
 
 It covers the website. The Wardogs Companion extension for Twitch has its own texts: its [privacy policy](/privacy) and its [terms of use](/terms).
 
 ## Publisher
 
-Wardogs Companion is a free, non-commercial website: no advertising, no donations, no affiliate links, no income. It is published by a private individual, on a non-professional basis, under the pseudonym BiggyQLF.
-
-As French law allows a non-professional publisher, the publisher remains anonymous: their surname, first names, home address and telephone number have been given to the host (French Act no. 2004-⁠575 of 21 June 2004, article 1-1, II). The publisher is also the publication director.
+Wardogs Companion is a free, non-commercial website: no advertising, no donations, no affiliate links, no income. It is published by a private individual, on a non-professional basis, under the pseudonym BiggyQLF, who is also the publication director.
 
 Contact: wardogscompanion@gmail.com
 

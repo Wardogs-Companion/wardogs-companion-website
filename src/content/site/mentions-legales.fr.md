@@ -1,14 +1,12 @@
 # Mentions légales
 
-Mentions légales du site Wardogs Companion, mises à jour le 7 octobre 2026.
+Mentions légales du site Wardogs Companion, mises à jour le 8 octobre 2026.
 
 Elles concernent le site. L’extension Wardogs Companion pour Twitch a ses propres textes : sa [politique de confidentialité](/fr/privacy) et ses [conditions d’utilisation](/fr/terms).
 
 ## Éditeur
 
-Wardogs Companion est un site gratuit et non commercial : ni publicité, ni don, ni lien affilié, aucun revenu. Il est publié par un particulier, à titre non professionnel, sous le pseudonyme BiggyQLF.
-
-Comme la loi le permet à un éditeur non professionnel, l’éditeur reste anonyme : ses nom, prénoms, domicile et numéro de téléphone ont été communiqués à l’hébergeur (loi n° 2004-⁠575 du 21 juin 2004, article 1-1, II). L’éditeur est aussi le directeur de la publication.
+Wardogs Companion est un site gratuit et non commercial : ni publicité, ni don, ni lien affilié, aucun revenu. Il est publié par un particulier, à titre non professionnel, sous le pseudonyme BiggyQLF, qui en est aussi le directeur de la publication.
 
 Contact : wardogscompanion@gmail.com
 
