@@ -11,6 +11,7 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 
 ### Changed
 
+- Clearer small words: the SCREENSHOTS entry of the console's menu reads "8 images" (not "8 views"), its terminal says the extension is hosted by Twitch (not "server: none"), the Discord server is "free, open to all", and the French captions say "l’extension", as the rest of the site.
 - The EXTENSION page links to the privacy policy, under "Good to know" and under the FAQ's answer about data, as a button of the console's own kind.
 - The legal pages get a table of contents, beside the text on wide screens and folded above it on phones; the extension's privacy policy and terms say in one line that they cover the extension, with a link to the website's legal notice.
 - The notice says it in full: the project is not endorsed or supported by BULKHEAD, Team17 or Twitch (the footer, the ABOUT page, the FAQ). The extension is said to be free where visitors arrive, "No data collected" reads "No data collected about viewers", and the ABOUT page gives rights holders an address to write to.
