@@ -30,7 +30,7 @@ Le site lui-même ne dépose aucun cookie. Il n’utilise ni publicité, ni mesu
 
 Pour garder vos réglages et l’état de votre visite, le site enregistre quelques valeurs dans votre navigateur. Elles ne le quittent pas : les scripts du site ne les envoient nulle part.
 
-- **Jusqu’à la fermeture de l’onglet** (sessionStorage) : animations, son et volume, console allumée, intro déjà vue, sections déjà ouvertes.
+- **Jusqu’à la fermeture de l’onglet** (sessionStorage) : animations, son et volume, console allumée, intro déjà vue, sections déjà ouvertes et heure de la première ouverture de la console.
 - **Pendant 13 mois au plus après votre dernier choix** (localStorage) : la faction choisie sur le radar. Passé ce délai, le site ne s’en sert plus et l’efface à votre visite suivante.
 
 Elles servent seulement au fonctionnement que vous avez demandé : elles ne demandent donc pas votre consentement (loi Informatique et Libertés, article 82). Leurs noms commencent tous par « wardogs ». Vous pouvez les effacer ou les bloquer dans les réglages de votre navigateur : le site fonctionne alors, sans retenir vos choix.

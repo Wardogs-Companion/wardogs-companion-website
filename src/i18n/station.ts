@@ -786,7 +786,7 @@ const en = {
           body: [
             [
               'p',
-              'This site sets no cookies and does no tracking. It only keeps a few settings in your browser: the console switched on, the intro already seen, the sound and its volume, the animations and the sections read, all forgotten when the tab is closed; and the faction you join on the radar, forgotten after 13 months. They never leave your browser.',
+              'This site sets no cookies and does no tracking. It only keeps a few settings in your browser: the console switched on, the intro already seen, the sound and its volume, the animations, the sections read and when the console was first opened, all forgotten when the tab is closed; and the faction you join on the radar, forgotten after 13 months. They never leave your browser.',
             ],
             [
               'p',
@@ -1754,7 +1754,7 @@ const fr: StationTexts = {
           body: [
             [
               'p',
-              'Ce site ne dépose aucun cookie et ne fait aucun pistage. Il garde seulement quelques réglages dans ton navigateur : la console allumée, l’intro déjà vue, le son et son volume, les animations et les sections lues, tout cela oublié à la fermeture de l’onglet ; et la faction rejointe sur le radar, oubliée au bout de 13 mois. Ils ne quittent jamais ton navigateur.',
+              'Ce site ne dépose aucun cookie et ne fait aucun pistage. Il garde seulement quelques réglages dans ton navigateur : la console allumée, l’intro déjà vue, le son et son volume, les animations, les sections lues et l’heure où la console a été ouverte la première fois, tout cela oublié à la fermeture de l’onglet ; et la faction rejointe sur le radar, oubliée au bout de 13 mois. Ils ne quittent jamais ton navigateur.',
             ],
             [
               'p',

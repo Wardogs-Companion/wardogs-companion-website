@@ -13,7 +13,7 @@
 
 ## Status
 
-The website is in beta, in English and in French, at **https://wardogs-companion.vercel.app**: the home page opens on a short intro film, then on the console, the WARDOGS tower's computer recreated, whose screens lead to the site's sections (the extension, its screenshots, the Discord server, the project); the extension's privacy policy and terms of use have their own pages.
+The website is in beta, in English and in French, at **https://wardogs-companion.vercel.app**: the home page opens on a short intro film, then on the console, the WARDOGS tower's computer recreated, whose screens lead to the site's sections (the extension, its screenshots, the Discord server, the project); the extension's privacy policy and terms of use, and the site's legal notice, have their own pages.
 
 ## Stack
 
