@@ -4113,7 +4113,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   };
   const CTT = {};
   // The targets' markup: corners (the power button, the posts) or curved arrows (the sound's controls), then a leader
-  // and a tag (none for the menu's entries: their tiles show their name and code already)
+  // and a tag (the menu's entries too: their words on the screen do not grow with the browser's zoom, a tag's do)
   const TG = {
     lock: '<div class="tg-lock"><i class="tg-corner tl"></i><i class="tg-corner tr"></i><i class="tg-corner bl"></i><i class="tg-corner br"></i></div>',
     arcs:
@@ -4234,7 +4234,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
   // The posts, in the same language. Pointed at or focused, a post is locked by four corners, each on its own corner
   // of the post, the outer edge of its frame, its arms along the post's two sides (seen in perspective, a post is not
   // quite a rectangle: it leans, and straight corners would look off on an askew post), with a tag on its side: its
-  // name, its state, what to do (the menu's entries: corners only, their tile selected on the screen itself).
+  // name, its state, what to do (the menu's entries the same: their name, their code, their description).
   // - The reading screen: the outer edge of its bezel, measured on the lit room (its right side 9 px further right at
   //   its foot than at its top).
   // - ENTER CODE and the keypad, two posts (one zone over the screen, the lamps, the voltmeters and the keypad would

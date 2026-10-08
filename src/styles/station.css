@@ -3269,13 +3269,13 @@
   display: none;
 }
 #station .faq summary::after {
-  content: '+';
+  content: '+' / '';
   flex: none;
   font: 400 18px/1 var(--mono);
   color: var(--mint);
 }
 #station .faq .qa[open] > summary::after {
-  content: '−';
+  content: '−' / '';
 }
 #station .faq summary:hover::after {
   color: var(--khaki);

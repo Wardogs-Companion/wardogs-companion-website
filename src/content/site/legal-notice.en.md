@@ -30,7 +30,7 @@ The site itself sets no cookies. It uses no advertising, no audience measurement
 
 To keep your settings and where you are in your visit, the site stores a few values in your browser. They never leave it: the site’s scripts send them nowhere.
 
-- **Until the tab is closed** (sessionStorage): animations, sound and volume, console switched on, intro already seen, sections already opened.
+- **Until the tab is closed** (sessionStorage): animations, sound and volume, console switched on, intro already seen, sections already opened and the time the console was first opened.
 - **For 13 months at most after your last choice** (localStorage): the faction chosen on the radar. After that, the site no longer uses it and deletes it on your next visit.
 
 They only serve what you asked for, so they do not require your consent (French Data Protection Act, article 82). Their names all start with “wardogs”. You can delete or block them in your browser’s settings: the site then still works, without remembering your choices.
