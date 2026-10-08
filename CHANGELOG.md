@@ -4,10 +4,16 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-10-08
+
 ### Added
 
 - A legal notice page (`/legal`, `/fr/legal`): the publisher, the host, intellectual property and the site's own personal data, linked from the foot of every page and from the console's legal lines.
 - A FAQ at the end of the EXTENSION page: the questions visitors ask most, each opening its answer (free? official? on a phone? data?), and help on Discord.
+- The entries of the console's main menu show a label (their name, code and description) when pointed at or reached with the keyboard: unlike the menu drawn on the screen, it grows with the browser's zoom.
+- The site's version, at the foot of the console and of every page ("Website v0.2.0"), read from `package.json`.
+- Link previews: a page shared on Discord, X or elsewhere shows a card with its title, a sentence about it and the project's logo, in the page's language.
+- For search engines: each page gives its canonical address and its version in the other language (hreflang), and the site has a sitemap (`/sitemap.xml`, listed in `/robots.txt`).
 
 ### Changed
 
@@ -18,6 +24,9 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 - Where the console cannot show (without JavaScript, or if it fails to load), the home page says what the extension does and that it is coming soon, with a link to the Discord server; the "page not found" page links to it too.
 - On phones lying down up to 700 px wide (an iPhone SE, a small Android), the legal lines of the intro and of the console run across the whole width above their buttons, as on a phone held upright: about four lines instead of up to eight, and more room for the console. On phones, the console's buttons now sit where the intro's do, so that nothing moves when the film gives way to the console. The intro's legal lines no longer leave a word alone on their last line either.
 - On phones, a page read takes more of the screen: only the sections' bar stays at the bottom, and the legal notice and the animation and sound buttons move to the end of the page, as a footer.
+- One address per page, without a trailing slash: `/fr/`, `/privacy/`, `/terms/`… now redirect to `/fr`, `/privacy`, `/terms`…
+- The Discord server's new permanent invite, https://discord.gg/THkQU8Nr2Q.
+- Typography: curly quotes and apostrophes throughout the console, titles in lines of even length and no word left alone at the end of a paragraph, numbers kept with their unit.
 
 ### Fixed
 
@@ -26,24 +35,6 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 - On phones lying down and on tablets, the console's legal lines no longer run under its sound and animation buttons (in French, with the sound on, they could); and wherever they wrap, they no longer leave a word alone on their last line.
 - On tablets, the SCREENSHOTS viewer's screen is as tall as its captures and their margins, without the large empty bands above and below them; phones and computers unchanged.
 - On phones and upright tablets, the site's name and the language switch at the top of the home page no longer sit on the console's bright gauges: a soft shade behind them keeps them readable.
-
-## [0.2.0] - 2026-10-06
-
-### Added
-
-- The entries of the console's main menu show a label (their name, code and description) when pointed at or reached with the keyboard: unlike the menu drawn on the screen, it grows with the browser's zoom.
-- The site's version, at the foot of the console and of every page ("Website v0.2.0"), read from `package.json`.
-- Link previews: a page shared on Discord, X or elsewhere shows a card with its title, a sentence about it and the project's logo, in the page's language.
-- For search engines: each page gives its canonical address and its version in the other language (hreflang), and the site has a sitemap (`/sitemap.xml`, listed in `/robots.txt`).
-
-### Changed
-
-- One address per page, without a trailing slash: `/fr/`, `/privacy/`, `/terms/`… now redirect to `/fr`, `/privacy`, `/terms`…
-- The Discord server's new permanent invite, https://discord.gg/THkQU8Nr2Q.
-- Typography: curly quotes and apostrophes throughout the console, titles in lines of even length and no word left alone at the end of a paragraph, numbers kept with their unit.
-
-### Fixed
-
 - Found by a review on phones and tablets: the legal lines at the foot of the console no longer break inside the notice; the Discord invite shows in its real case (its code is case-sensitive); the ABOUT page's status badges no longer wrap; the roadmap's next step stays visible while it blinks; the marks of the annotated screenshots no longer hide the extension's logo, its publish button or a label; "In figures" no longer leaves a dot at a line's end, one figure a line on phones; the numbers of the steps line up.
 
 ## [0.1.2] - 2026-10-07
