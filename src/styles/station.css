@@ -1710,6 +1710,18 @@
 #station #st-call .join:hover {
   background: rgba(105, 213, 140, 0.24);
 }
+/* a window too low for the box (a phone lying down under its browser's bars: placeCall): its margins and lines
+   tighter, so that it stays whole between the window's top and the legal lines; its buttons as they are */
+#station #st-call.compact {
+  padding-block: 10px;
+}
+#station #st-call.compact .talk {
+  margin-top: 8px;
+  line-height: 1.35;
+}
+#station #st-call.compact .acts {
+  margin-top: 10px;
+}
 @media (max-width: 600px) {
   #station #st-call {
     padding-left: 14px;

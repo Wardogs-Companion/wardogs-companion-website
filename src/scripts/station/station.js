@@ -8000,12 +8000,16 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     callShow();
   }
   // at the bottom, in the middle: SECTIONS.gap above the sections' bar when it shows (portrait), else above the legal
-  // lines
+  // lines; in a window too low for it there (a phone lying down under its browser's bars), tighter (.compact,
+  // station.css). Its foot stays there whatever the window's height: its buttons always in reach, never under the
+  // legal lines (painted after it)
   function placeCall() {
     const box = $('call');
     if (box.hidden) return;
     const bar = $('sections'),
       top = (bar.offsetHeight ? bar : $('legal')).getBoundingClientRect().top;
+    box.classList.remove('compact'); // (its own height first, then tighter only where it does not fit)
+    box.classList.toggle('compact', box.offsetHeight > top - 2 * SECTIONS.gap);
     setStyle(box, 'bottom', innerHeight - top + SECTIONS.gap + 'px');
   }
   $('call-join').href = LINKS.discord;
