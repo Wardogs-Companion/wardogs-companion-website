@@ -19,6 +19,7 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 
 ### Fixed
 
+- On tablets, the SCREENSHOTS viewer's screen is as tall as its captures and their margins, without the large empty bands above and below them; phones and computers unchanged.
 - On phones and upright tablets, the site's name and the language switch at the top of the home page no longer sit on the console's bright gauges: a soft shade behind them keeps them readable.
 
 ## [0.2.0] - 2026-10-06
