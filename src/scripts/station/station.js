@@ -4979,8 +4979,8 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     r.style.setProperty('--i', i);
     return r;
   }
-  // the top's capture (beside its words, as large as FIG.k allows, enlarged with a click), where to follow the
-  // release, a link to a part of the page (the roadmap, its details shown; the editor, the panel: pageGo)
+  // the top's capture (beside its words, as large as FIG.k allows, enlarged with a click), where to install the
+  // extension (its page on Twitch), a link to a part of the page (the roadmap, its details shown; the editor, the panel: pageGo)
   function heroPic([file, [W, H], alt, cap], title) {
     const img = node('img');
     img.alt = alt;
@@ -5000,7 +5000,7 @@ export function mountStation(ROOT, { held: heldAtStart = false } = {}) {
     pic.style.setProperty('--w', Math.round(W * FIG.k) + 'px');
     return pic;
   }
-  // meanwhile, where to follow the release (a new tab)
+  // the hero's link elsewhere: where to install the extension, its page on Twitch (a new tab)
   function followLink([words, id]) {
     const a = node('a', 'part-link', '', [node('span', '', words), node('span', 'arrow', '↗')]);
     a.href = LINKS[id];

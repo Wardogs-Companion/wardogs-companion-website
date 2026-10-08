@@ -24,4 +24,4 @@
 ## Plus tard, si le site évolue
 
 - Un backend et une base de données : voir [ARCHITECTURE.md](ARCHITECTURE.md#plus-tard--un-backend-et-une-base-de-données).
-- La régie du loadout accessible depuis le site, à l'étude dans la feuille de route de l'appli une fois l'extension validée.
+- La régie du loadout accessible depuis le site : prévue « selon les retours » dans la feuille de route de l'appli (elle demande une connexion Twitch et un serveur).

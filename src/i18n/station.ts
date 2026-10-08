@@ -360,15 +360,15 @@ const en = {
               [
                 [
                   'Install it from Twitch',
-                  'In your Twitch dashboard, go to the Extensions page, find Wardogs Companion and click "Install". You can also use the "Install on Twitch" button at the top of this page.',
+                  'In your Twitch dashboard, go to the Extensions page, find Wardogs Companion and click “Install”. You can also use the “Install on Twitch” button at the top of this page.',
                 ],
                 [
                   'Activate it as your overlay',
-                  'Click "Activate" on Wardogs Companion and choose the overlay slot (a channel has only one). The extension only shows over your video while you are live.',
+                  'Click “Activate” on Wardogs Companion and choose the overlay slot (a channel has only one). The extension only shows over your video while you are live.',
                 ],
                 [
                   'Open the editor and publish',
-                  'The editor opens from the extension\'s configuration page ("Configure") or, during your stream, from the Live Config panel of your dashboard. Fill in your loadout, then publish it: until then, viewers see an empty panel.',
+                  'The editor opens from the extension’s configuration page (“Configure”) or, during your stream, from the Live Config panel of your dashboard. Fill in your loadout, then publish it: until then, viewers see an empty loadout, marked “Not published yet”.',
                 ],
               ],
             ],
@@ -667,7 +667,7 @@ const en = {
                 ],
                 [
                   'How do I add it to my channel?',
-                  'Install it from Twitch: on the extension’s page, click Install, then activate it as your overlay. The installation guide above takes you through it, step by step.',
+                  'Install it from Twitch: on the extension’s page, click “Install”, then activate it as your overlay. The installation guide above takes you through it, step by step.',
                 ],
                 [
                   'Does it work on a phone?',
@@ -1351,7 +1351,7 @@ const fr: StationTexts = {
       [
         'mod',
         {
-          title: "Installer l'extension",
+          title: 'Installer l’extension',
           w: 12,
           body: [
             [
@@ -1359,15 +1359,15 @@ const fr: StationTexts = {
               [
                 [
                   'Installe-la depuis Twitch',
-                  'Dans ton tableau de bord Twitch, va sur la page des extensions, trouve Wardogs Companion et installe-la. Tu peux aussi passer par le bouton « Installer sur Twitch » en haut de cette page.',
+                  'Dans ton tableau de bord Twitch, va sur la page des extensions, trouve Wardogs Companion et clique sur « Installer ». Tu peux aussi passer par le bouton « Installer sur Twitch » en haut de cette page.',
                 ],
                 [
-                  'Active-la comme overlay',
-                  "Active Wardogs Companion et choisis l'emplacement de l'overlay (une chaîne n'en a qu'un). L'extension n'apparaît sur ta vidéo que lorsque tu es en live.",
+                  'Active-la en superposition',
+                  'Clique sur « Activer » sur Wardogs Companion et choisis l’emplacement de superposition (overlay ; une chaîne n’en a qu’un). L’extension n’apparaît sur ta vidéo que lorsque tu es en live.',
                 ],
                 [
                   'Ouvre la régie et publie',
-                  "La régie s'ouvre depuis la page de configuration de l'extension ou, pendant ton stream, depuis le module Live Config de ton tableau de bord. Remplis ton loadout, puis publie-le : d'ici là, les viewers voient un panneau vide.",
+                  'La régie s’ouvre depuis la page de configuration de l’extension (« Configurer ») ou, pendant ton stream, depuis le module Live Config de ton tableau de bord. Remplis ton loadout, puis publie-le : d’ici là, les viewers voient un loadout vide, marqué « Pas encore publié ».',
                 ],
               ],
             ],
@@ -1669,7 +1669,7 @@ const fr: StationTexts = {
                 ],
                 [
                   'Comment l’ajouter à ma chaîne ?',
-                  'Installe-la depuis Twitch : sur la page de l’extension, clique sur Installer, puis active-la en superposition. Le guide d’installation, plus haut, t’accompagne pas à pas.',
+                  'Installe-la depuis Twitch : sur la page de l’extension, clique sur « Installer », puis active-la en superposition. Le guide d’installation, plus haut, t’accompagne pas à pas.',
                 ],
                 [
                   'Ça marche sur téléphone ?',

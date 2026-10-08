@@ -10,7 +10,7 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 
 ### Changed
 
-- The extension is on Twitch, open to all: the EXTENSION page offers to install it from its page on Twitch, and the EXTENSION, ABOUT and DISCORD pages, the roadmap, the FAQ and the console's terminal say it is available. Where the console cannot show, the home page offers to install it too, beside the Discord server.
+- The extension is on Twitch, open to all: the EXTENSION page offers to install it from its page on Twitch; the EXTENSION and ABOUT pages, the roadmap, the FAQ and the console's terminal say it is available, and the DISCORD page no longer waits for its release. Where the console cannot show, the home page offers to install it too, beside the Discord server.
 
 ## [0.2.0] - 2026-10-08
 
