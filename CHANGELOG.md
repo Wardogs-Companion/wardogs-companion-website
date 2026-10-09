@@ -4,6 +4,8 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-10-09
+
 ### Changed
 
 - The extension's privacy policy and terms of use, updated on October 9, 2026 for the extension update that adds presets: their names and roles are public; the channel's name is published as the display name when that field is left empty; clearing the published loadout removes the presets too. Each opens on a note that says what changed.
