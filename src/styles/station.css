@@ -2177,7 +2177,8 @@
   height: 2px;
   background: var(--mint);
 }
-/* a state still to come (the extension, a tab): amber, as the station's standby */
+/* a state still to come (a part not ready yet, a tab coming soon): amber, as the station's standby; one ready (the
+   extension available, the community online): green, .pg-state.ready */
 #station .pg-state,
 #station .soon .chip {
   display: inline-flex;
@@ -2919,7 +2920,7 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
-/* the top: its words beside its capture; under its paragraph, where to follow the release and the link to the
+/* the top: its words beside its capture; under its paragraph, where to install the extension and the link to the
    roadmap; a link to a part of the page: the bar's khaki, an arrow */
 #station .mod.hero.with-pic .mod-body {
   grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);

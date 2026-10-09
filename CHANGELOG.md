@@ -4,6 +4,14 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 
 ## [Unreleased]
 
+### Added
+
+- A short guide for streamers on the EXTENSION page: install the extension from Twitch, activate it as the overlay, then open the editor and publish.
+
+### Changed
+
+- The extension is on Twitch, open to all: the EXTENSION page offers to install it from its page on Twitch; the EXTENSION and ABOUT pages, the roadmap, the FAQ and the console's terminal say it is available, and the DISCORD page no longer waits for its release. Where the console cannot show, the home page offers to install it too, beside the Discord server.
+
 ## [0.2.1] - 2026-10-09
 
 ### Changed

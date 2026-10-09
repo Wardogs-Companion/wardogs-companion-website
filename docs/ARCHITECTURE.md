@@ -66,7 +66,7 @@ Ce n'est pas prévu pour la première version, mais **le site peut en avoir beso
 
 ### Ce qui pourrait le demander
 
-- La régie du loadout accessible depuis le site, à l'étude dans la feuille de route de l'appli une fois l'extension validée. Elle demanderait une connexion avec Twitch.
+- La régie du loadout accessible depuis le site, prévue « selon les retours » dans la feuille de route de l'appli. Elle demanderait une connexion avec Twitch et un serveur.
 - Des annonces ou des notes de mise à jour publiées sans redéployer le site.
 - Des comptes, des avis, un formulaire de contact, ou des statistiques si une source de données autorisée existe.
 

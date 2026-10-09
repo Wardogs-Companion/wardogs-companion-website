@@ -21,12 +21,13 @@ const en = {
   'home.tagline': 'Your WARDOGS loadout, live on stream.',
   'home.lead':
     'A free, unofficial community Twitch extension that shows a streamer’s full WARDOGS loadout in a panel over the video, item by item, with the prices, sizes and weights the game uses.',
-  // the presentation, where the console does not show (HomePage.astro): what it does, when, and where to follow it;
-  // when: the console's EXTENSION page says it with the same words (station.ts, its hero's status)
+  // the presentation, where the console does not show (HomePage.astro): what it does, its state (the console's
+  // EXTENSION page says it with the same words: station.ts, its hero's status), where to install it and to talk about it
   'home.how':
     'The streamer prepares their loadout in an editor on Twitch, and viewers open it with one click. Nothing is read from the game: the streamer enters everything.',
-  'home.soon': 'Coming soon',
-  'home.soonText': 'Not on Twitch yet: a beta first, then open to all.',
+  'ext.state': 'Available',
+  'ext.stateText': 'On Twitch now, open to all: install it on your channel from Twitch.',
+  'home.install': 'Install on Twitch',
   'home.join': 'Join the Discord',
   // The intro film on the home page (IntroFilm.astro). No-break spaces ( ) keep the legal lines from breaking
   // before a dash, after © or around the slash of BULKHEAD / Team17. ariaC, ariaD: what screen readers are told once
@@ -87,8 +88,9 @@ const fr: Record<keyof typeof en, string> = {
     'Une extension Twitch gratuite, communautaire et non officielle qui affiche tout le loadout WARDOGS du streamer dans un panneau par-dessus la vidéo, objet par objet, avec les prix, les encombrements et les poids du jeu.',
   'home.how':
     'Le streamer prépare son loadout dans une régie sur Twitch, et ses viewers l’ouvrent d’un clic. Rien n’est lu dans le jeu : le streamer saisit tout lui-même.',
-  'home.soon': 'Bientôt disponible',
-  'home.soonText': 'Pas encore sur Twitch : une bêta d’abord, puis l’ouverture à tous.',
+  'ext.state': 'Disponible',
+  'ext.stateText': 'Sur Twitch dès maintenant, ouverte à tous : installe-la sur ta chaîne depuis Twitch.',
+  'home.install': 'Installer sur Twitch',
   'home.join': 'Rejoindre le Discord',
   'intro.searching': 'Recherche de la cible…',
   'intro.identified': 'Cible identifiée',

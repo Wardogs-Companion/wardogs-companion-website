@@ -58,7 +58,7 @@ L'utilisateur parle français : réponds en français. Le site est en anglais (r
 | Médias du jeu de l'accueil (au build)    | `src/integrations/game-media.mjs`, liste `game-media.json`                       |
 | Routes (le français sous `fr/`)          | `src/pages/`                                                                     |
 | Une adresse par section de la console    | `src/scripts/station/sections.js` (la liste), `src/pages/[section].astro`        |
-| Adresses du Discord et du code source    | `src/scripts/station/links.js` ; à la main : `README.md`, `src/content/site/`    |
+| Adresses : Twitch, Discord, code source  | `src/scripts/station/links.js` ; à la main : `README.md`, `src/content/site/`    |
 | Couleurs, fond quadrillé, styles communs | `src/styles/global.css`                                                          |
 | Langues, CSP                             | `astro.config.mjs`                                                               |
 | En-têtes HTTP de sécurité                | `vercel.json`                                                                    |
