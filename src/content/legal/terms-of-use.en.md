@@ -2,9 +2,9 @@
 
 **WARDOGS Companion**, unofficial community extension for Twitch
 
-Effective date: October 10, 2026
+Effective date: October 9, 2026
 
-**Update of October 10, 2026.** Section 4 now covers presets, whose names and roles are public, and the channel’s name, published as the display name when that field is left empty. Both arrive with the extension update that adds presets.
+**Update of October 9, 2026.** Section 4 now covers presets, whose names and roles are public, and the channel’s name, published as the display name when that field is left empty. Both arrive with the extension update that adds presets.
 
 ## 1. About these terms
 

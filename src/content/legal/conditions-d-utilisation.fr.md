@@ -2,9 +2,9 @@
 
 **WARDOGS Companion**, extension communautaire non officielle pour Twitch
 
-Date d’entrée en vigueur : 10 octobre 2026
+Date d’entrée en vigueur : 9 octobre 2026
 
-**Mise à jour du 10 octobre 2026.** La section 4 couvre désormais les presets, dont les noms et les rôles sont publics, et le nom de la chaîne, publié comme nom affiché quand ce champ est laissé vide. Ces deux nouveautés arrivent avec la mise à jour de l’extension qui ajoute les presets.
+**Mise à jour du 9 octobre 2026.** La section 4 couvre désormais les presets, dont les noms et les rôles sont publics, et le nom de la chaîne, publié comme nom affiché quand ce champ est laissé vide. Ces deux nouveautés arrivent avec la mise à jour de l’extension qui ajoute les presets.
 
 ## 1. Objet
 

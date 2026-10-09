@@ -2,9 +2,9 @@
 
 **WARDOGS Companion**, extension communautaire non officielle pour Twitch
 
-Date d’entrée en vigueur : 10 octobre 2026
+Date d’entrée en vigueur : 9 octobre 2026
 
-**Mise à jour du 10 octobre 2026.** Cette politique couvre désormais les presets, que les streamers peuvent publier avec leur paquetage, et le nom de la chaîne, désormais publié comme nom affiché quand le streamer laisse ce champ vide (surtout les sections 4 et 5). Ces deux nouveautés arrivent avec la mise à jour de l’extension qui ajoute les presets. Tant que cette mise à jour n’a pas atteint une chaîne, son éditeur ne propose pas de presets et, si le nom affiché est laissé vide, publie une mention neutre à la place du nom de la chaîne.
+**Mise à jour du 9 octobre 2026.** Cette politique couvre désormais les presets, que les streamers peuvent publier avec leur paquetage, et le nom de la chaîne, désormais publié comme nom affiché quand le streamer laisse ce champ vide (surtout les sections 4 et 5). Ces deux nouveautés arrivent avec la mise à jour de l’extension qui ajoute les presets. Tant que cette mise à jour n’a pas atteint une chaîne, son éditeur ne propose pas de presets et, si le nom affiché est laissé vide, publie une mention neutre à la place du nom de la chaîne.
 
 Cette politique explique quelles données l’extension WARDOGS Companion traite, pourquoi, pendant combien de temps et quels sont vos droits. Elle s’applique aux spectateurs qui voient l’extension sur une chaîne et aux streamers qui l’installent.
 
