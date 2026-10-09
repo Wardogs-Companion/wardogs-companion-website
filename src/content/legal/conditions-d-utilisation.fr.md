@@ -2,7 +2,9 @@
 
 **WARDOGS Companion**, extension communautaire non officielle pour Twitch
 
-Date d’entrée en vigueur : 30 septembre 2026
+Date d’entrée en vigueur : 10 octobre 2026
+
+**Mise à jour du 10 octobre 2026.** La section 4 couvre désormais les presets, dont les noms et les rôles sont publics, et le nom de la chaîne, publié comme nom affiché quand ce champ est laissé vide. Ces deux nouveautés arrivent avec la mise à jour de l’extension qui ajoute les presets.
 
 ## 1. Objet
 
@@ -26,14 +28,14 @@ Elle n’est accessible que sur Twitch. Votre utilisation de Twitch, y compris s
 
 ## 4. Streamers
 
-- Vous publiez un paquetage en cliquant sur « Publier les modifications » dans l’éditeur. Le paquetage publié, y compris le nom affiché et les libellés de touches que vous choisissez, ainsi que la date et l’heure de publication, est public : toute personne qui regarde votre chaîne peut le voir.
-- Vous êtes responsable de ce que vous publiez. Ce contenu doit respecter la loi et les règles de Twitch. En particulier, ne publiez pas de contenu illicite, haineux ou harcelant, qui porte atteinte aux droits d’autrui, qui contient des informations personnelles sur une autre personne, ou qui usurpe l’identité de quelqu’un ou suggère un lien officiel avec BULKHEAD, Team17 ou Twitch.
+- Vous publiez un paquetage en cliquant sur « Publier les modifications » dans l’éditeur. Le paquetage publié est public : toute personne qui regarde votre chaîne peut le voir, y compris le nom affiché, les noms et rôles de vos presets et les libellés de touches que vous choisissez, ainsi que la date et l’heure de publication. Si vous laissez le nom affiché vide, c’est le nom de votre chaîne qui est publié comme nom affiché (voir la section 5 de la politique de confidentialité).
+- Vous êtes responsable de ce que vous publiez, y compris le nom affiché et les noms de presets que vous saisissez. Ce contenu doit respecter la loi et les règles de Twitch. En particulier, ne publiez pas de contenu illicite, haineux ou harcelant, qui porte atteinte aux droits d’autrui, qui contient des informations personnelles sur une autre personne, ou qui usurpe l’identité de quelqu’un ou suggère un lien officiel avec BULKHEAD, Team17 ou Twitch.
 - N’essayez pas de perturber le fonctionnement de l’extension ou des services de Twitch, de contourner les limites ou les vérifications de l’extension, ni de l’utiliser à une autre fin que celle de montrer votre paquetage.
-- Vous pouvez modifier ou remplacer votre paquetage à tout moment, et cesser d’utiliser l’extension en la désactivant ou en la désinstallant sur Twitch. Pour effacer la configuration enregistrée, utilisez le bouton « Effacer l’équipement publié » de l’éditeur ; voir la section 4 de la politique de confidentialité.
+- Vous pouvez modifier ou remplacer votre paquetage à tout moment, et cesser d’utiliser l’extension en la désactivant ou en la désinstallant sur Twitch. Pour effacer la configuration enregistrée, presets compris, utilisez le bouton « Effacer l’équipement publié » de l’éditeur ; voir la section 4 de la politique de confidentialité.
 
 ## 5. Spectateurs
 
-Les spectateurs utilisent l’extension uniquement pour consulter le paquetage du streamer. Ils n’ont aucune information à fournir. Ils peuvent déplacer le bouton d’ouverture et déplacer ou redimensionner le panneau ; ces préférences restent dans leur propre navigateur (voir la politique de confidentialité).
+Les spectateurs utilisent l’extension uniquement pour consulter le paquetage et les presets du streamer. Ils n’ont aucune information à fournir. Ils peuvent déplacer le bouton d’ouverture et déplacer ou redimensionner le panneau ; ces préférences restent dans leur propre navigateur (voir la politique de confidentialité).
 
 ## 6. Informations de jeu
 
