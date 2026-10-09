@@ -4,6 +4,8 @@ All notable changes to the Wardogs Companion website. The format follows [Keep a
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-10-10
+
 ### Added
 
 - A short guide for streamers on the EXTENSION page: install the extension from Twitch, activate it as the overlay, then open the editor and publish.
