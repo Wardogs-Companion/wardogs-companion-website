@@ -4,7 +4,7 @@
 
 Effective date: October 9, 2026
 
-**Update of October 9, 2026.** This policy now covers presets, which broadcasters can publish with their loadout, and the channel’s name, which is now published as the display name when the broadcaster leaves that field empty (mainly sections 4 and 5). Both arrive with the extension update that adds presets. Until that update reaches a channel, its editor offers no presets and, when the display name is left empty, publishes a neutral placeholder instead of the channel’s name.
+**Update of October 9, 2026.** This policy now covers presets, which broadcasters can publish with their loadout, and the channel’s name, which is now published as the display name when the broadcaster leaves that field empty (mainly sections 4 and 5). Both arrive with the extension update that adds presets. Until that update reaches a channel, its editor offers no presets and, when the display name is left empty, shows and publishes a neutral placeholder, which viewers see as “My stream”, instead of the channel’s name.
 
 This policy explains what data the WARDOGS Companion extension handles, why, for how long, and what your rights are. It applies to viewers who see the extension on a channel and to broadcasters who install it.
 

@@ -4,7 +4,7 @@
 
 Date d’entrée en vigueur : 9 octobre 2026
 
-**Mise à jour du 9 octobre 2026.** Cette politique couvre désormais les presets, que les streamers peuvent publier avec leur paquetage, et le nom de la chaîne, désormais publié comme nom affiché quand le streamer laisse ce champ vide (surtout les sections 4 et 5). Ces deux nouveautés arrivent avec la mise à jour de l’extension qui ajoute les presets. Tant que cette mise à jour n’a pas atteint une chaîne, son éditeur ne propose pas de presets et, si le nom affiché est laissé vide, publie une mention neutre à la place du nom de la chaîne.
+**Mise à jour du 9 octobre 2026.** Cette politique couvre désormais les presets, que les streamers peuvent publier avec leur paquetage, et le nom de la chaîne, désormais publié comme nom affiché quand le streamer laisse ce champ vide (surtout les sections 4 et 5). Ces deux nouveautés arrivent avec la mise à jour de l’extension qui ajoute les presets. Tant que cette mise à jour n’a pas atteint une chaîne, son éditeur ne propose pas de presets et, si le nom affiché est laissé vide, affiche et publie une mention neutre, que les spectateurs voient sous la forme « Ma chaîne », à la place du nom de la chaîne.
 
 Cette politique explique quelles données l’extension WARDOGS Companion traite, pourquoi, pendant combien de temps et quels sont vos droits. Elle s’applique aux spectateurs qui voient l’extension sur une chaîne et aux streamers qui l’installent.
 
@@ -76,7 +76,7 @@ L’extension utilise le stockage local de votre navigateur (localStorage) uniqu
 | Clé | Contenu | Finalité | Durée |
 |---|---|---|---|
 | `wardogs-launcher-place-v1` | position (x, y) et date d’enregistrement | Spectateurs : retient où vous avez déplacé le bouton qui ouvre le panneau | 13 mois au plus après le dernier déplacement du bouton ; supprimée plus tôt si vous effacez les données de votre navigateur |
-| `wardogs-panel-place-v1` | position et taille (x, y, échelle) et date d’enregistrement | Spectateurs : retient où vous avez placé le panneau et la taille que vous lui avez donnée | 13 mois au plus après le dernier déplacement ou agrandissement du panneau ; supprimée plus tôt par un double-clic sur une poignée de redimensionnement (retour à la taille et à la position d’origine ; les poignées n’apparaissent que si le panneau peut être agrandi) ou si vous effacez les données de votre navigateur |
+| `wardogs-panel-place-v1` | position et taille (x, y, échelle) et date d’enregistrement | Spectateurs : retient où vous avez placé le panneau et la taille que vous lui avez donnée | 13 mois au plus après le dernier déplacement ou redimensionnement du panneau ; supprimée plus tôt par un double-clic sur une poignée de redimensionnement (retour à la taille et à la position d’origine ; les poignées n’apparaissent que si le panneau peut être agrandi) ou si vous effacez les données de votre navigateur |
 | `wardogs-language-creator-v1` | « en » ou « fr » et date d’enregistrement | Streamers : retient la langue choisie dans l’éditeur | 13 mois au plus après le dernier choix de langue ; supprimée plus tôt si vous effacez les données de votre navigateur |
 
 Chaque préférence est enregistrée avec sa date. Passé 13 mois, l’extension ne la lit plus et la supprime à sa prochaine ouverture ; afficher ou utiliser l’extension ne prolonge pas ce délai, seul un nouveau choix de votre part le fait. Cette durée respecte la limite de 13 mois que le contrat de services pour développeurs de Twitch fixe pour ce type de stockage.

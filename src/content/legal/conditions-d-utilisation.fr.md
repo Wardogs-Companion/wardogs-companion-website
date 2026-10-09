@@ -4,7 +4,7 @@
 
 Date d’entrée en vigueur : 9 octobre 2026
 
-**Mise à jour du 9 octobre 2026.** La section 4 couvre désormais les presets, dont les noms et les rôles sont publics, et le nom de la chaîne, publié comme nom affiché quand ce champ est laissé vide. Ces deux nouveautés arrivent avec la mise à jour de l’extension qui ajoute les presets.
+**Mise à jour du 9 octobre 2026.** La section 4 couvre désormais les presets, dont les noms et les rôles sont publics, et le nom de la chaîne, publié comme nom affiché quand ce champ est laissé vide. Ces deux nouveautés arrivent avec la mise à jour de l’extension qui ajoute les presets. Tant que cette mise à jour n’a pas atteint une chaîne, son éditeur ne propose pas de presets et, si le nom affiché est laissé vide, affiche et publie une mention neutre, que les spectateurs voient sous la forme « Ma chaîne », à la place du nom de la chaîne.
 
 ## 1. Objet
 
@@ -28,7 +28,7 @@ Elle n’est accessible que sur Twitch. Votre utilisation de Twitch, y compris s
 
 ## 4. Streamers
 
-- Vous publiez un paquetage en cliquant sur « Publier les modifications » dans l’éditeur. Le paquetage publié est public : toute personne qui regarde votre chaîne peut le voir, y compris le nom affiché, les noms et rôles de vos presets et les libellés de touches que vous choisissez, ainsi que la date et l’heure de publication. Si vous laissez le nom affiché vide, c’est le nom de votre chaîne qui est publié comme nom affiché (voir la section 5 de la politique de confidentialité).
+- Vous publiez un paquetage en cliquant sur « Publier les modifications » dans l’éditeur. Le paquetage publié est public : toute personne qui regarde votre chaîne peut le voir, y compris le nom affiché, les noms et rôles de vos presets et les libellés de touches que vous choisissez, ainsi que la date et l’heure de publication. Si vous laissez le nom affiché vide, c’est le nom de votre chaîne qui est publié comme nom affiché ou, si Twitch ne l’a pas fourni, une mention neutre (voir les sections 4 et 5 de la politique de confidentialité).
 - Vous êtes responsable de ce que vous publiez, y compris le nom affiché et les noms de presets que vous saisissez. Ce contenu doit respecter la loi et les règles de Twitch. En particulier, ne publiez pas de contenu illicite, haineux ou harcelant, qui porte atteinte aux droits d’autrui, qui contient des informations personnelles sur une autre personne, ou qui usurpe l’identité de quelqu’un ou suggère un lien officiel avec BULKHEAD, Team17 ou Twitch.
 - N’essayez pas de perturber le fonctionnement de l’extension ou des services de Twitch, de contourner les limites ou les vérifications de l’extension, ni de l’utiliser à une autre fin que celle de montrer votre paquetage.
 - Vous pouvez modifier ou remplacer votre paquetage à tout moment, et cesser d’utiliser l’extension en la désactivant ou en la désinstallant sur Twitch. Pour effacer la configuration enregistrée, presets compris, utilisez le bouton « Effacer l’équipement publié » de l’éditeur ; voir la section 4 de la politique de confidentialité.
