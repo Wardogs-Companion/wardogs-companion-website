@@ -5,8 +5,9 @@
 // also written out in README.md (the invitation) and in the site's legal notice, src/content/site/ (the source code):
 // change them there too.
 
-// The extension's page on Twitch: its address as Twitch gives it. Without it the site does not build (HomePage.astro),
-// so that no page ever offers a button to nowhere.
-export const TWITCH_EXTENSION = '';
+// The extension's page on Twitch, without a version number (Twitch's own link ends with one, -0.0.1): it shows the
+// version on Twitch, whichever it is. Without it the site does not build (HomePage.astro), so that no page ever offers
+// a button to nowhere.
+export const TWITCH_EXTENSION = 'https://dashboard.twitch.tv/extensions/hfhubjrsv0x7qqdcmnzjf5bxcnc2tm';
 export const DISCORD_INVITE = 'https://discord.gg/THkQU8Nr2Q';
 export const SOURCE_CODE = 'https://github.com/Wardogs-Companion/wardogs-companion-website';
