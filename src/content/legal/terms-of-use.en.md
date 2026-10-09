@@ -2,7 +2,9 @@
 
 **WARDOGS Companion**, unofficial community extension for Twitch
 
-Effective date: September 30, 2026
+Effective date: October 9, 2026
+
+**Update of October 9, 2026.** Section 4 now covers presets, whose names and roles are public, and the channel’s name, published as the display name when that field is left empty. Both arrive with the extension update that adds presets. Until that update reaches a channel, its editor offers no presets and, when the display name is left empty, shows and publishes a neutral placeholder, which viewers see as “My stream”, instead of the channel’s name.
 
 ## 1. About these terms
 
@@ -26,14 +28,14 @@ It is available only through Twitch. Your use of Twitch, including its age requi
 
 ## 4. Broadcasters
 
-- You publish a loadout by clicking “Publish changes” in the editor. The published loadout, including the display name and key labels you choose, as well as the date and time of publication, is public: anyone watching your channel can see it.
-- You are responsible for what you publish. It must comply with the law and with Twitch’s rules. In particular, do not publish content that is unlawful, hateful or harassing, that infringes someone else’s rights, that contains personal information about another person, or that impersonates someone or suggests an official link with BULKHEAD, Team17 or Twitch.
+- You publish a loadout by clicking “Publish changes” in the editor. The published loadout is public: anyone watching your channel can see it, including the display name, the names and roles of your presets and the key labels you choose, as well as the date and time of publication. If you leave the display name empty, your channel’s name is published as the display name or, if Twitch has not provided it, a neutral placeholder (see sections 4 and 5 of the privacy policy).
+- You are responsible for what you publish, including the display name and the preset names you type. It must comply with the law and with Twitch’s rules. In particular, do not publish content that is unlawful, hateful or harassing, that infringes someone else’s rights, that contains personal information about another person, or that impersonates someone or suggests an official link with BULKHEAD, Team17 or Twitch.
 - Do not try to interfere with the extension or with Twitch services, to bypass the extension’s limits or checks, or to use it for anything other than showing your loadout.
-- You can change or replace your loadout at any time, and stop using the extension by deactivating or uninstalling it on Twitch. To erase the saved configuration, use the editor’s “Clear published loadout” button; see section 4 of the privacy policy.
+- You can change or replace your loadout at any time, and stop using the extension by deactivating or uninstalling it on Twitch. To erase the saved configuration, presets included, use the editor’s “Clear published loadout” button; see section 4 of the privacy policy.
 
 ## 5. Viewers
 
-Viewers use the extension only to view the broadcaster’s loadout. They have no information to provide. They can move the launcher button and move or resize the panel; these preferences stay in their own browser (see the privacy policy).
+Viewers use the extension only to view the broadcaster’s loadout and presets. They have no information to provide. They can move the launcher button and move or resize the panel; these preferences stay in their own browser (see the privacy policy).
 
 ## 6. Game information
 

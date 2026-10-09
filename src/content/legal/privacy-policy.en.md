@@ -2,7 +2,9 @@
 
 **WARDOGS Companion**, unofficial community extension for Twitch
 
-Effective date: September 30, 2026
+Effective date: October 9, 2026
+
+**Update of October 9, 2026.** This policy now covers presets, which broadcasters can publish with their loadout, and the channel’s name, which is now published as the display name when the broadcaster leaves that field empty (mainly sections 4 and 5). Both arrive with the extension update that adds presets. Until that update reaches a channel, its editor offers no presets and, when the display name is left empty, shows and publishes a neutral placeholder, which viewers see as “My stream”, instead of the channel’s name.
 
 This policy explains what data the WARDOGS Companion extension handles, why, for how long, and what your rights are. It applies to viewers who see the extension on a channel and to broadcasters who install it.
 
@@ -20,7 +22,7 @@ The extension is not made, endorsed, sponsored or supported by BULKHEAD, Team17 
 
 - The extension has no server of its own: all data it exchanges goes through Twitch. Only messages you send to wardogscompanion@gmail.com reach the developer directly.
 - Viewers: the developer receives no data about you. The technical information Twitch gives the extension stays in the page’s memory (section 3), and the extension only remembers, in your own browser, where you placed its button and panel, and the panel’s size, for 13 months at most.
-- Broadcasters: the loadout you publish, including the display name you type, is public. Anyone watching your channel can see it, and it is stored by Twitch.
+- Broadcasters: the loadout you publish is public, including its display name (the one you type or, if you leave it empty, your channel’s name) and the names and roles of your presets. Anyone watching your channel can see it, and it is stored by Twitch.
 - No audience-measurement tool in the extension, no advertising, no tracking, no profiling, no sale or sharing of data.
 - No cookies: only display preferences in your browser’s local storage (section 6).
 
@@ -36,33 +38,36 @@ For viewers, the display language follows the language Twitch indicates for the 
 
 **What it contains**
 
-- the display name you type (required, 40 characters maximum): it can be any text, so choose it knowing that it will be public;
+- the display name you type (40 characters maximum): it can be any text, so choose it knowing that it will be public. If you leave this field empty, your channel’s name is used instead (section 5) or, if that name could not be read, a neutral placeholder that viewers see as “This channel”;
 - the date and time of publication, taken from your computer’s clock;
-- your in-game choices: map, team, weapons and attachments, equipment, backpack contents, quick-access items and their key labels, vehicles and levels.
+- your in-game choices: map, team, weapons and attachments, equipment, backpack contents, quick-access items and their key labels, vehicles and levels;
+- your presets, if you create any: up to five loadouts saved under a name, each with the name you give it (required, 30 characters maximum; like the display name, it can be any text, and it will be public) and, if you choose one, a role among Assault, Medic, Recon, Support, Driver and Pilot. A preset holds in-game choices only: weapons and attachments, equipment, backpack contents, quick-access items and their key labels, and vehicles.
 
-It contains no technical Twitch identifier (numeric or opaque ID) and no token. It contains your channel name only if you type it or pick the suggestion (section 5).
+In this policy, the loadout, or published loadout, includes your presets. It contains no technical Twitch identifier (numeric or opaque ID) and no token. It contains your channel’s name only if you leave the display name empty, type the name or pick the suggestion (section 5).
 
 **When it is sent**
 
-Only when you click “Publish changes” in the editor (the extension’s configuration page or its Live Config panel). Each time you publish, the new loadout entirely replaces the previous one. The extension keeps no history.
+Only when you click “Publish changes” in the editor (the extension’s configuration page or its Live Config panel). Until then, your changes, presets included, stay in the editor page’s memory only. Each time you publish, the new loadout, presets included, entirely replaces the previous one. The extension keeps no history.
 
 **Who can see it**
 
-Twitch stores the loadout as your channel’s extension configuration and delivers it to your viewers, including live to those already watching. Anyone watching your channel can see it, including the display name and the date and time it was last published. Twitch’s documentation treats saved extension configurations as public.
+Twitch stores the loadout as your channel’s extension configuration and delivers it to your viewers, including live to those already watching. Anyone watching your channel can see it, including the display name, the names and roles of your presets, and the date and time it was last published. Twitch’s documentation treats saved extension configurations as public.
 
 Twitch gives extension owners the technical means to read or overwrite the configuration saved on a channel. The developer uses them only to answer a request for a copy or erasure of that configuration (section 11).
 
 **Changing or removing it**
 
-You can change your loadout in the editor at any time and publish again.
+You can change your loadout and your presets in the editor at any time and publish again.
 
-To remove it entirely, use the “Clear published loadout” button at the foot of the editor, then confirm. The saved configuration is then replaced with a mere marker that holds only the date and time of the clearing, and your viewers see an empty panel at once, as before your first publication. If you can no longer open the editor, write to wardogscompanion@gmail.com (see section 11).
+To remove it entirely, presets included, use the “Clear published loadout” button at the foot of the editor, then confirm. The saved configuration is then replaced with a mere marker that holds only the date and time of the clearing, and your viewers at once stop seeing any loadout, as before your first publication. If you can no longer open the editor, write to wardogscompanion@gmail.com (see section 11).
 
-## 5. Channel-name suggestion in the editor
+## 5. Channel name in the editor
 
-When a broadcaster opens the editor inside Twitch, the extension sends one request to the Twitch API (api.twitch.tv) for the channel’s public account information and reads only the channel’s name. It shows this name to the broadcaster as a “Use channel name” suggestion.
+When a broadcaster opens the editor inside Twitch, the extension sends one request to the Twitch API (api.twitch.tv) for the channel’s public account information and reads only the channel’s name. This request is made only in the editor, never in the panel shown to viewers.
 
-The name stays in the page’s memory. It enters the loadout only if the broadcaster clicks the suggestion and then publishes. Otherwise it is never stored. This request is made only in the editor, never in the panel shown to viewers.
+The editor shows this name greyed in the display name field while that field is empty, and offers it as a “Use channel name” suggestion, which puts it in the field. The name is published as the display name if the broadcaster publishes with the field empty or after clicking the suggestion. To publish another name, the broadcaster types it in the field: the channel’s name is then not published.
+
+Until the broadcaster publishes, the name stays in the page’s memory only. It is never stored if another name is published.
 
 ## 6. Storage in your browser
 
@@ -108,19 +113,19 @@ Messages sent to wardogscompanion@gmail.com are hosted by the developer’s e-ma
 |---|---|
 | Publishing the broadcaster’s loadout and delivering it to viewers | Performance of the terms of use accepted by the broadcaster (GDPR, art. 6(1)(b)) |
 | Technical information supplied by Twitch, kept in page memory so the extension works | Legitimate interest in making the extension work on the channel (GDPR, art. 6(1)(f)); for the broadcaster, performance of the terms of use (art. 6(1)(b)) |
-| Channel-name suggestion | Legitimate interest in making the display name easy to fill in, using the channel’s public name, shown only to the broadcaster and stored only if the broadcaster chooses to publish it (GDPR, art. 6(1)(f)) |
+| Channel name in the editor, published as the display name when that field is left empty | Legitimate interest in giving the loadout a recognisable name by default: the channel’s own public name, which the broadcaster sees in the field before publishing and can replace with any other text (GDPR, art. 6(1)(f)) |
 | Display preferences in local storage | Access to your device exempt from the consent requirement (French Data Protection Act, art. 82: interface personalisation requested by the user); insofar as these values are personal data, legitimate interest in keeping the display you chose (GDPR, art. 6(1)(f)) |
 | Answering messages sent to wardogscompanion@gmail.com | Legitimate interest in answering questions and providing support (GDPR, art. 6(1)(f)) |
 | Handling requests to exercise your rights (section 11) | Legal obligation (GDPR, art. 6(1)(c)) |
 
-No processing relies on consent. The display name is required to publish a loadout; every other field is optional. Not using the editor only means that no loadout is shown.
+No processing relies on consent. A preset needs a name; every other field is optional, and a display name left empty is replaced with the channel’s name (section 5). Not using the editor only means that no loadout is shown.
 
 ## 10. Retention periods
 
 | Data | Retention |
 |---|---|
-| Published loadout | Stored by Twitch until the broadcaster publishes a new one, which replaces it, or clears it with the “Clear published loadout” button (or on request). After a clearing, only the date and time of the clearing remain saved. Twitch may keep copies under its own rules. |
-| Technical information from Twitch; channel name read in the editor | Page memory only, until the page is closed |
+| Published loadout, presets included | Stored by Twitch until the broadcaster publishes a new one, which replaces it, or clears it with the “Clear published loadout” button (or on request). After a clearing, only the date and time of the clearing remain saved. Twitch may keep copies under its own rules. |
+| Technical information from Twitch; channel name read in the editor | Page memory only, until the page is closed, unless the channel’s name is published as the display name (see “Published loadout”) |
 | Display preferences | On your device, 13 months at most after your last choice, or until you delete them (section 6) |
 | Messages sent to wardogscompanion@gmail.com | As long as needed to handle the request and any follow-up |
 
@@ -130,7 +135,7 @@ The extension collects nothing after a broadcaster deactivates or uninstalls it.
 
 Under the GDPR, you have the right to access, rectify and erase your data, to restrict its processing, to object to processing based on legitimate interest, and to data portability, where these rights apply.
 
-- **Broadcasters**: correct your loadout yourself in the editor, then publish again, or erase it entirely with the “Clear published loadout” button (section 4). For a copy of your published configuration, or its erasure if you can no longer open the editor (replacement of the saved configuration with an empty one), write to wardogscompanion@gmail.com. The developer will then act through the tools Twitch provides to extension owners.
+- **Broadcasters**: correct your loadout and your presets yourself in the editor, then publish again, or erase them entirely with the “Clear published loadout” button (section 4). For a copy of your published configuration, or its erasure if you can no longer open the editor (replacement of the saved configuration with an empty one), write to wardogscompanion@gmail.com. The developer will then act through the tools Twitch provides to extension owners.
 - **Viewers**: the developer holds no data about you and cannot identify you. Your display preferences are on your own device, and you can delete them yourself (section 6). For data held by Twitch, contact Twitch.
 - **Everyone**: write to wardogscompanion@gmail.com. You will receive an answer within one month. This period can be extended by two months for complex requests; you will then be informed of this within the first month, with the reasons. Exercising your rights is free. If your request concerns a channel, proof that you control it may be requested only if there is reasonable doubt.
 
@@ -144,7 +149,7 @@ Twitch does not allow children under 13 (or under a higher minimum age in some c
 
 ## 13. Security
 
-The extension has no server and no user accounts. The access tokens supplied by Twitch stay in page memory and are sent only to Twitch. The extension’s code contains no secrets (keys or passwords). Every loadout received is checked (size, format and expected values) before it is displayed.
+The extension has no server and no user accounts. The access tokens supplied by Twitch stay in page memory and are sent only to Twitch. The extension’s code contains no secrets (keys or passwords). Every loadout received, presets included, is checked (size, format and expected values) before it is displayed.
 
 ## 14. Changes to this policy
 

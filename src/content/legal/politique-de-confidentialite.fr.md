@@ -2,7 +2,9 @@
 
 **WARDOGS Companion**, extension communautaire non officielle pour Twitch
 
-Date d’entrée en vigueur : 30 septembre 2026
+Date d’entrée en vigueur : 9 octobre 2026
+
+**Mise à jour du 9 octobre 2026.** Cette politique couvre désormais les presets, que les streamers peuvent publier avec leur paquetage, et le nom de la chaîne, désormais publié comme nom affiché quand le streamer laisse ce champ vide (surtout les sections 4 et 5). Ces deux nouveautés arrivent avec la mise à jour de l’extension qui ajoute les presets. Tant que cette mise à jour n’a pas atteint une chaîne, son éditeur ne propose pas de presets et, si le nom affiché est laissé vide, affiche et publie une mention neutre, que les spectateurs voient sous la forme « Ma chaîne », à la place du nom de la chaîne.
 
 Cette politique explique quelles données l’extension WARDOGS Companion traite, pourquoi, pendant combien de temps et quels sont vos droits. Elle s’applique aux spectateurs qui voient l’extension sur une chaîne et aux streamers qui l’installent.
 
@@ -20,7 +22,7 @@ L’extension n’est ni créée, ni approuvée, ni parrainée, ni soutenue par 
 
 - L’extension n’a pas de serveur propre : toutes les données qu’elle échange passent par Twitch. Seuls les messages que vous envoyez à wardogscompanion@gmail.com parviennent directement au développeur.
 - Spectateurs : le développeur ne reçoit aucune donnée vous concernant. Les informations techniques que Twitch fournit à l’extension restent dans la mémoire de la page (section 3), et l’extension retient seulement, dans votre propre navigateur, où vous avez placé son bouton et son panneau, ainsi que la taille de ce panneau, pour 13 mois au plus.
-- Streamers : le paquetage que vous publiez, y compris le nom affiché que vous saisissez, est public. Toute personne qui regarde votre chaîne peut le voir, et il est stocké par Twitch.
+- Streamers : le paquetage que vous publiez est public, y compris son nom affiché (celui que vous saisissez ou, si vous le laissez vide, le nom de votre chaîne) ainsi que les noms et rôles de vos presets. Toute personne qui regarde votre chaîne peut le voir, et il est stocké par Twitch.
 - Pas d’outil de mesure d’audience dans l’extension, pas de publicité, pas de pistage, pas de profilage, pas de vente ni de partage de données.
 - Pas de cookie : seulement des préférences d’affichage dans le stockage local de votre navigateur (section 6).
 
@@ -36,33 +38,36 @@ Pour les spectateurs, la langue d’affichage suit celle que Twitch indique pour
 
 **Ce qu’il contient**
 
-- le nom affiché que vous saisissez (obligatoire, 40 caractères maximum) : il peut s’agir de n’importe quel texte, choisissez-le donc en sachant qu’il sera public ;
+- le nom affiché que vous saisissez (40 caractères maximum) : il peut s’agir de n’importe quel texte, choisissez-le donc en sachant qu’il sera public. Si vous laissez ce champ vide, le nom de votre chaîne est utilisé à la place (section 5) ou, si ce nom n’a pas pu être lu, une mention neutre que les spectateurs voient sous la forme « Cette chaîne » ;
 - la date et l’heure de publication, selon l’horloge de votre ordinateur ;
-- vos choix de jeu : carte, équipe, armes et accessoires, équipement, contenu du sac à dos, objets d’accès rapide et libellés de leurs touches, véhicules et niveaux.
+- vos choix de jeu : carte, équipe, armes et accessoires, équipement, contenu du sac à dos, objets d’accès rapide et libellés de leurs touches, véhicules et niveaux ;
+- vos presets, si vous en créez : jusqu’à cinq paquetages enregistrés sous un nom, chacun avec le nom que vous lui donnez (obligatoire, 30 caractères maximum ; comme le nom affiché, il peut s’agir de n’importe quel texte, et il sera public) et, si vous en choisissez un, un rôle parmi Assaut, Médecin, Reconnaissance, Soutien, Conducteur et Pilote. Un preset ne contient que des choix de jeu : armes et accessoires, équipement, contenu du sac à dos, objets d’accès rapide et libellés de leurs touches, véhicules.
 
-Il ne contient aucun identifiant technique Twitch (identifiant numérique ou opaque) ni aucun jeton. Il ne contient le nom de votre chaîne que si vous le saisissez ou choisissez la suggestion (section 5).
+Dans cette politique, le paquetage, ou paquetage publié, comprend vos presets. Il ne contient aucun identifiant technique Twitch (identifiant numérique ou opaque) ni aucun jeton. Il ne contient le nom de votre chaîne que si vous laissez le nom affiché vide, saisissez ce nom ou choisissez la suggestion (section 5).
 
 **Quand il est envoyé**
 
-Uniquement quand vous cliquez sur « Publier les modifications » dans l’éditeur (page de configuration de l’extension ou son panneau Live Config). Chaque publication remplace entièrement la précédente. L’extension ne garde aucun historique.
+Uniquement quand vous cliquez sur « Publier les modifications » dans l’éditeur (page de configuration de l’extension ou son panneau Live Config). Jusque-là, vos modifications, presets compris, restent seulement dans la mémoire de la page de l’éditeur. Chaque publication remplace entièrement la précédente, presets compris. L’extension ne garde aucun historique.
 
 **Qui peut le voir**
 
-Twitch enregistre le paquetage comme configuration de l’extension sur votre chaîne et le transmet à vos spectateurs, y compris en direct à ceux qui regardent déjà. Toute personne qui regarde votre chaîne peut le voir, y compris le nom affiché ainsi que la date et l’heure de la dernière publication. La documentation de Twitch considère les configurations d’extension enregistrées comme publiques.
+Twitch enregistre le paquetage comme configuration de l’extension sur votre chaîne et le transmet à vos spectateurs, y compris en direct à ceux qui regardent déjà. Toute personne qui regarde votre chaîne peut le voir, y compris le nom affiché, les noms et rôles de vos presets, ainsi que la date et l’heure de la dernière publication. La documentation de Twitch considère les configurations d’extension enregistrées comme publiques.
 
 Twitch donne aux propriétaires d’extensions des moyens techniques de lire ou de remplacer la configuration enregistrée sur une chaîne. Le développeur ne les utilise que pour répondre à une demande de copie ou d’effacement de cette configuration (section 11).
 
 **Le modifier ou le retirer**
 
-Vous pouvez modifier votre paquetage dans l’éditeur à tout moment, puis publier à nouveau.
+Vous pouvez modifier votre paquetage et vos presets dans l’éditeur à tout moment, puis publier à nouveau.
 
-Pour le retirer entièrement, utilisez le bouton « Effacer l’équipement publié » au pied de l’éditeur, puis confirmez. La configuration enregistrée est alors remplacée par un simple marqueur qui ne contient que la date et l’heure de l’effacement, et vos spectateurs voient aussitôt un panneau vide, comme avant votre première publication. Si vous ne pouvez plus ouvrir l’éditeur, écrivez à wardogscompanion@gmail.com (voir la section 11).
+Pour le retirer entièrement, presets compris, utilisez le bouton « Effacer l’équipement publié » au pied de l’éditeur, puis confirmez. La configuration enregistrée est alors remplacée par un simple marqueur qui ne contient que la date et l’heure de l’effacement, et vos spectateurs ne voient aussitôt plus aucun paquetage, comme avant votre première publication. Si vous ne pouvez plus ouvrir l’éditeur, écrivez à wardogscompanion@gmail.com (voir la section 11).
 
-## 5. Suggestion du nom de la chaîne dans l’éditeur
+## 5. Nom de la chaîne dans l’éditeur
 
-Quand un streamer ouvre l’éditeur dans Twitch, l’extension envoie une requête à l’API de Twitch (api.twitch.tv) pour obtenir les informations publiques du compte de la chaîne, et n’en lit que le nom de la chaîne. Elle présente ce nom au streamer sous la forme d’une suggestion « Utiliser le nom de la chaîne ».
+Quand un streamer ouvre l’éditeur dans Twitch, l’extension envoie une requête à l’API de Twitch (api.twitch.tv) pour obtenir les informations publiques du compte de la chaîne, et n’en lit que le nom de la chaîne. Cette requête n’est faite que dans l’éditeur, jamais dans le panneau affiché aux spectateurs.
 
-Le nom reste dans la mémoire de la page. Il n’entre dans le paquetage que si le streamer clique sur la suggestion puis publie. Sinon, il n’est jamais enregistré. Cette requête n’est faite que dans l’éditeur, jamais dans le panneau affiché aux spectateurs.
+L’éditeur affiche ce nom en grisé dans le champ du nom affiché tant que ce champ est vide, et le propose sous la forme d’une suggestion « Utiliser le nom de la chaîne », qui le place dans le champ. Le nom est publié comme nom affiché si le streamer publie avec le champ vide ou après avoir cliqué sur la suggestion. Pour publier un autre nom, le streamer le saisit dans le champ : le nom de la chaîne n’est alors pas publié.
+
+Jusqu’à la publication, le nom reste seulement dans la mémoire de la page. Il n’est jamais enregistré si un autre nom est publié.
 
 ## 6. Stockage dans votre navigateur
 
@@ -71,7 +76,7 @@ L’extension utilise le stockage local de votre navigateur (localStorage) uniqu
 | Clé | Contenu | Finalité | Durée |
 |---|---|---|---|
 | `wardogs-launcher-place-v1` | position (x, y) et date d’enregistrement | Spectateurs : retient où vous avez déplacé le bouton qui ouvre le panneau | 13 mois au plus après le dernier déplacement du bouton ; supprimée plus tôt si vous effacez les données de votre navigateur |
-| `wardogs-panel-place-v1` | position et taille (x, y, échelle) et date d’enregistrement | Spectateurs : retient où vous avez placé le panneau et la taille que vous lui avez donnée | 13 mois au plus après le dernier déplacement ou agrandissement du panneau ; supprimée plus tôt par un double-clic sur une poignée de redimensionnement (retour à la taille et à la position d’origine ; les poignées n’apparaissent que si le panneau peut être agrandi) ou si vous effacez les données de votre navigateur |
+| `wardogs-panel-place-v1` | position et taille (x, y, échelle) et date d’enregistrement | Spectateurs : retient où vous avez placé le panneau et la taille que vous lui avez donnée | 13 mois au plus après le dernier déplacement ou redimensionnement du panneau ; supprimée plus tôt par un double-clic sur une poignée de redimensionnement (retour à la taille et à la position d’origine ; les poignées n’apparaissent que si le panneau peut être agrandi) ou si vous effacez les données de votre navigateur |
 | `wardogs-language-creator-v1` | « en » ou « fr » et date d’enregistrement | Streamers : retient la langue choisie dans l’éditeur | 13 mois au plus après le dernier choix de langue ; supprimée plus tôt si vous effacez les données de votre navigateur |
 
 Chaque préférence est enregistrée avec sa date. Passé 13 mois, l’extension ne la lit plus et la supprime à sa prochaine ouverture ; afficher ou utiliser l’extension ne prolonge pas ce délai, seul un nouveau choix de votre part le fait. Cette durée respecte la limite de 13 mois que le contrat de services pour développeurs de Twitch fixe pour ce type de stockage.
@@ -108,19 +113,19 @@ Les messages envoyés à wardogscompanion@gmail.com sont hébergés par le fourn
 |---|---|
 | Publication du paquetage du streamer et transmission aux spectateurs | Exécution des conditions d’utilisation acceptées par le streamer (RGPD, art. 6.1.b) |
 | Informations techniques fournies par Twitch, gardées dans la mémoire de la page pour faire fonctionner l’extension | Intérêt légitime à faire fonctionner l’extension sur la chaîne (RGPD, art. 6.1.f) ; pour le streamer, exécution des conditions d’utilisation (art. 6.1.b) |
-| Suggestion du nom de la chaîne | Intérêt légitime à faciliter la saisie du nom affiché, à partir du nom public de la chaîne, montré au seul streamer et enregistré seulement s’il choisit de le publier (RGPD, art. 6.1.f) |
+| Nom de la chaîne dans l’éditeur, publié comme nom affiché quand ce champ est laissé vide | Intérêt légitime à donner par défaut au paquetage un nom reconnaissable : le nom public de la chaîne, que le streamer voit dans le champ avant de publier et qu’il peut remplacer par n’importe quel autre texte (RGPD, art. 6.1.f) |
 | Préférences d’affichage dans le stockage local | Accès à votre appareil exempté du recueil du consentement (loi Informatique et Libertés, art. 82 : personnalisation de l’interface demandée par l’utilisateur) ; dans la mesure où ces valeurs seraient des données personnelles, intérêt légitime à conserver l’affichage que vous avez choisi (RGPD, art. 6.1.f) |
 | Réponse aux messages envoyés à wardogscompanion@gmail.com | Intérêt légitime à répondre aux questions et à assurer le support (RGPD, art. 6.1.f) |
 | Traitement des demandes d’exercice des droits (section 11) | Obligation légale (RGPD, art. 6.1.c) |
 
-Aucun traitement ne repose sur le consentement. Le nom affiché est obligatoire pour publier un paquetage ; tous les autres champs sont facultatifs. Ne pas utiliser l’éditeur a pour seule conséquence qu’aucun paquetage n’est affiché.
+Aucun traitement ne repose sur le consentement. Un preset doit avoir un nom ; tous les autres champs sont facultatifs, et un nom affiché laissé vide est remplacé par le nom de la chaîne (section 5). Ne pas utiliser l’éditeur a pour seule conséquence qu’aucun paquetage n’est affiché.
 
 ## 10. Durées de conservation
 
 | Donnée | Conservation |
 |---|---|
-| Paquetage publié | Stocké par Twitch jusqu’à ce que le streamer en publie un nouveau, qui le remplace, ou l’efface avec le bouton « Effacer l’équipement publié » (ou sur demande). Après un effacement, seules la date et l’heure de l’effacement restent enregistrées. Twitch peut conserver des copies selon ses propres règles. |
-| Informations techniques fournies par Twitch ; nom de la chaîne lu dans l’éditeur | Mémoire de la page seulement, jusqu’à sa fermeture |
+| Paquetage publié, presets compris | Stocké par Twitch jusqu’à ce que le streamer en publie un nouveau, qui le remplace, ou l’efface avec le bouton « Effacer l’équipement publié » (ou sur demande). Après un effacement, seules la date et l’heure de l’effacement restent enregistrées. Twitch peut conserver des copies selon ses propres règles. |
+| Informations techniques fournies par Twitch ; nom de la chaîne lu dans l’éditeur | Mémoire de la page seulement, jusqu’à sa fermeture, sauf si le nom de la chaîne est publié comme nom affiché (voir « Paquetage publié ») |
 | Préférences d’affichage | Sur votre appareil, 13 mois au plus après votre dernier choix, ou jusqu’à ce que vous les supprimiez (section 6) |
 | Messages envoyés à wardogscompanion@gmail.com | Le temps nécessaire pour traiter la demande et son éventuel suivi |
 
@@ -130,7 +135,7 @@ L’extension ne collecte rien après qu’un streamer l’a désactivée ou dé
 
 Le RGPD vous donne le droit d’accéder à vos données, de les rectifier et de les effacer, d’en limiter le traitement, de vous opposer aux traitements fondés sur l’intérêt légitime, ainsi que le droit à la portabilité, lorsque ces droits s’appliquent.
 
-- **Streamers** : corrigez vous-même votre paquetage dans l’éditeur, puis publiez à nouveau, ou effacez-le entièrement avec le bouton « Effacer l’équipement publié » (section 4). Pour obtenir une copie de votre configuration publiée, ou son effacement si vous ne pouvez plus ouvrir l’éditeur (remplacement de la configuration enregistrée par une configuration vide), écrivez à wardogscompanion@gmail.com. Le développeur agira alors au moyen des outils que Twitch met à la disposition des propriétaires d’extensions.
+- **Streamers** : corrigez vous-même votre paquetage et vos presets dans l’éditeur, puis publiez à nouveau, ou effacez-les entièrement avec le bouton « Effacer l’équipement publié » (section 4). Pour obtenir une copie de votre configuration publiée, ou son effacement si vous ne pouvez plus ouvrir l’éditeur (remplacement de la configuration enregistrée par une configuration vide), écrivez à wardogscompanion@gmail.com. Le développeur agira alors au moyen des outils que Twitch met à la disposition des propriétaires d’extensions.
 - **Spectateurs** : le développeur ne détient aucune donnée sur vous et ne peut pas vous identifier. Vos préférences d’affichage sont sur votre propre appareil, et vous pouvez les supprimer vous-même (section 6). Pour les données détenues par Twitch, adressez-vous à Twitch.
 - **Tout le monde** : écrivez à wardogscompanion@gmail.com. Vous recevrez une réponse dans un délai d’un mois. Ce délai peut être prolongé de deux mois pour les demandes complexes ; vous en serez alors informé dans le premier mois, avec les raisons de ce report. L’exercice de vos droits est gratuit. Si votre demande porte sur une chaîne, une preuve que vous la contrôlez ne peut être demandée qu’en cas de doute raisonnable.
 
@@ -144,7 +149,7 @@ Twitch est interdit aux enfants de moins de 13 ans (ou de moins de l’âge min
 
 ## 13. Sécurité
 
-L’extension n’a ni serveur ni compte utilisateur. Les jetons d’accès fournis par Twitch restent dans la mémoire de la page et ne sont envoyés qu’à Twitch. Le code de l’extension ne contient aucun secret (clé ou mot de passe). Chaque paquetage reçu est vérifié (taille, format et valeurs attendues) avant d’être affiché.
+L’extension n’a ni serveur ni compte utilisateur. Les jetons d’accès fournis par Twitch restent dans la mémoire de la page et ne sont envoyés qu’à Twitch. Le code de l’extension ne contient aucun secret (clé ou mot de passe). Chaque paquetage reçu, presets compris, est vérifié (taille, format et valeurs attendues) avant d’être affiché.
 
 ## 14. Modifications de cette politique
 
